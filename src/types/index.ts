@@ -45,6 +45,7 @@ export interface SessionState {
   workflowConfig?: WorkflowConfiguration;
   iterationCounts: Map<Phase, number>;
   validationStates: Map<Phase, ValidationState>;
+  workflowType?: 'refactor' | 'feature' | 'test' | 'tdd';
 }
 
 export interface ToolContext {

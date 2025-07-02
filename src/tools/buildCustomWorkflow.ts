@@ -1,17 +1,24 @@
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { SessionManager } from '../session/SessionManager';
 import { WorkflowConfiguration, Phase, OutputFileInstruction } from '../types';
+import { WorkflowType, getWorkflowPreset, detectWorkflowType } from '../workflows/WorkflowPresets';
 
 export function createBuildCustomWorkflowTool(): Tool {
   return {
     name: 'build_custom_workflow',
-    description: 'Build a custom refactoring workflow by selecting phases, configuring limits, and setting output preferences. This is the primary entry point for structured refactoring.',
+    description: 'Build a custom workflow with full control over phases and configuration. Use specific workflow tools (refactor_workflow, create_feature_workflow, etc.) for optimized presets.',
     inputSchema: {
       type: 'object',
       properties: {
         task: {
           type: 'string',
-          description: 'Description of the refactoring task'
+          description: 'Description of the programming task'
+        },
+        workflowType: {
+          type: 'string',
+          enum: ['refactor', 'feature', 'test', 'tdd', 'custom'],
+          description: 'Use a predefined workflow type or custom for full control',
+          default: 'custom'
         },
         selectedPhases: {
           type: 'array',
@@ -63,6 +70,49 @@ export function createBuildCustomWorkflowTool(): Tool {
 export async function handleBuildCustomWorkflow(
   params: {
     task: string;
+    workflowType?: WorkflowType | 'custom';
+    selectedPhases?: Phase[];
+    iterationLimits?: any;
+    outputPreferences?: any;
+    userCheckpoints?: any;
+  },
+  sessionManager: SessionManager
+) {
+  // Detect workflow type if not specified
+  const detectedType = params.workflowType === 'custom' ? null : params.workflowType || detectWorkflowType(params.task);
+  
+  // If a workflow type is detected, suggest using the specific tool
+  if (detectedType && !params.workflowType) {
+    const workflowTools = {
+      refactor: 'refactor_workflow',
+      feature: 'create_feature_workflow',
+      test: 'test_workflow',
+      tdd: 'tdd_workflow'
+    };
+    
+    return {
+      suggestion: `Based on your task description, consider using ${workflowTools[detectedType]} for an optimized ${detectedType} workflow`,
+      detectedType,
+      alternativeCommand: `${workflowTools[detectedType]}({ task: "${params.task}" })`,
+      proceedingWithCustom: 'Proceeding with custom workflow configuration...',
+      customWorkflow: await buildCustomWorkflowImplementation(params, sessionManager)
+    };
+  }
+  
+  // Use preset if workflow type is specified
+  if (params.workflowType && params.workflowType !== 'custom') {
+    const preset = getWorkflowPreset(params.workflowType);
+    params.selectedPhases = params.selectedPhases || preset.phases;
+    params.iterationLimits = { ...preset.iterationLimits, ...params.iterationLimits };
+  }
+  
+  return buildCustomWorkflowImplementation(params, sessionManager);
+}
+
+async function buildCustomWorkflowImplementation(
+  params: {
+    task: string;
+    workflowType?: WorkflowType | 'custom';
     selectedPhases?: Phase[];
     iterationLimits?: any;
     outputPreferences?: any;

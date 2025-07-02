@@ -13,7 +13,7 @@ import { generateId } from '../utils/helpers';
 export class SessionManager {
   private session: SessionState | null = null;
 
-  startSession(taskDescription: string, workflowConfig?: WorkflowConfiguration): SessionState {
+  startSession(taskDescription: string, workflowConfig?: WorkflowConfiguration, workflowType?: 'refactor' | 'feature' | 'test' | 'tdd'): SessionState {
     this.session = {
       id: generateId(),
       taskDescription,
@@ -25,7 +25,8 @@ export class SessionManager {
       metrics: this.initializeMetrics(),
       workflowConfig,
       iterationCounts: new Map(),
-      validationStates: new Map()
+      validationStates: new Map(),
+      workflowType
     };
     return this.session;
   }

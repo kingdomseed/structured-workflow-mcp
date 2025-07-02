@@ -10,7 +10,10 @@ import { SessionManager } from './session/SessionManager.js';
 import { createBuildCustomWorkflowTool, handleBuildCustomWorkflow } from './tools/buildCustomWorkflow.js';
 import { createTestGuidanceTool, handleTestGuidance } from './tools/testGuidance.js';
 import { createUserInputRequiredTool, handleUserInputRequired } from './tools/userInputRequired.js';
-import { createPlanWorkflowTool, handlePlanWorkflow } from './tools/planWorkflow.js';
+import { createRefactorWorkflowTool, handleRefactorWorkflow } from './tools/refactorWorkflow.js';
+import { createFeatureWorkflowTool, handleCreateFeatureWorkflow } from './tools/createFeatureWorkflow.js';
+import { createTestWorkflowTool, handleTestWorkflow } from './tools/testWorkflow.js';
+import { createTddWorkflowTool, handleTddWorkflow } from './tools/tddWorkflow.js';
 import { createPhaseGuidanceTools, handlePhaseGuidance } from './tools/phaseGuidance.js';
 import { createValidationTools, handleValidateAction, handleValidatePhaseCompletion } from './tools/validation.js';
 import { createWorkflowStatusTool, handleWorkflowStatus } from './tools/workflowStatus.js';
@@ -19,7 +22,7 @@ import { createDiscoverWorkflowToolsTool, handleDiscoverWorkflowTools } from './
 
 // Server metadata
 const SERVER_NAME = 'structured-workflow-mcp';
-const SERVER_VERSION = '2.1.1'; // Version with merged implementations
+const SERVER_VERSION = '2.2.0'; // Version with multiple workflow types
 
 async function main() {
   const server = new Server(
@@ -45,8 +48,11 @@ async function main() {
   // Tool registration
   const tools = [
     // Workflow entry points
-    createBuildCustomWorkflowTool(),              // Primary entry point with configuration
-    createPlanWorkflowTool(),                     // Simple entry point
+    createRefactorWorkflowTool(),                 // Refactoring workflow
+    createFeatureWorkflowTool(),                  // Feature creation workflow
+    createTestWorkflowTool(),                     // Test writing workflow
+    createTddWorkflowTool(),                      // TDD workflow
+    createBuildCustomWorkflowTool(),              // Custom workflow builder
     
     // Phase guidance tools
     ...createPhaseGuidanceTools(),                // Handles both suggestive and directive modes
@@ -129,12 +135,36 @@ async function main() {
             }]
           };
 
-        // Other workflow tools
-        case 'plan_workflow':
+        // Workflow entry points
+        case 'refactor_workflow':
           return {
             content: [{
               type: 'text',
-              text: JSON.stringify(await handlePlanWorkflow(args as any, sessionManager), null, 2)
+              text: JSON.stringify(await handleRefactorWorkflow(args as any, sessionManager), null, 2)
+            }]
+          };
+        
+        case 'create_feature_workflow':
+          return {
+            content: [{
+              type: 'text',
+              text: JSON.stringify(await handleCreateFeatureWorkflow(args as any, sessionManager), null, 2)
+            }]
+          };
+          
+        case 'test_workflow':
+          return {
+            content: [{
+              type: 'text',
+              text: JSON.stringify(await handleTestWorkflow(args as any, sessionManager), null, 2)
+            }]
+          };
+          
+        case 'tdd_workflow':
+          return {
+            content: [{
+              type: 'text',
+              text: JSON.stringify(await handleTddWorkflow(args as any, sessionManager), null, 2)
             }]
           };
 
@@ -204,9 +234,9 @@ async function main() {
   // Start server
   await server.connect(transport);
   console.error(`🚀 ${SERVER_NAME} v${SERVER_VERSION} running on stdio`);
-  console.error('📋 Enhanced Features: Directive guidance, iteration limits, real-time outputs, user escalation');
-  console.error('🔄 Backward Compatible: Legacy tools still supported');
-  console.error('🎯 Primary Entry Point: Use build_custom_workflow to start');
+  console.error('📋 Enhanced Features: Multiple workflow types (refactor, feature, test, TDD)');
+  console.error('🔄 Smart Workflow Selection: Choose the right workflow for your task');
+  console.error('🎯 Entry Points: refactor_workflow, create_feature_workflow, test_workflow, tdd_workflow, or build_custom_workflow');
 }
 
 // Helper function to provide contextual error suggestions
