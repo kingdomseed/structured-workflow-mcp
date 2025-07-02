@@ -1,0 +1,266 @@
+import { Tool } from '@modelcontextprotocol/sdk/types.js';
+import { SessionManager } from '../session/SessionManager';
+import { WorkflowConfiguration, Phase, OutputFileInstruction } from '../types';
+
+export function createBuildCustomWorkflowTool(): Tool {
+  return {
+    name: 'build_custom_workflow',
+    description: 'Build a custom refactoring workflow by selecting phases, configuring limits, and setting output preferences. This is the primary entry point for structured refactoring.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        task: {
+          type: 'string',
+          description: 'Description of the refactoring task'
+        },
+        selectedPhases: {
+          type: 'array',
+          items: {
+            type: 'string',
+            enum: ['AUDIT_INVENTORY', 'COMPARE_ANALYZE', 'QUESTION_DETERMINE', 'WRITE_REFACTOR', 'TEST', 'LINT', 'ITERATE', 'PRESENT']
+          },
+          description: 'Select which phases to include in your workflow',
+          default: ['AUDIT_INVENTORY', 'WRITE_REFACTOR', 'TEST', 'LINT', 'PRESENT']
+        },
+        iterationLimits: {
+          type: 'object',
+          properties: {
+            TEST: { type: 'number', default: 3, description: 'Max test failure cycles before user input' },
+            LINT: { type: 'number', default: 2, description: 'Max lint/fix cycles before user input' },
+            ITERATE: { type: 'number', default: 5, description: 'Max overall iterations before user input' }
+          },
+          description: 'Set iteration limits before escalation to user input'
+        },
+        outputPreferences: {
+          type: 'object',
+          properties: {
+            formats: {
+              type: 'array',
+              items: { type: 'string', enum: ['markdown', 'json'] },
+              default: ['markdown'],
+              description: 'Output formats for documentation'
+            },
+            realTimeUpdates: { type: 'boolean', default: true },
+            generateDiagrams: { type: 'boolean', default: true },
+            includeCodeSnippets: { type: 'boolean', default: true },
+            outputDirectory: { type: 'string', default: 'workflow-output' }
+          }
+        },
+        userCheckpoints: {
+          type: 'object',
+          properties: {
+            beforeMajorChanges: { type: 'boolean', default: true },
+            afterFailedIterations: { type: 'boolean', default: true },
+            beforeFinalPresentation: { type: 'boolean', default: false }
+          }
+        }
+      },
+      required: ['task']
+    }
+  };
+}
+
+export async function handleBuildCustomWorkflow(
+  params: {
+    task: string;
+    selectedPhases?: Phase[];
+    iterationLimits?: any;
+    outputPreferences?: any;
+    userCheckpoints?: any;
+  },
+  sessionManager: SessionManager
+) {
+  // Set defaults for optional parameters
+  const selectedPhases = params.selectedPhases || ['AUDIT_INVENTORY', 'WRITE_REFACTOR', 'TEST', 'LINT', 'PRESENT'];
+  const iterationLimits = {
+    TEST: 3,
+    LINT: 2,
+    ITERATE: 5,
+    ...params.iterationLimits
+  };
+  const outputPreferences = {
+    formats: ['markdown'],
+    realTimeUpdates: true,
+    generateDiagrams: true,
+    includeCodeSnippets: true,
+    outputDirectory: 'workflow-output',
+    createProgressReport: true,
+    createPhaseArtifacts: true,
+    ...params.outputPreferences
+  };
+  const userCheckpoints = {
+    beforeMajorChanges: true,
+    afterFailedIterations: true,
+    beforeFinalPresentation: false,
+    ...params.userCheckpoints
+  };
+
+  // Create workflow configuration
+  const workflowConfig: WorkflowConfiguration = {
+    selectedPhases: selectedPhases as Phase[],
+    iterationLimits,
+    outputPreferences,
+    userCheckpoints,
+    escalationTriggers: {
+      enableUserInput: true,
+      escalateOnIterationLimit: true,
+      escalateOnErrors: true,
+      escalateOnTime: false
+    }
+  };
+
+  // Start session with configuration
+  const session = sessionManager.startSession(params.task, workflowConfig);
+
+  // Generate initial output file instructions
+  const initialOutputFiles: OutputFileInstruction[] = [
+    {
+      path: `${outputPreferences.outputDirectory}/00-workflow-plan.md`,
+      description: 'Initial workflow plan and configuration',
+      required: true,
+      format: 'markdown',
+      template: generateWorkflowPlanTemplate(params.task, workflowConfig),
+      validationRules: ['Must contain task description', 'Must list all selected phases', 'Must include iteration limits']
+    },
+    {
+      path: `${outputPreferences.outputDirectory}/workflow-status.json`,
+      description: 'Machine-readable workflow progress',
+      required: true,
+      format: 'json',
+      template: JSON.stringify(sessionManager.getWorkflowProgress(), null, 2)
+    }
+  ];
+
+  return {
+    success: true,
+    sessionId: session.id,
+    message: '🚀 CUSTOM WORKFLOW BUILT SUCCESSFULLY',
+    workflowConfiguration: {
+      task: params.task,
+      selectedPhases,
+      phaseCount: selectedPhases.length,
+      iterationLimits,
+      outputPreferences,
+      userCheckpoints,
+      escalationEnabled: true
+    },
+    criticalInstructions: [
+      '⚠️ DIRECTIVE WORKFLOW: This is not suggestive guidance - you MUST follow the structured approach',
+      '📋 PHASE VALIDATION: Each phase has specific completion requirements that must be met',
+      '📁 OUTPUT REQUIREMENTS: You are required to create documentation files as specified',
+      '🛑 SAFETY RULE: Files must be read before modification (this is enforced)',
+      '⏱️ ITERATION LIMITS: Automatic escalation to user input when limits are reached'
+    ],
+    requiredFirstActions: [
+      {
+        action: 'CREATE_OUTPUT_DIRECTORY',
+        instruction: `You MUST create the directory "${outputPreferences.outputDirectory}" in the current project`,
+        blocking: true
+      },
+      {
+        action: 'CREATE_INITIAL_FILES',
+        instruction: 'You MUST create the initial workflow documentation files',
+        files: initialOutputFiles,
+        blocking: true
+      },
+      {
+        action: 'BEGIN_FIRST_PHASE',
+        instruction: `After creating the required files, call "${selectedPhases[0].toLowerCase()}_guidance" to begin the workflow`,
+        blocking: true
+      }
+    ],
+    nextPhase: {
+      phase: selectedPhases[0],
+      tool: `${selectedPhases[0].toLowerCase()}_guidance`,
+      description: `Begin with the ${selectedPhases[0]} phase`
+    },
+    validationRequirement: {
+      message: '🔍 COMPLETION VALIDATION: You cannot proceed to the next phase until the current phase validation passes',
+      enforcement: 'Use phase_output tool only after meeting all phase requirements'
+    }
+  };
+}
+
+function generateWorkflowPlanTemplate(task: string, config: WorkflowConfiguration): string {
+  const timestamp = new Date().toISOString();
+  
+  return `# Structured Refactoring Workflow Plan
+
+## Task Description
+${task}
+
+## Workflow Configuration
+- **Generated**: ${timestamp}
+- **Session ID**: Generated during workflow initialization
+- **Total Phases**: ${config.selectedPhases.length}
+- **Estimated Duration**: ${estimateWorkflowDuration(config.selectedPhases)} minutes
+
+## Selected Phases
+${config.selectedPhases.map((phase, index) => 
+  `${index + 1}. **${phase}** - ${getPhaseDescription(phase)}`
+).join('\n')}
+
+## Iteration Limits & Escalation
+- **TEST Phase**: Maximum ${config.iterationLimits.TEST} test failure cycles
+- **LINT Phase**: Maximum ${config.iterationLimits.LINT} lint/fix cycles  
+- **ITERATE Phase**: Maximum ${config.iterationLimits.ITERATE} overall iterations
+- **Escalation**: Automatic user input request when limits reached
+
+## Output Configuration
+- **Formats**: ${config.outputPreferences.formats.join(', ')}
+- **Real-time Updates**: ${config.outputPreferences.realTimeUpdates ? 'Enabled' : 'Disabled'}
+- **Generate Diagrams**: ${config.outputPreferences.generateDiagrams ? 'Yes' : 'No'}
+- **Include Code Snippets**: ${config.outputPreferences.includeCodeSnippets ? 'Yes' : 'No'}
+
+## User Checkpoints
+- **Before Major Changes**: ${config.userCheckpoints.beforeMajorChanges ? 'Enabled' : 'Disabled'}
+- **After Failed Iterations**: ${config.userCheckpoints.afterFailedIterations ? 'Enabled' : 'Disabled'}
+- **Before Final Presentation**: ${config.userCheckpoints.beforeFinalPresentation ? 'Enabled' : 'Disabled'}
+
+## Critical Guidelines
+1. **Directive Workflow**: Follow phase instructions exactly - this is not suggestive guidance
+2. **Validation Required**: Each phase has completion criteria that must be met
+3. **File Operations**: Always read files before modifying them
+4. **Documentation**: Create required output files for each phase
+5. **Escalation**: Respect iteration limits - user input will be requested when reached
+
+## Progress Tracking
+This plan will be updated throughout the workflow. Check \`workflow-status.json\` for real-time progress.
+
+---
+*Generated by Structured Workflow MCP Server v2.0*`;
+}
+
+function getPhaseDescription(phase: Phase): string {
+  const descriptions: Record<Phase, string> = {
+    PLANNING: 'Initial workflow setup and planning',
+    AUDIT_INVENTORY: 'Read, analyze code and catalog all required changes',
+    COMPARE_ANALYZE: 'Evaluate different implementation approaches',
+    QUESTION_DETERMINE: 'Clarify ambiguities and finalize implementation strategy',
+    WRITE_REFACTOR: 'Implement the planned changes',
+    TEST: 'Execute tests and validate functionality',
+    LINT: 'Verify code quality and standards',
+    ITERATE: 'Fix issues found during testing and linting',
+    PRESENT: 'Summarize programming work and results',
+    USER_INPUT_REQUIRED: 'Escalation phase for user guidance'
+  };
+  
+  return descriptions[phase] || 'Phase description not available';
+}
+
+function estimateWorkflowDuration(phases: Phase[]): number {
+  const phaseEstimates: Record<Phase, number> = {
+    PLANNING: 5,
+    AUDIT_INVENTORY: 25,  // Combined time for audit + inventory
+    COMPARE_ANALYZE: 10,
+    QUESTION_DETERMINE: 15,  // Combined time for question + determine
+    WRITE_REFACTOR: 30,
+    TEST: 15,
+    LINT: 10,
+    ITERATE: 20,
+    PRESENT: 10,
+    USER_INPUT_REQUIRED: 5
+  };
+  
+  return phases.reduce((total, phase) => total + (phaseEstimates[phase] || 10), 0);
+}

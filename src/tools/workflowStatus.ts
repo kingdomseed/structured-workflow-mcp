@@ -49,7 +49,7 @@ export async function handleWorkflowStatus(sessionManager: SessionManager) {
       lintIssuesFound: session.metrics.lintIssuesFound,
       lintIssuesFixed: session.metrics.lintIssuesFixed,
       phasesCompleted: session.completedPhases.length,
-      totalPhases: 9 // Including optional QUESTION phase
+      totalPhases: 9 // Total phases in the workflow
     },
     fileOperations: {
       totalFilesTracked: session.fileHistory.size,

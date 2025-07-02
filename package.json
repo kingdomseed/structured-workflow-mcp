@@ -1,7 +1,7 @@
 {
   "name": "structured-workflow-mcp",
   "version": "2.0.0",
-  "description": "Intelligent workflow guidance for AI-assisted refactoring via MCP",
+  "description": "Disciplined workflow guidance for AI-assisted programming via MCP",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -15,6 +15,7 @@
     "mcp",
     "model-context-protocol",
     "refactoring",
+    "programming",
     "workflow",
     "ai-tools"
   ],

@@ -122,3 +122,51 @@ The only enforced rule: Files must be read before they can be modified. This pre
 3. **Session-Based** - State exists only for active refactoring session
 4. **Local-Only** - No remote servers or authentication
 5. **Tool-Agnostic** - Guides actions without knowing specific tool names
+
+## CRITICAL DEVELOPMENT RULES
+
+### RULE 1: NO DUPLICATE IMPLEMENTATIONS
+**NEVER create alternative versions of existing functionality.** When adding features or changing behavior:
+1. **AUDIT FIRST** - Always search and understand existing code before creating new files
+2. **MODIFY IN PLACE** - Update existing implementations rather than creating duplicates
+3. **USE CONFIGURATION** - If different behaviors are needed, use parameters or configuration:
+   ```typescript
+   // GOOD: Single implementation with configurable behavior
+   function handleGuidance(phase: string, mode: 'suggestive' | 'directive') { }
+   
+   // BAD: Multiple implementations
+   function handleGuidance() { }           // In guidance.ts
+   function handleEnhancedGuidance() { }   // In enhancedGuidance.ts
+   ```
+
+### RULE 2: MAINTAIN SINGLE SOURCE OF TRUTH
+- **One file per feature** - Each distinct feature should have exactly one implementation file
+- **One handler per tool** - Each tool should have one handler function, not multiple based on state
+- **Clear naming** - If behavior differs significantly, use different tool names, not hidden routing
+
+### RULE 3: AUDIT BEFORE ADDING
+Before adding ANY new functionality:
+1. **Search for existing implementations** using grep/glob
+2. **Read related files** to understand current architecture
+3. **Check for similar functionality** that could be extended
+4. **Update existing code** rather than creating new files
+
+### RULE 4: DELETE OBSOLETE CODE
+- **No legacy versions** - When updating functionality, remove old implementations
+- **No commented code** - Delete, don't comment out
+- **Clean migrations** - If breaking changes are needed, migrate fully, don't maintain parallel versions
+
+### RULE 5: CONSISTENT ARCHITECTURE
+- **Follow existing patterns** - Don't introduce new patterns without strong justification
+- **Maintain consistency** - All tools should follow the same structure and approach
+- **Document deviations** - If you must deviate from patterns, document why clearly
+
+### VIOLATIONS TO AVOID
+❌ Creating "enhanced" versions of existing files
+❌ Conditional routing based on hidden state
+❌ Multiple handlers for the same tool name
+❌ Duplicate logic across files
+❌ Legacy code maintained "for compatibility"
+
+### ENFORCEMENT
+These rules are **NON-NEGOTIABLE**. Violating them creates technical debt, slows development, and makes the codebase unmaintainable. When in doubt, refactor to simplify rather than adding complexity.

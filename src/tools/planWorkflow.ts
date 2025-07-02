@@ -5,13 +5,13 @@ import { Phase } from '../types';
 export function createPlanWorkflowTool(): Tool {
   return {
     name: 'plan_workflow',
-    description: 'Create a comprehensive plan for your refactoring task using the structured workflow phases',
+    description: 'Create a comprehensive plan for your programming task using the structured workflow phases',
     inputSchema: {
       type: 'object',
       properties: {
         task: {
           type: 'string',
-          description: 'Description of the refactoring task'
+          description: 'Description of the programming task (refactoring, feature creation, bug fix, etc.)'
         },
         context: {
           type: 'object',
@@ -20,12 +20,12 @@ export function createPlanWorkflowTool(): Tool {
             targetFiles: { 
               type: 'array', 
               items: { type: 'string' },
-              description: 'Specific files to be refactored'
+              description: 'Specific files to work with'
             },
             scope: { 
               type: 'string', 
               enum: ['file', 'directory', 'project'],
-              description: 'The scope of the refactoring'
+              description: 'The scope of the task'
             },
             constraints: { 
               type: 'array', 
@@ -47,6 +47,9 @@ export async function handlePlanWorkflow(
   // Start a new session
   const session = sessionManager.startSession(params.task);
   
+  // Detect the type of programming task
+  const taskType = detectTaskType(params.task);
+  
   const phases: Array<{
     phase: Phase;
     purpose: string;
@@ -56,49 +59,38 @@ export async function handlePlanWorkflow(
     guidanceTool: string;
   }> = [
     {
-      phase: 'AUDIT',
-      purpose: 'Read and analyze code without modifications',
+      phase: 'AUDIT_INVENTORY',
+      purpose: 'Thoroughly analyze existing code AND catalog all required changes',
       keyActions: [
-        'Use your file reading tools to examine all relevant code',
-        'Use your search tools to find patterns and dependencies',
-        'Document findings without making any changes'
+        'AUDIT: Use file reading and search tools to examine all relevant code',
+        'AUDIT: Map dependencies, understand current implementation, identify issues',
+        'INVENTORY: List every file that needs modification',
+        'INVENTORY: Specify exact changes needed for each file',
+        'INVENTORY: Assess impact, risks, and create priority order'
       ],
       expectedOutput: {
-        filesAnalyzed: 'List of all files examined',
+        filesAnalyzed: 'Complete list of files examined',
         dependencies: 'Map of imports and relationships',
         currentImplementation: 'How the code currently works',
-        issues: 'Any problems or code smells identified'
-      },
-      estimatedDuration: '5-10 minutes',
-      guidanceTool: 'audit_guidance'
-    },
-    {
-      phase: 'INVENTORY',
-      purpose: 'Catalog all changes needed',
-      keyActions: [
-        'List every file that needs modification',
-        'Identify specific changes for each file',
-        'Assess impact and risks'
-      ],
-      expectedOutput: {
-        changesList: 'Detailed list of all modifications',
+        issues: 'Any problems or code smells identified',
+        changesList: 'Detailed catalog of all modifications needed',
         impactAnalysis: 'What each change affects',
         risks: 'Potential issues to watch for',
         priorityOrder: 'Suggested implementation sequence'
       },
-      estimatedDuration: '5 minutes',
-      guidanceTool: 'inventory_guidance'
+      estimatedDuration: '10-15 minutes',
+      guidanceTool: 'audit_inventory_guidance'
     },
     {
       phase: 'COMPARE_ANALYZE',
-      purpose: 'Evaluate different refactoring approaches',
+      purpose: 'Evaluate different implementation approaches',
       keyActions: [
         'Consider multiple implementation strategies',
         'Compare pros and cons of each approach',
         'Select the best approach with justification'
       ],
       expectedOutput: {
-        approaches: 'Different ways to implement the refactoring',
+        approaches: 'Different ways to implement the task',
         comparison: 'Pros and cons of each approach',
         recommendation: 'Selected approach with reasoning'
       },
@@ -106,20 +98,25 @@ export async function handlePlanWorkflow(
       guidanceTool: 'compare_analyze_guidance'
     },
     {
-      phase: 'DETERMINE_PLAN',
-      purpose: 'Finalize implementation strategy',
+      phase: 'QUESTION_DETERMINE',
+      purpose: 'Clarify any ambiguities AND determine final implementation plan',
       keyActions: [
-        'Create step-by-step implementation plan',
-        'Define success criteria',
-        'Identify checkpoints and validation steps'
+        'QUESTION: Identify unclear requirements or assumptions',
+        'QUESTION: Formulate specific questions if needed',
+        'QUESTION: Document assumptions being made',
+        'DETERMINE: Create step-by-step implementation plan',
+        'DETERMINE: Define success criteria and validation points',
+        'DETERMINE: Finalize the strategy with all clarifications'
       ],
       expectedOutput: {
+        questions: 'Any clarifications needed (if applicable)',
+        assumptions: 'What we are assuming if not clarified',
         implementationSteps: 'Ordered list of changes to make',
         successCriteria: 'How to know when done',
         validationPoints: 'When to test and verify'
       },
-      estimatedDuration: '5 minutes',
-      guidanceTool: 'determine_plan_guidance'
+      estimatedDuration: '5-10 minutes',
+      guidanceTool: 'question_determine_guidance'
     },
     {
       phase: 'WRITE_REFACTOR',
@@ -127,37 +124,56 @@ export async function handlePlanWorkflow(
       keyActions: [
         'Use your file editing tools to modify code',
         'Follow the implementation plan',
-        'Test changes incrementally'
+        'Test changes incrementally when possible'
       ],
       expectedOutput: {
         filesModified: 'Complete list of changed files',
         changesDescription: 'What was changed in each file',
-        testsRun: 'Any tests executed during refactoring'
+        testsRun: 'Any tests executed during implementation'
       },
       estimatedDuration: '10-30 minutes',
       guidanceTool: 'refactor_guidance'
+    },
+    {
+      phase: 'TEST',
+      purpose: 'Run tests to verify functionality',
+      keyActions: [
+        'Execute all relevant test suites',
+        'Document test results and failures',
+        'Identify which tests need fixes'
+      ],
+      expectedOutput: {
+        testResults: 'Complete test execution results',
+        passingTests: 'Tests that succeeded',
+        failingTests: 'Tests that need attention',
+        testCoverage: 'Coverage metrics if available'
+      },
+      estimatedDuration: '5-10 minutes',
+      guidanceTool: 'test_guidance'
     },
     {
       phase: 'LINT',
       purpose: 'Verify code quality and correctness',
       keyActions: [
         'Run all relevant linters and type checkers',
-        'Execute test suites if available',
+        'Check code style and formatting',
         'Document any issues found'
       ],
       expectedOutput: {
         lintResults: 'Output from linters and type checkers',
-        testResults: 'Test execution results',
-        issuesFound: 'List of problems to fix'
+        codeQualityIssues: 'Style and quality problems',
+        errors: 'Must-fix issues',
+        warnings: 'Should-fix issues'
       },
       estimatedDuration: '5 minutes',
       guidanceTool: 'lint_guidance'
     },
     {
       phase: 'ITERATE',
-      purpose: 'Fix issues from LINT phase',
+      purpose: 'Fix issues from TEST and LINT phases',
       keyActions: [
-        'Address each issue systematically',
+        'Address test failures first',
+        'Fix linting errors and warnings',
         'Re-run verification after fixes',
         'Document what was fixed'
       ],
@@ -171,7 +187,7 @@ export async function handlePlanWorkflow(
     },
     {
       phase: 'PRESENT',
-      purpose: 'Summarize the refactoring work',
+      purpose: 'Summarize the programming work completed',
       keyActions: [
         'Create comprehensive summary of changes',
         'Document lessons learned',
@@ -187,26 +203,10 @@ export async function handlePlanWorkflow(
     }
   ];
 
-  const optionalPhase = {
-    phase: 'QUESTION' as Phase,
-    purpose: 'Clarify ambiguities when needed',
-    keyActions: [
-      'Identify unclear requirements',
-      'Formulate specific questions',
-      'Document assumptions if answers unavailable'
-    ],
-    expectedOutput: {
-      questions: 'Specific clarifications needed',
-      assumptions: 'What we are assuming if not clarified'
-    },
-    estimatedDuration: '2-5 minutes',
-    guidanceTool: 'question_guidance',
-    note: 'This phase can be inserted at any point when clarification is needed'
-  };
-
   return {
     sessionId: session.id,
     task: params.task,
+    taskType,
     context: params.context || {},
     startedAt: new Date(session.startedAt).toISOString(),
     workflowOverview: {
@@ -215,29 +215,27 @@ export async function handlePlanWorkflow(
       corePhilosophy: 'Guide, Don\'t Gate - All your tools remain available throughout the workflow'
     },
     phases,
-    optionalPhase,
     criticalGuidance: [
       'IMPORTANT: You must read files before modifying them (enforced for safety)',
       'All your existing tools remain available - use them based on phase guidance',
-      'Start with audit_guidance after this planning phase',
+      'Start with audit_inventory_guidance after this planning phase',
       'Use workflow_status to check progress at any time',
       'Each phase builds on previous phases - follow the sequence for best results'
     ],
     howToBegin: [
       '1. Review this plan to understand the full workflow',
-      '2. Call audit_guidance to start the AUDIT phase',
+      '2. Call audit_inventory_guidance to start the AUDIT_INVENTORY phase',
       '3. Use your file reading and search tools as directed by the guidance',
       '4. Call phase_output when you complete each phase to record results'
     ],
     availableTools: {
       workflowTools: [
-        'audit_guidance - Guidance for code analysis phase',
-        'inventory_guidance - Help cataloging changes',
+        'audit_inventory_guidance - Guidance for analysis and cataloging phase',
         'compare_analyze_guidance - Assistance evaluating approaches',
-        'question_guidance - When clarification is needed',
-        'determine_plan_guidance - Finalize your strategy',
+        'question_determine_guidance - Clarify and finalize your plan',
         'refactor_guidance - Implementation guidance',
-        'lint_guidance - Verification instructions',
+        'test_guidance - Testing phase guidance',
+        'lint_guidance - Code quality verification',
         'iterate_guidance - Fix issues systematically',
         'present_guidance - Summarize your work',
         'workflow_status - Check current progress',
@@ -249,3 +247,16 @@ export async function handlePlanWorkflow(
     reminder: 'This is a guidance system - it helps you work more effectively without restricting your capabilities'
   };
 }
+
+function detectTaskType(task: string): string {
+  const taskLower = task.toLowerCase();
+  if (taskLower.includes('refactor')) return 'Refactoring';
+  if (taskLower.includes('feature') || taskLower.includes('add') || taskLower.includes('implement')) return 'Feature Creation';
+  if (taskLower.includes('bug') || taskLower.includes('fix')) return 'Bug Fix';
+  if (taskLower.includes('test')) return 'Test Writing';
+  if (taskLower.includes('document') || taskLower.includes('docs')) return 'Documentation';
+  if (taskLower.includes('optimize') || taskLower.includes('performance')) return 'Performance Optimization';
+  if (taskLower.includes('create') && taskLower.includes('project')) return 'Project Creation';
+  return 'General Programming Task';
+}
+

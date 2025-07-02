@@ -32,11 +32,11 @@ export function formatDuration(ms: number): string {
 export function getNextPhase(currentPhase: Phase): Phase | null {
   const phaseOrder: Phase[] = [
     'PLANNING',
-    'AUDIT',
-    'INVENTORY',
+    'AUDIT_INVENTORY',
     'COMPARE_ANALYZE',
-    'DETERMINE_PLAN',
+    'QUESTION_DETERMINE',
     'WRITE_REFACTOR',
+    'TEST',
     'LINT',
     'ITERATE',
     'PRESENT'
@@ -54,16 +54,16 @@ export function generateNextStepSuggestions(_completedPhases: Phase[], currentPh
   const suggestions: string[] = [];
   
   const phaseGuidanceMap: Record<Phase, string> = {
-    PLANNING: 'Use audit_guidance to begin understanding the codebase',
-    AUDIT: 'Use inventory_guidance to catalog needed changes',
-    INVENTORY: 'Use compare_analyze_guidance to evaluate different approaches',
-    COMPARE_ANALYZE: 'Use determine_plan_guidance to finalize your strategy',
-    DETERMINE_PLAN: 'Use refactor_guidance to start implementing changes',
-    WRITE_REFACTOR: 'Use lint_guidance to verify your changes',
+    PLANNING: 'Use audit_inventory_guidance to begin understanding and cataloging',
+    AUDIT_INVENTORY: 'Use compare_analyze_guidance to evaluate different approaches',
+    COMPARE_ANALYZE: 'Use question_determine_guidance to clarify and finalize your strategy',
+    QUESTION_DETERMINE: 'Use refactor_guidance to start implementing changes',
+    WRITE_REFACTOR: 'Use test_guidance to verify functionality after changes',
+    TEST: 'Use lint_guidance to verify code quality',
     LINT: 'Use iterate_guidance if issues were found, or present_guidance if ready',
     ITERATE: 'Use lint_guidance again to verify fixes, or present_guidance when done',
     PRESENT: 'Your workflow is complete! Review the summary and share results',
-    QUESTION: 'Continue with your previous phase after clarifications'
+    USER_INPUT_REQUIRED: 'Provide user input to resolve escalation and continue workflow'
   };
   
   const nextPhase = getNextPhase(currentPhase);

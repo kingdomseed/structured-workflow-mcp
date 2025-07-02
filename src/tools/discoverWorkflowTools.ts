@@ -18,45 +18,33 @@ export async function handleDiscoverWorkflowTools() {
     availableWorkflowTools: [
       {
         name: 'plan_workflow',
-        purpose: 'Create a comprehensive refactoring plan',
-        whenToUse: 'Start here for any refactoring task',
+        purpose: 'Create a comprehensive plan for any programming task',
+        whenToUse: 'Start here for refactoring, feature creation, bug fixes, etc.',
         example: 'plan_workflow({ task: "Refactor authentication to use JWT" })'
       },
       {
-        name: 'audit_guidance',
-        purpose: 'Get guidance for the AUDIT phase',
-        whenToUse: 'When you need to understand code without modifying it',
+        name: 'audit_inventory_guidance',
+        purpose: 'Get guidance for the AUDIT_INVENTORY phase - analyze and catalog',
+        whenToUse: 'When you need to understand code AND catalog all needed changes',
         followsPhase: 'PLANNING'
-      },
-      {
-        name: 'inventory_guidance',
-        purpose: 'Get guidance for cataloging all needed changes',
-        whenToUse: 'After auditing, to list all modifications needed',
-        followsPhase: 'AUDIT'
       },
       {
         name: 'compare_analyze_guidance',
         purpose: 'Get help evaluating different approaches',
         whenToUse: 'When considering multiple implementation strategies',
-        followsPhase: 'INVENTORY'
+        followsPhase: 'AUDIT_INVENTORY'
       },
       {
-        name: 'question_guidance',
-        purpose: 'Get guidance for clarifying ambiguities',
-        whenToUse: 'Any time you need clarification (optional phase)',
-        followsPhase: 'Can be used at any point'
-      },
-      {
-        name: 'determine_plan_guidance',
-        purpose: 'Get help finalizing your implementation strategy',
-        whenToUse: 'After choosing an approach, to create detailed steps',
+        name: 'question_determine_guidance',
+        purpose: 'Get guidance for clarifying ambiguities AND finalizing your plan',
+        whenToUse: 'After comparing approaches, to clarify and create detailed steps',
         followsPhase: 'COMPARE_ANALYZE'
       },
       {
         name: 'refactor_guidance',
         purpose: 'Get guidance for implementing changes',
         whenToUse: 'When ready to modify code',
-        followsPhase: 'DETERMINE_PLAN'
+        followsPhase: 'QUESTION_DETERMINE'
       },
       {
         name: 'lint_guidance',

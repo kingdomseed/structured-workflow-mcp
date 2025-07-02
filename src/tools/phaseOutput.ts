@@ -11,8 +11,8 @@ export function createPhaseOutputTool(): Tool {
       properties: {
         phase: {
           type: 'string',
-          enum: ['AUDIT', 'INVENTORY', 'COMPARE_ANALYZE', 'QUESTION', 
-                 'DETERMINE_PLAN', 'WRITE_REFACTOR', 'LINT', 'ITERATE', 'PRESENT'],
+          enum: ['AUDIT_INVENTORY', 'COMPARE_ANALYZE', 'QUESTION_DETERMINE', 
+                 'WRITE_REFACTOR', 'TEST', 'LINT', 'ITERATE', 'PRESENT'],
           description: 'The phase you are completing'
         },
         output: {
@@ -65,6 +65,6 @@ export async function handlePhaseOutput(
     phase: params.phase,
     timestamp: new Date().toISOString(),
     message: `Successfully recorded output for ${params.phase} phase`,
-    hint: `Use workflow_status to see overall progress`
+    hint: 'Use workflow_status to see overall progress'
   };
 }
