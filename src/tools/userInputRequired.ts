@@ -275,7 +275,7 @@ function generateUserOptions(trigger: string, context: any): string {
     case 'iteration_limit':
       return `
 ### Option 1: Increase Iteration Limit
-- Continue with ${context.attemptCount || 3} more iterations
+- Continue with ${Math.ceil((context.attemptCount || 5) * 0.5)} more iterations
 - Adjust iteration limits for this phase type
 - Resume automated workflow with extended limits
 
@@ -358,7 +358,7 @@ function generateRecommendations(trigger: string, context: any): string {
   switch (trigger) {
     case 'iteration_limit':
       return `
-- **Recommended**: Increase iteration limit to ${(context.attemptCount || 3) + 2} and continue
+- **Recommended**: Increase iteration limit to ${(context.attemptCount || 5) + Math.ceil((context.attemptCount || 5) * 0.5)} and continue
 - **Alternative**: Review specific errors to identify patterns
 - **Consider**: Whether the task complexity exceeds automation capabilities`;
 

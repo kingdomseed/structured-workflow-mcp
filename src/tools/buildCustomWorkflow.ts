@@ -25,9 +25,9 @@ export function createBuildCustomWorkflowTool(): Tool {
         iterationLimits: {
           type: 'object',
           properties: {
-            TEST: { type: 'number', default: 3, description: 'Max test failure cycles before user input' },
-            LINT: { type: 'number', default: 2, description: 'Max lint/fix cycles before user input' },
-            ITERATE: { type: 'number', default: 5, description: 'Max overall iterations before user input' }
+            TEST: { type: 'number', default: 5, description: 'Max test failure cycles before user input' },
+            LINT: { type: 'number', default: 10, description: 'Max lint/fix cycles before user input' },
+            ITERATE: { type: 'number', default: 15, description: 'Max overall iterations before user input' }
           },
           description: 'Set iteration limits before escalation to user input'
         },
@@ -73,9 +73,9 @@ export async function handleBuildCustomWorkflow(
   // Set defaults for optional parameters
   const selectedPhases = params.selectedPhases || ['AUDIT_INVENTORY', 'WRITE_REFACTOR', 'TEST', 'LINT', 'PRESENT'];
   const iterationLimits = {
-    TEST: 3,
-    LINT: 2,
-    ITERATE: 5,
+    TEST: 5,
+    LINT: 10,
+    ITERATE: 15,
     ...params.iterationLimits
   };
   const outputPreferences = {
