@@ -119,11 +119,9 @@ async function main() {
           };
 
         // Phase guidance tools (automatically route based on session configuration)
-        case 'audit_guidance':
-        case 'inventory_guidance':
+        case 'audit_inventory_guidance':
         case 'compare_analyze_guidance':
-        case 'question_guidance':
-        case 'determine_plan_guidance':
+        case 'question_determine_guidance':
         case 'refactor_guidance':
         case 'lint_guidance':
         case 'iterate_guidance':

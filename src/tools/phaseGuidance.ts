@@ -316,7 +316,7 @@ function getSuggestiveGuidance(
   }
 
   // Update session phase if we have an active session
-  if (session && phaseName !== 'question_guidance') {
+  if (session) {
     sessionManager.updatePhase(guidance.phase);
   }
 
@@ -351,7 +351,7 @@ function getDirectiveGuidance(
 
       instructions: [
         '--- AUDIT PHASE (Analysis) ---',
-        'Read the target file specified in the programming task',
+        'Read the target file(s) specified in the programming task',
         'Examine all imports, dependencies, and external references',
         'Identify every distinct responsibility within the code',
         'Analyze architectural principle adherence based on project context',
@@ -893,7 +893,7 @@ function getDirectiveGuidance(
   }
 
   // Update session phase if we have an active session
-  if (session && phaseName !== 'question_guidance') {
+  if (session) {
     sessionManager.updatePhase(guidance.phase);
   }
 
