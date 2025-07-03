@@ -10,7 +10,7 @@ The Structured Workflow MCP Server is a **guidance-based system** that helps AI 
 
 **Goal**: Create a set of MCP tools that teach AI models to follow a disciplined refactoring workflow (PLANNING → AUDIT → INVENTORY → COMPARE/ANALYZE → QUESTION → DETERMINE/PLAN → WRITE/REFACTOR → LINT → ITERATE → PRESENT) through intelligent guidance rather than restrictions.
 
-### Core Philosophy: Guide, Don't Gate
+### Core Philosophy: A Disciplined Approach to Programming
 
 - **All tools remain available** - The AI keeps access to all its built-in tools and any MCP tools
 - **Intelligent guidance** - Our tools provide phase-specific instructions and recommendations

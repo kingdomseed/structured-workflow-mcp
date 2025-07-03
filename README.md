@@ -1,13 +1,36 @@
 # Structured Workflow MCP Server
 
-A Model Context Protocol (MCP) server that provides intelligent workflow guidance for AI-assisted code refactoring. This server adds specialized workflow tools to your AI assistant without restricting access to any existing capabilities.
+**Version**: 0.2.1
 
-## Core Philosophy: Create Methodical Approach for AI to Follow
+An open-source TypeScript-based Model Context Protocol (MCP) server that provides AI coding assistants with structured workflow guidance tools for professional development practices. This server adds specialized workflow tools to your AI assistant without restricting access to any existing capabilities.
 
-- **All tools remain available** - Your AI keeps access to all its built-in tools
-- **Intelligent guidance** - Our tools provide phase-specific instructions and recommendations
+## Core Philosophy: "Guide, Don't Gate"
+
+- **Non-restrictive** - AI retains all its existing tools and capabilities
+- **Additive** - MCP tools enhance, not replace existing functionality  
+- **Guidance-based** - Provides instructions and recommendations, not enforcement
+- **One hard rule** - Files must be read before modification (for safety)
 - **Platform-agnostic** - Works with any MCP-compatible AI (Claude, Cursor, Windsurf, etc.)
 - **Local-only** - Simple stdio transport, no remote servers needed
+
+## Key Features
+
+### 🚀 Multiple Workflow Types (v0.2.1)
+
+1. **Refactor Workflow** - Code improvement without changing functionality
+2. **Feature Workflow** - New functionality with integrated testing  
+3. **Test Workflow** - Focused test coverage improvement
+4. **TDD Workflow** - Test-Driven Development cycles
+5. **Custom Workflow** - Build your own with `build_custom_workflow`
+
+### 🎯 Core Capabilities
+
+- **Session Management** - Comprehensive state tracking throughout workflow
+- **Iteration Limits** - Configurable with automatic escalation to user input
+- **Real-Time Output** - Generates documentation in `workflow-output/` directory
+- **Validation System** - Phase completion requirements with blocking messages
+- **Safety Enforcement** - Read-before-write file protection
+- **Language Agnostic** - Works with any programming language or framework
 
 ## Installation
 
@@ -61,48 +84,111 @@ Add to your MCP settings:
 
 ### Starting a Workflow
 
-Always begin with the `plan_workflow` tool:
+Choose the appropriate workflow for your task:
 
-```
-plan_workflow({ 
+#### Option 1: Use a Specialized Workflow
+
+```javascript
+// For code improvements
+refactor_workflow({ 
   task: "Refactor the authentication system to use JWT tokens",
   context: {
     targetFiles: ["auth.js", "middleware/auth.js"],
     scope: "directory"
   }
 })
+
+// For new features
+create_feature_workflow({
+  task: "Add user profile management API endpoints"
+})
+
+// For test coverage
+test_workflow({
+  task: "Write unit tests for the payment processing module"
+})
+
+// For Test-Driven Development
+tdd_workflow({
+  task: "Implement shopping cart functionality using TDD"
+})
 ```
 
-### Following the Phases
+#### Option 2: Build a Custom Workflow
 
-The workflow guides you through these phases:
+```javascript
+build_custom_workflow({
+  task: "Complex refactoring with custom phases",
+  selectedPhases: ["AUDIT_INVENTORY", "COMPARE_ANALYZE", "WRITE_REFACTOR", "LINT", "PRESENT"],
+  iterationLimits: { TEST: 10, LINT: 15, ITERATE: 20 }
+})
+```
 
-1. **PLANNING** - Create comprehensive refactoring roadmap
-2. **AUDIT** - Read and understand code without modifying
-3. **INVENTORY** - Catalog all required changes
-4. **COMPARE/ANALYZE** - Evaluate different approaches
-5. **QUESTION** (Optional) - Clarify ambiguities
-6. **DETERMINE/PLAN** - Finalize implementation strategy
-7. **WRITE/REFACTOR** - Implement planned changes
-8. **LINT** - Verify code quality
-9. **ITERATE** - Fix issues from lint phase
-10. **PRESENT** - Summarize the refactoring work
+### Workflow Phases
+
+Different workflows use different phase sequences:
+
+#### Refactor Workflow
+1. **AUDIT_INVENTORY** - Analyze code AND catalog all required changes
+2. **COMPARE_ANALYZE** - Evaluate different approaches
+3. **QUESTION_DETERMINE** - Clarify requirements AND finalize plan
+4. **WRITE_REFACTOR** - Implement changes
+5. **LINT** - Verify code quality
+6. **ITERATE** - Fix issues
+7. **PRESENT** - Summarize work
+
+#### Feature Workflow
+1. **PLANNING** - Create comprehensive plan
+2. **QUESTION_DETERMINE** - Clarify and finalize approach
+3. **WRITE_REFACTOR** - Implement new functionality
+4. **TEST** - Run tests to verify
+5. **LINT** - Check code quality
+6. **ITERATE** - Fix any issues
+7. **PRESENT** - Summarize work
+
+#### Test Workflow
+1. **AUDIT_INVENTORY** - Understand what needs testing
+2. **QUESTION_DETERMINE** - Plan test strategy
+3. **WRITE_REFACTOR** - Write tests
+4. **TEST** - Run tests
+5. **ITERATE** - Fix failing tests
+6. **PRESENT** - Summarize coverage
+
+#### TDD Workflow
+1. **PLANNING** - Plan the feature
+2. **WRITE_REFACTOR** - Write failing test
+3. **TEST** - Verify test fails (Red)
+4. **WRITE_REFACTOR** - Write implementation
+5. **TEST** - Verify test passes (Green)
+6. **WRITE_REFACTOR** - Refactor (optional)
+7. **LINT** - Final quality check
+8. **PRESENT** - Summarize work
 
 ### Available Tools
 
-- `plan_workflow` - Start here to create a refactoring plan
-- `audit_guidance` - Get instructions for code analysis phase
-- `inventory_guidance` - Learn how to catalog needed changes
+#### Workflow Entry Points
+- `refactor_workflow` - Start a refactoring workflow
+- `create_feature_workflow` - Start a feature creation workflow
+- `test_workflow` - Start a test writing workflow
+- `tdd_workflow` - Start a TDD workflow
+- `build_custom_workflow` - Create a custom workflow with your phases
+
+#### Phase Guidance Tools
+- `audit_inventory_guidance` - Combined analysis and cataloging guidance
 - `compare_analyze_guidance` - Guidance for evaluating approaches
-- `question_guidance` - When you need to clarify requirements
-- `determine_plan_guidance` - Finalize your implementation strategy
+- `question_determine_guidance` - Combined clarification and planning guidance
 - `refactor_guidance` - Get instructions for making changes
-- `lint_guidance` - Learn how to verify your changes
+- `test_guidance` - Guidance for running tests
+- `lint_guidance` - Learn how to verify code quality
 - `iterate_guidance` - Guidance for fixing issues
 - `present_guidance` - How to summarize your work
-- `workflow_status` - Check progress and session state
+
+#### Workflow Management
+- `workflow_status` - Check current progress and session state
 - `phase_output` - Record results from each phase
 - `validate_action` - Ensures files are read before modification
+- `validate_phase_completion` - Check if phase requirements are met
+- `user_input_required_guidance` - Handle escalation scenarios
 - `discover_workflow_tools` - See all available workflow tools
 
 ### The Only Hard Rule
@@ -125,36 +211,161 @@ npm run typecheck
 npm test
 ```
 
+## Architecture Overview
+
+### Technology Stack
+- **Language**: TypeScript
+- **SDK**: @modelcontextprotocol/sdk (v1.0.4)
+- **Transport**: stdio (local only)
+- **State Management**: In-memory session-based
+
+### Key Components
+
+1. **Session Manager** - Tracks workflow progress, file history, and validation states
+2. **Workflow Handler** - Executes workflows with shared logic across types
+3. **Workflow Presets** - Defines configurations for each workflow type
+4. **Tool Implementations** - Individual tool handlers for each MCP tool
+5. **Type System** - Comprehensive TypeScript types for safety
+
+### Design Principles
+
+- **Language/Framework Agnostic** - Works with any programming language
+- **Tool-Name Agnostic** - Describes actions, not specific tool names
+- **Directive Guidance** - Uses "MUST", "REQUIRED" for AI optimization
+- **DRY Architecture** - Shared WorkflowHandler avoids duplication
+- **Backward Compatible** - All original tools still functional
+
 ## How It Works
 
-1. When you connect this MCP server, your AI retains all its existing tools
-2. Our server adds workflow-specific guidance tools
-3. You follow the phase-based workflow for structured refactoring
-4. Session state is maintained in memory during the connection
-5. The only enforcement is the read-before-write safety rule
+1. AI connects to the MCP server via stdio transport
+2. Chooses appropriate workflow type based on task
+3. Follows phase-by-phase guidance using directive instructions
+4. Uses existing tools based on guidance recommendations
+5. Records outputs and progress in real-time
+6. Escalates to user input when iteration limits reached
 
-## Example Workflow
+## Example Workflows
+
+### Refactoring Example
 
 ```
-User: "I need to refactor the user service to use dependency injection"
+User: "Refactor the user service to use dependency injection"
 
-AI: I'll help you refactor the user service. Let me start by creating a plan.
-[Calls plan_workflow]
+AI: I'll help you refactor the user service. Let me start with the refactor workflow.
+[Calls refactor_workflow]
 
-AI: Now I'll begin the AUDIT phase to understand the current implementation.
-[Calls audit_guidance]
-[Uses built-in file reading tools based on guidance]
+AI: Starting AUDIT_INVENTORY phase to analyze and catalog changes...
+[Calls audit_inventory_guidance]
+[Uses file reading and search tools]
+[Documents all required changes]
 
-AI: I've completed my audit. Let me create an inventory of needed changes.
-[Calls inventory_guidance]
-[Documents all required modifications]
+AI: Moving to COMPARE_ANALYZE phase to evaluate approaches...
+[Calls compare_analyze_guidance]
+[Compares different DI patterns]
 
 ... continues through all phases ...
 
-AI: Here's my final summary of the refactoring work completed.
+AI: Here's my final summary with all changes implemented.
 [Calls present_guidance]
-[Provides comprehensive summary]
 ```
+
+### TDD Example
+
+```
+User: "Create a shopping cart module using TDD"
+
+AI: I'll implement the shopping cart using Test-Driven Development.
+[Calls tdd_workflow]
+
+AI: First, I'll write a failing test for adding items...
+[Calls refactor_guidance - for test writing]
+[Writes test]
+
+AI: Running the test to verify it fails...
+[Calls test_guidance]
+[Test fails as expected - Red phase]
+
+AI: Now implementing minimal code to pass...
+[Calls refactor_guidance - for implementation]
+[Writes code]
+
+AI: Running test again...
+[Calls test_guidance]
+[Test passes - Green phase]
+
+... continues with more test cycles ...
+```
+
+## Advanced Features
+
+### Iteration Management
+- Configurable limits per phase (TEST, LINT, ITERATE)
+- Automatic escalation to user input when stuck
+- Prevents infinite loops while maintaining flexibility
+
+### Real-Time Output
+- Generates documentation in `workflow-output/` directory
+- Markdown and JSON formats available
+- Progress tracking and phase artifacts
+
+### Validation System
+- Phase completion requirements
+- Self-check questions for AI verification
+- Blocking messages for critical steps
+
+## Troubleshooting
+
+### Common Issues
+
+1. **"No active session" error**
+   - Start a workflow using one of the workflow entry points first
+
+2. **"Cannot modify file before reading" error**
+   - This is the safety rule - read the file first, then modify
+
+3. **Iteration limit reached**
+   - The system will prompt for user input
+   - You can continue, skip, or modify requirements
+
+4. **Workflow selection**
+   - Use `refactor_workflow` for code improvements
+   - Use `create_feature_workflow` for new functionality
+   - Use `test_workflow` for adding tests
+   - Use `tdd_workflow` for test-first development
+
+## Contributing
+
+This is an open-source project and contributions are welcome! 
+
+### How to Contribute
+
+1. **Fork the repository** - Create your own fork to work on
+2. **Create a feature branch** - `git checkout -b feature/your-feature-name`
+3. **Make your changes** - Ensure TypeScript types are properly defined
+4. **Test your changes** - Add tests for new features
+5. **Submit a Pull Request** - Include a clear description of changes
+
+### Contribution Guidelines
+
+- Follow the existing code patterns and architecture
+- Maintain the "Guide, Don't Gate" philosophy
+- Update documentation for new features
+- Include tests for new functionality
+- Keep the tool language/framework agnostic
+
+### Reporting Issues
+
+Found a bug or have a feature request? Please open an issue on GitHub with:
+- Clear description of the problem or feature
+- Steps to reproduce (for bugs)
+- Expected vs actual behavior
+- Your environment details (OS, AI platform, etc.)
+
+## Version History
+
+- **v0.2.1** - First published open-source release with multiple workflow types
+- **v0.2.0** - Added workflow presets and enhanced guidance
+- **v0.1.0** - Initial development version with basic workflow support
 
 ## License
 
