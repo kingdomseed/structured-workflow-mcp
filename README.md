@@ -77,7 +77,7 @@ I'm sharing this in case others have similar frustrations. Contributions, improv
 
 ### 📦 Global Installation (Optional)
 
-For better performance, install globally first:
+You can install globally (local) first:
 
 ```bash
 npm install -g structured-workflow-mcp
@@ -100,7 +100,7 @@ Then use in your AI assistant config:
 
 ### ⚡ Auto-Install via Smithery
 
-For Claude Desktop users:
+For Claude Desktop users (Smithery has other options like direct add to Cursor):
 
 ```bash
 npx -y @smithery/cli install structured-workflow-mcp --client claude
