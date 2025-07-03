@@ -24,10 +24,10 @@ export function createBuildCustomWorkflowTool(): Tool {
           type: 'array',
           items: {
             type: 'string',
-            enum: ['AUDIT_INVENTORY', 'COMPARE_ANALYZE', 'QUESTION_DETERMINE', 'WRITE_REFACTOR', 'TEST', 'LINT', 'ITERATE', 'PRESENT']
+            enum: ['AUDIT_INVENTORY', 'COMPARE_ANALYZE', 'QUESTION_DETERMINE', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'ITERATE', 'PRESENT']
           },
           description: 'Select which phases to include in your workflow',
-          default: ['AUDIT_INVENTORY', 'WRITE_REFACTOR', 'TEST', 'LINT', 'PRESENT']
+          default: ['AUDIT_INVENTORY', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'PRESENT']
         },
         iterationLimits: {
           type: 'object',
@@ -121,7 +121,7 @@ async function buildCustomWorkflowImplementation(
   sessionManager: SessionManager
 ) {
   // Set defaults for optional parameters
-  const selectedPhases = params.selectedPhases || ['AUDIT_INVENTORY', 'WRITE_REFACTOR', 'TEST', 'LINT', 'PRESENT'];
+  const selectedPhases = params.selectedPhases || ['AUDIT_INVENTORY', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'PRESENT'];
   const iterationLimits = {
     TEST: 5,
     LINT: 10,
@@ -287,7 +287,7 @@ function getPhaseDescription(phase: Phase): string {
     AUDIT_INVENTORY: 'Read, analyze code and catalog all required changes',
     COMPARE_ANALYZE: 'Evaluate different implementation approaches',
     QUESTION_DETERMINE: 'Clarify ambiguities and finalize implementation strategy',
-    WRITE_REFACTOR: 'Implement the planned changes',
+    WRITE_OR_REFACTOR: 'Implement the planned changes',
     TEST: 'Execute tests and validate functionality',
     LINT: 'Verify code quality and standards',
     ITERATE: 'Fix issues found during testing and linting',
@@ -304,7 +304,7 @@ function estimateWorkflowDuration(phases: Phase[]): number {
     AUDIT_INVENTORY: 25,  // Combined time for audit + inventory
     COMPARE_ANALYZE: 10,
     QUESTION_DETERMINE: 15,  // Combined time for question + determine
-    WRITE_REFACTOR: 30,
+    WRITE_OR_REFACTOR: 30,
     TEST: 15,
     LINT: 10,
     ITERATE: 20,

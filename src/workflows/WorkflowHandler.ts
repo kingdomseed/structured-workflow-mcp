@@ -159,7 +159,7 @@ function getPhaseConfigurations(workflowType: WorkflowType): Record<string, any>
       estimatedDuration: '5-10 minutes',
       guidanceTool: 'question_determine_guidance'
     },
-    WRITE_REFACTOR: (() => {
+    WRITE_OR_REFACTOR: (() => {
       if (workflowType === 'test') {
         return {
           purpose: 'Write comprehensive tests',
@@ -261,7 +261,7 @@ function getPhaseConfigurations(workflowType: WorkflowType): Record<string, any>
 
   // Customize for TDD workflow
   if (workflowType === 'tdd') {
-    baseConfigs.WRITE_REFACTOR = {
+    baseConfigs.WRITE_OR_REFACTOR = {
       purpose: 'Write failing test / Write implementation / Refactor',
       keyActions: [
         'First pass: Write a failing test',

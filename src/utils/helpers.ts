@@ -35,7 +35,7 @@ export function getNextPhase(currentPhase: Phase): Phase | null {
     'AUDIT_INVENTORY',
     'COMPARE_ANALYZE',
     'QUESTION_DETERMINE',
-    'WRITE_REFACTOR',
+    'WRITE_OR_REFACTOR',
     'TEST',
     'LINT',
     'ITERATE',
@@ -58,7 +58,7 @@ export function generateNextStepSuggestions(_completedPhases: Phase[], currentPh
     AUDIT_INVENTORY: 'Use compare_analyze_guidance to evaluate different approaches',
     COMPARE_ANALYZE: 'Use question_determine_guidance to clarify and finalize your strategy',
     QUESTION_DETERMINE: 'Use refactor_guidance to start implementing changes',
-    WRITE_REFACTOR: 'Use test_guidance to verify functionality after changes',
+    WRITE_OR_REFACTOR: 'Use test_guidance to verify functionality after changes',
     TEST: 'Use lint_guidance to verify code quality',
     LINT: 'Use iterate_guidance if issues were found, or present_guidance if ready',
     ITERATE: 'Use lint_guidance again to verify fixes, or present_guidance when done',
@@ -72,7 +72,7 @@ export function generateNextStepSuggestions(_completedPhases: Phase[], currentPh
   }
   
   // Add reminders based on current phase
-  if (currentPhase === 'WRITE_REFACTOR') {
+  if (currentPhase === 'WRITE_OR_REFACTOR') {
     suggestions.push('Remember to read files before modifying them');
     suggestions.push('Test your changes incrementally');
   }

@@ -40,7 +40,7 @@ export async function handleDiscoverWorkflowTools() {
           purpose: 'Systematic code improvement without changing functionality',
           whenToUse: 'Refactoring, code cleanup, applying patterns, removing code smells',
           example: 'refactor_workflow({ task: "Extract authentication into a separate service" })',
-          phases: 'AUDIT_INVENTORY → COMPARE_ANALYZE → QUESTION_DETERMINE → WRITE_REFACTOR → LINT → ITERATE → PRESENT',
+          phases: 'AUDIT_INVENTORY → COMPARE_ANALYZE → QUESTION_DETERMINE → WRITE_OR_REFACTOR → LINT → ITERATE → PRESENT',
           keyBenefit: 'Deep understanding before changes'
         },
         {
@@ -48,7 +48,7 @@ export async function handleDiscoverWorkflowTools() {
           purpose: 'Add new functionality with integrated testing',
           whenToUse: 'New features, API endpoints, UI components, modules',
           example: 'create_feature_workflow({ task: "Add user profile management" })',
-          phases: 'PLANNING → QUESTION_DETERMINE → WRITE_REFACTOR → TEST → LINT → ITERATE → PRESENT',
+          phases: 'PLANNING → QUESTION_DETERMINE → WRITE_OR_REFACTOR → TEST → LINT → ITERATE → PRESENT',
           keyBenefit: 'Built-in quality assurance'
         },
         {
@@ -99,7 +99,7 @@ export async function handleDiscoverWorkflowTools() {
         {
           name: 'refactor_guidance',
           purpose: 'Implement changes or write code',
-          phase: 'WRITE_REFACTOR'
+          phase: 'WRITE_OR_REFACTOR'
         },
         {
           name: 'test_guidance',

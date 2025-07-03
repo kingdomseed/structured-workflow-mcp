@@ -119,7 +119,7 @@ tdd_workflow({
 ```javascript
 build_custom_workflow({
   task: "Complex refactoring with custom phases",
-  selectedPhases: ["AUDIT_INVENTORY", "COMPARE_ANALYZE", "WRITE_REFACTOR", "LINT", "PRESENT"],
+  selectedPhases: ["AUDIT_INVENTORY", "COMPARE_ANALYZE", "WRITE_OR_REFACTOR", "LINT", "PRESENT"],
   iterationLimits: { TEST: 10, LINT: 15, ITERATE: 20 }
 })
 ```
@@ -132,7 +132,7 @@ Different workflows use different phase sequences:
 1. **AUDIT_INVENTORY** - Analyze code AND catalog all required changes
 2. **COMPARE_ANALYZE** - Evaluate different approaches
 3. **QUESTION_DETERMINE** - Clarify requirements AND finalize plan
-4. **WRITE_REFACTOR** - Implement changes
+4. **WRITE_OR_REFACTOR** - Implement changes
 5. **LINT** - Verify code quality
 6. **ITERATE** - Fix issues
 7. **PRESENT** - Summarize work
@@ -140,7 +140,7 @@ Different workflows use different phase sequences:
 #### Feature Workflow
 1. **PLANNING** - Create comprehensive plan
 2. **QUESTION_DETERMINE** - Clarify and finalize approach
-3. **WRITE_REFACTOR** - Implement new functionality
+3. **WRITE_OR_REFACTOR** - Implement new functionality
 4. **TEST** - Run tests to verify
 5. **LINT** - Check code quality
 6. **ITERATE** - Fix any issues
@@ -149,18 +149,18 @@ Different workflows use different phase sequences:
 #### Test Workflow
 1. **AUDIT_INVENTORY** - Understand what needs testing
 2. **QUESTION_DETERMINE** - Plan test strategy
-3. **WRITE_REFACTOR** - Write tests
+3. **WRITE_OR_REFACTOR** - Write tests
 4. **TEST** - Run tests
 5. **ITERATE** - Fix failing tests
 6. **PRESENT** - Summarize coverage
 
 #### TDD Workflow
 1. **PLANNING** - Plan the feature
-2. **WRITE_REFACTOR** - Write failing test
+2. **WRITE_OR_REFACTOR** - Write failing test
 3. **TEST** - Verify test fails (Red)
-4. **WRITE_REFACTOR** - Write implementation
+4. **WRITE_OR_REFACTOR** - Write implementation
 5. **TEST** - Verify test passes (Green)
-6. **WRITE_REFACTOR** - Refactor (optional)
+6. **WRITE_OR_REFACTOR** - Refactor (optional)
 7. **LINT** - Final quality check
 8. **PRESENT** - Summarize work
 

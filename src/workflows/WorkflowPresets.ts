@@ -27,7 +27,7 @@ export const WORKFLOW_PRESETS: Record<WorkflowType, WorkflowPreset> = {
       'AUDIT_INVENTORY',
       'COMPARE_ANALYZE', 
       'QUESTION_DETERMINE',
-      'WRITE_REFACTOR',
+      'WRITE_OR_REFACTOR',
       'LINT',
       'ITERATE',
       'PRESENT'
@@ -59,7 +59,7 @@ export const WORKFLOW_PRESETS: Record<WorkflowType, WorkflowPreset> = {
     phases: [
       'PLANNING',
       'QUESTION_DETERMINE',
-      'WRITE_REFACTOR',
+      'WRITE_OR_REFACTOR',
       'TEST',
       'LINT',
       'ITERATE',
@@ -92,7 +92,7 @@ export const WORKFLOW_PRESETS: Record<WorkflowType, WorkflowPreset> = {
     phases: [
       'AUDIT_INVENTORY',  // Understand what needs testing
       'QUESTION_DETERMINE',  // Plan test strategy
-      'WRITE_REFACTOR',  // Write tests (using WRITE_REFACTOR with test context)
+      'WRITE_OR_REFACTOR',  // Write tests (writing tests)
       'TEST',  // Run tests
       'ITERATE',  // Fix failing tests
       'PRESENT'
@@ -123,11 +123,11 @@ export const WORKFLOW_PRESETS: Record<WorkflowType, WorkflowPreset> = {
     type: 'tdd',
     phases: [
       'PLANNING',
-      'WRITE_REFACTOR',  // Write failing test
+      'WRITE_OR_REFACTOR',  // Write failing test
       'TEST',  // Verify test fails
-      'WRITE_REFACTOR',  // Write implementation
+      'WRITE_OR_REFACTOR',  // Write implementation
       'TEST',  // Verify test passes
-      'WRITE_REFACTOR',  // Refactor if needed
+      'WRITE_OR_REFACTOR',  // Refactor if needed
       'LINT',
       'PRESENT'
     ],

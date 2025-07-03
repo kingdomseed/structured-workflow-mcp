@@ -182,9 +182,9 @@ export async function handleTestGuidance(
       : 'If all tests pass, use lint_guidance. If tests fail, use iterate_guidance',
 
     prerequisites: {
-      completed: ['WRITE_REFACTOR'],
-      warning: !session.completedPhases.includes('WRITE_REFACTOR') 
-        ? '⚠️ WARNING: WRITE_REFACTOR phase not completed. Tests may not reflect recent changes.' 
+      completed: ['WRITE_OR_REFACTOR'],
+      warning: !session.completedPhases.includes('WRITE_OR_REFACTOR') 
+        ? '⚠️ WARNING: WRITE_OR_REFACTOR phase not completed. Tests may not reflect recent changes.' 
         : null
     }
   };

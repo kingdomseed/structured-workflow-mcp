@@ -1,9 +1,12 @@
-/**
- * Jest configuration for TypeScript using ts-jest
- */
+// Jest configuration for TypeScript projects using ts-jest (CommonJS export)
 
-export const preset = 'ts-jest';
-export const testEnvironment = 'node';
-export const roots = ['<rootDir>/src'];
-export const testMatch = ['**/__tests__/**/*.+(ts|tsx|js)', '**/?(*.)+(spec|test).+(ts|tsx|js)'];
-export const moduleFileExtensions = ['ts', 'js', 'json', 'node'];
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  roots: ['<rootDir>/src', '<rootDir>/refactor-test'],
+  testMatch: [
+    '**/__tests__/**/*.+(ts|tsx|js)',
+    '**/?(*.)+(spec|test).+(ts|tsx|js)'
+  ],
+  moduleFileExtensions: ['ts', 'js', 'json', 'node']
+};

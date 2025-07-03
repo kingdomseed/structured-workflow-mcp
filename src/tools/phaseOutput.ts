@@ -12,7 +12,7 @@ export function createPhaseOutputTool(): Tool {
         phase: {
           type: 'string',
           enum: ['AUDIT_INVENTORY', 'COMPARE_ANALYZE', 'QUESTION_DETERMINE', 
-                 'WRITE_REFACTOR', 'TEST', 'LINT', 'ITERATE', 'PRESENT'],
+                 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'ITERATE', 'PRESENT'],
           description: 'The phase you are completing'
         },
         output: {

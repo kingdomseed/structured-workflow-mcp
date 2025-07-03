@@ -3,7 +3,7 @@ export type Phase =
   | 'AUDIT_INVENTORY'
   | 'COMPARE_ANALYZE'
   | 'QUESTION_DETERMINE'
-  | 'WRITE_REFACTOR'
+  | 'WRITE_OR_REFACTOR'
   | 'TEST'
   | 'LINT'
   | 'ITERATE'

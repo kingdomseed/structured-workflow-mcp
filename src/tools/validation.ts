@@ -31,7 +31,7 @@ export function createValidationTools(): Tool[] {
         properties: {
           phase: {
             type: 'string',
-            enum: ['AUDIT_INVENTORY', 'COMPARE_ANALYZE', 'QUESTION_DETERMINE', 'WRITE_REFACTOR', 'TEST', 'LINT', 'ITERATE', 'PRESENT'],
+            enum: ['AUDIT_INVENTORY', 'COMPARE_ANALYZE', 'QUESTION_DETERMINE', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'ITERATE', 'PRESENT'],
             description: 'The phase to validate'
           },
           completedWork: {
@@ -235,7 +235,7 @@ function getValidationCriteriaForPhase(phase: Phase, outputDir: string): Validat
       ]
     },
 
-    WRITE_REFACTOR: {
+    WRITE_OR_REFACTOR: {
       minimumRequirements: {
         filesModified: true,
         changesDocumented: true,
@@ -250,8 +250,8 @@ function getValidationCriteriaForPhase(phase: Phase, outputDir: string): Validat
         '⛔ Required documentation not created'
       ],
       expectedFiles: [
-        `${outputDir}/03-refactor-progress.md`,
-        `${outputDir}/03-refactor-changes.json`
+        `${outputDir}/03-write-progress.md`,
+        `${outputDir}/03-write-changes.json`
       ],
       selfCheckQuestions: [
         'Have I read all files before modifying them?',
@@ -447,7 +447,7 @@ function performPhaseValidation(
 
 function getNextPhaseRecommendation(currentPhase: Phase, session: any): string {
   const config = session.workflowConfig;
-  const selectedPhases = config?.selectedPhases || ['AUDIT_INVENTORY', 'WRITE_REFACTOR', 'TEST', 'LINT', 'PRESENT'];
+  const selectedPhases = config?.selectedPhases || ['AUDIT_INVENTORY', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'PRESENT'];
   
   const currentIndex = selectedPhases.indexOf(currentPhase);
   if (currentIndex === -1 || currentIndex === selectedPhases.length - 1) {

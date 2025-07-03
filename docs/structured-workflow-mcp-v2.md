@@ -473,7 +473,7 @@ DETERMINE_PLAN:
     - implementation_steps: Ordered list of changes
     - success_criteria: How to measure completion
 
-WRITE_REFACTOR:
+WRITE_OR_REFACTOR:
   trigger: refactor_guidance tool
   purpose: Implement the planned changes
   activities: Use file editing tools to modify code

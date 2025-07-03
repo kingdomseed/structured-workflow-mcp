@@ -87,12 +87,12 @@
 ### Available Workflows
 
 1. **refactor_workflow**
-   - Phases: AUDIT_INVENTORY → COMPARE_ANALYZE → QUESTION_DETERMINE → WRITE_REFACTOR → LINT → ITERATE → PRESENT
+   - Phases: AUDIT_INVENTORY → COMPARE_ANALYZE → QUESTION_DETERMINE → WRITE_OR_REFACTOR → LINT → ITERATE → PRESENT
    - Best for: Code cleanup, applying patterns, removing code smells
    - Iteration limits: LINT: 15, ITERATE: 20
 
 2. **create_feature_workflow**  
-   - Phases: PLANNING → QUESTION_DETERMINE → WRITE_REFACTOR → TEST → LINT → ITERATE → PRESENT
+   - Phases: PLANNING → QUESTION_DETERMINE → WRITE_OR_REFACTOR → TEST → LINT → ITERATE → PRESENT
    - Best for: New features, API endpoints, UI components
    - Iteration limits: TEST: 10, LINT: 10, ITERATE: 15
 

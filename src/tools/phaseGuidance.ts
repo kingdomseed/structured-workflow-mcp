@@ -193,7 +193,7 @@ function getSuggestiveGuidance(
     },
     
     refactor_guidance: {
-      phase: 'WRITE_REFACTOR',
+      phase: 'WRITE_OR_REFACTOR',
       objective: 'Implement the planned changes',
       instructions: [
         'Follow your implementation plan from DETERMINE_PLAN',
@@ -522,7 +522,7 @@ function getDirectiveGuidance(
     },
 
     refactor_guidance: {
-      phase: 'WRITE_REFACTOR',
+      phase: 'WRITE_OR_REFACTOR',
       objective: 'Implement planned changes systematically - CRITICAL EXECUTION PHASE',
 
       directiveInstructions: [

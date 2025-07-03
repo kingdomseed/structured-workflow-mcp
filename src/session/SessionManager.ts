@@ -250,7 +250,7 @@ export class SessionManager {
     const checkpoints = this.session.workflowConfig.userCheckpoints;
     
     // Check specific checkpoint configurations
-    if (checkpoints.beforeMajorChanges && phase === 'WRITE_REFACTOR') {
+    if (checkpoints.beforeMajorChanges && phase === 'WRITE_OR_REFACTOR') {
       return true;
     }
     
@@ -274,7 +274,7 @@ export class SessionManager {
     if (!this.session) return null;
     
     const config = this.session.workflowConfig;
-    const selectedPhases = config?.selectedPhases || ['AUDIT', 'INVENTORY', 'WRITE_REFACTOR', 'TEST', 'LINT', 'PRESENT'];
+    const selectedPhases = config?.selectedPhases || ['AUDIT', 'INVENTORY', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'PRESENT'];
     
     return {
       sessionId: this.session.id,
