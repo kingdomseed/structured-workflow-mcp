@@ -7,15 +7,16 @@ An MCP server that enforces disciplined programming practices by requiring AI as
 
 ## Why I Built This
 
-**TLDR**: I found that prompting with these two words: INVENTORY and AUDIT, make AI think systematically and follow structured phases in development, but got tired of repeating them across every platform and prompt - so I built this MCP server to enforce this discipline automatically.
+**TLDR**: I found that prompting with these two words: inventory and audit, helped make the AI think systematically and follow structured phases in development, but got tired of repeating them across every platform and prompt - so I built this MCP server to enforce this discipline automatically.
 
-After a year of heavy AI development usage, I got frustrated with AI not thinking through problems the way I do.
+**The Details**:
+Like many of you, over the last year of learning to use AI in development, I got frustrated with AI not thinking through problems the way I do.
 
 When I approach a problem, I ask: How are these components connected? How do they relate to other systems? What side effects will this change produce? What steps ensure success? What already exists in my codebase?
 
-AI skips this analysis. It jumps into code changes without understanding the system it's building into. It creates new classes and folder structures when they already exist. It adds code without understanding component relationships or potential side effects.
+AI skips this analysis. It jumps into code changes without understanding the system it's building into. It creates new classes and folder structures when they already exist. It adds code without understanding component relationships or potential side effects. The result was usually duplicated classes, functions, unused helpers, and other code that didn't fit the system I was working on.
 
-Planning modes helped, but didn't always force the AI to break down the problem properly, especially in larger existing codebases. Eventually I discovered two key words: inventory and audit. Forcing AI to INVENTORY and AUDIT before acting was the key to getting the model to be thorough and disciplined in understanding the system it was building into. *But* I had to keep repeating these instructions across multiple prompts and different AI platforms. I spent time with each of these - Cursor, Windsurf, Claude Code, Cline - a lot of time and a lot of tokens trying to get consistent the models to follow clear steps to arrive at a proper solution that fits the system it's building into.
+Planning modes helped, but didn't always force the AI to break down the problem properly, especially in larger existing codebases. Eventually I discovered two key words: inventory and audit. Forcing AI to INVENTORY and AUDIT before acting was the key to getting the model to be thorough and disciplined in understanding the system it was working on. *But* I had to keep repeating these instructions across multiple prompts and different AI platforms.
 
 I looked for existing MCP tools but didn't find anything quite like what I needed. The [Sequential Thinking MCP server](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking) was inspiring (and I still use this a lot), but I needed something that went further - forcing AI to follow structured phases and produce verifiable output before proceeding.
 
@@ -42,89 +43,47 @@ I'm sharing this in case others have similar frustrations. Contributions, improv
 
 ## Installation
 
-### Installing via NPM (Recommended)
+### 🚀 Quick Start (Recommended) - Zero Installation
 
-Install globally for use with any AI assistant:
+**Add to your AI assistant config** - Uses npx automatically:
 
-```bash
-npm install -g @kingdomseed/structured-workflow-mcp
-```
-
-Or run directly with npx (no installation required):
-
-```bash
-npx @kingdomseed/structured-workflow-mcp
-```
-
-### Installing via Smithery
-
-To install structured-workflow-mcp for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@kingdomseed/structured-workflow-mcp):
-
-```bash
-npx -y @smithery/cli install @kingdomseed/structured-workflow-mcp --client claude
-```
-
-### Manual Installation
-```bash
-# Clone the repository
-git clone https://github.com/kingdomseed/structured-workflow-mcp
-cd structured-workflow-mcp
-
-# Install dependencies and build
-npm install
-npm run build
-```
-
-## Configuration
-
-### Claude Desktop
-
-#### If installed via NPM globally:
-Add to your `claude_desktop_config.json`:
-
+**VS Code / Cursor / Windsurf** - Add to your MCP settings:
 ```json
 {
-  "mcpServers": {
-    "structured-workflow": {
-      "command": "structured-workflow-mcp",
-      "args": [],
-      "env": {}
+  "mcp": {
+    "servers": {
+      "structured-workflow": {
+        "command": "npx",
+        "args": ["structured-workflow-mcp"],
+        "env": {}
+      }
     }
   }
 }
 ```
 
-#### If using npx (no installation required):
+**Claude Desktop** - Add to your `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
     "structured-workflow": {
       "command": "npx",
-      "args": ["@kingdomseed/structured-workflow-mcp"],
+      "args": ["structured-workflow-mcp"],
       "env": {}
     }
   }
 }
 ```
 
-#### If installed manually:
-```json
-{
-  "mcpServers": {
-    "structured-workflow": {
-      "command": "node",
-      "args": ["/path/to/your/download/dist/index.js"],
-      "env": {}
-    }
-  }
-}
+### 📦 Global Installation (Optional)
+
+For better performance, install globally first:
+
+```bash
+npm install -g structured-workflow-mcp
 ```
 
-### VS Code / Cursor / Windsurf
-
-#### If installed via NPM globally:
-Add to your MCP configuration:
-
+Then use in your AI assistant config:
 ```json
 {
   "mcp": {
@@ -139,35 +98,32 @@ Add to your MCP configuration:
 }
 ```
 
-#### If using npx (no installation required):
-```json
-{
-  "mcp": {
-    "servers": {
-      "structured-workflow": {
-        "command": "npx",
-        "args": ["@kingdomseed/structured-workflow-mcp"],
-        "env": {}
-      }
-    }
-  }
-}
+### ⚡ Auto-Install via Smithery
+
+For Claude Desktop users:
+
+```bash
+npx -y @smithery/cli install structured-workflow-mcp --client claude
 ```
 
-#### Short alias (if installed globally):
-```json
-{
-  "mcp": {
-    "servers": {
-      "structured-workflow": {
-        "command": "swmcp",
-        "args": [],
-        "env": {}
-      }
-    }
-  }
-}
+### 🛠️ Manual Installation
+
+For developers:
+
+```bash
+git clone https://github.com/kingdomseed/structured-workflow-mcp
+cd structured-workflow-mcp
+npm install && npm run build
 ```
+
+## Usage
+
+Once configured in your AI assistant, start with these workflow tools:
+
+- `mcp__structured-workflow__build_custom_workflow` - Create custom workflows 
+- `mcp__structured-workflow__refactor_workflow` - Structured refactoring
+- `mcp__structured-workflow__create_feature_workflow` - Feature development
+- `mcp__structured-workflow__test_workflow` - Test coverage workflows
 
 ## Example Output Artifacts
 
