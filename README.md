@@ -20,8 +20,6 @@ So I built this for myself. I need this kind of disciplined workflow. If others 
 
 I'm sharing this in case others have similar frustrations. Contributions, improvements, and discussion are welcome.
 
-**TLDR**: I found the magic words (INVENTORY and AUDIT) that make AI think systematically, but got tired of repeating them across every platform and prompt - so I built a server that enforces this discipline automatically.
-
 ## Features
 
 **Enforced Workflow Phases** - AI must complete specific phases in order (audit, analysis, planning, implementation, testing, etc.)
