@@ -9,7 +9,7 @@ This prompt is designed to test the Structured Workflow MCP Server's ability to 
 - **Location**: `/refactor-test/src/UserService.ts`
 - **Purpose**: Test the MCP server's workflow guidance for refactoring
 - **Test Type**: SOLID principles compliance and refactoring
-- **MCP Server**: Structured Workflow MCP Server v2.0
+- **MCP Server**: Structured Workflow MCP Server v0.2.1
 
 ## Your Task
 
@@ -25,8 +25,11 @@ Analyze the UserService class in the refactor-test folder and use the Structured
 ### 1. Use MCP Server Tools
 Start by using the MCP server's workflow tools:
 - Begin with `mcp__structured-workflow__refactor_workflow` to start the refactoring workflow
-- Follow the guidance provided by each phase tool
+- Follow the guidance provided by each phase tool (`mcp__structured-workflow__audit_inventory_guidance`, etc.)
 - Allow the MCP server to guide you through the workflow phases
+- **IMPORTANT**: Use `mcp__structured-workflow__phase_output` to record your work with actual output artifacts after each phase
+
+**Note**: Different AI platforms may add prefixes to tool names (like `mcp_` or `mcp7_`). If you get "Unknown tool" errors, your platform may require a prefix. Check the available tools list or use `mcp__structured-workflow__discover_workflow_tools` for guidance.
 
 ### 2. Directory Structure
 ```
@@ -53,14 +56,15 @@ Verify and fix violations of:
 ### 4. Expected Workflow Phases
 
 The MCP server should guide you through:
-1. **AUDIT**: Analyze the existing code without modifying it
-2. **INVENTORY**: Catalog all SOLID violations and needed changes
-3. **COMPARE/ANALYZE**: Evaluate different refactoring approaches
-4. **DETERMINE/PLAN**: Finalize your refactoring strategy
-5. **WRITE/REFACTOR**: Implement the refactored solution
-6. **LINT**: Verify code quality
-7. **ITERATE**: Fix any issues
-8. **PRESENT**: Summarize the refactoring work
+1. **PLANNING**: Initial workflow setup and planning
+2. **AUDIT_INVENTORY**: Analyze existing code and catalog all SOLID violations
+3. **COMPARE_ANALYZE**: Evaluate different refactoring approaches
+4. **QUESTION_DETERMINE**: Clarify ambiguities and finalize refactoring strategy
+5. **WRITE_OR_REFACTOR**: Implement the refactored solution
+6. **TEST**: Run tests to verify functionality
+7. **LINT**: Verify code quality
+8. **ITERATE**: Fix any issues from testing or linting
+9. **PRESENT**: Summarize the refactoring work
 
 ## Constraints
 
@@ -69,6 +73,33 @@ The MCP server should guide you through:
 3. **DO maintain** all existing functionality
 4. **DO ensure** all original tests still pass with your refactored code
 5. **DO follow** the MCP server's workflow guidance
+6. **DO provide output artifacts** - The MCP server now requires actual documentation/output when completing each phase
+
+### 5. Output Artifact Requirements
+
+The MCP server now enforces that you provide actual output artifacts when completing each phase. You have two options:
+
+**Option 1 - Create Files:**
+```json
+{
+  "path": "/path/to/analysis.md",
+  "format": "markdown",
+  "description": "SOLID violations analysis",
+  "content": "# Analysis\n\n## Violations Found\n..."
+}
+```
+
+**Option 2 - Provide Structured JSON:**
+```json
+{
+  "path": "audit-inventory-results",
+  "format": "json", 
+  "description": "Structured analysis of SOLID violations",
+  "content": "{\"violations\": [...], \"recommendations\": [...]}"
+}
+```
+
+The MCP server will validate that your artifacts contain meaningful content and are properly formatted.
 
 ## Expected Deliverables
 
@@ -88,10 +119,12 @@ The MCP server should guide you through:
 
 The test is successful if:
 1. The MCP server correctly identifies all SOLID violations
-2. The workflow guides through all appropriate phases
-3. The refactored code properly separates concerns
-4. All original functionality is preserved
-5. The refactored code is more maintainable and testable
+2. The workflow guides through all appropriate phases with proper output artifacts
+3. Each phase completion includes valid output artifacts (files OR structured JSON)
+4. The refactored code properly separates concerns
+5. All original functionality is preserved
+6. The refactored code is more maintainable and testable
+7. The MCP server's output artifact validation passes for each phase
 
 ## Getting Started
 
