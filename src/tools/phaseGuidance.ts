@@ -100,7 +100,9 @@ function getSuggestiveGuidance(
         'This combined phase gives you a complete understanding before any changes',
         'The audit informs the inventory - they work together',
         'Take detailed notes using any format (text, diagrams, etc.)',
-        'The more thorough your analysis and cataloging, the smoother the implementation'
+        'The more thorough your analysis and cataloging, the smoother the implementation',
+        '⚠️ CRITICAL: You MUST create actual documentation artifacts (like analysis.md, plan.json, etc.)',
+        '⚠️ CRITICAL: When using phase_output, you MUST provide the outputArtifacts array with actual output content (files OR structured JSON)'
       ],
       expectedOutput: {
         // Audit outputs
@@ -115,7 +117,7 @@ function getSuggestiveGuidance(
         risks: 'Potential issues or breaking changes',
         priority: 'Suggested order of implementation'
       },
-      nextPhase: 'After completing analysis and cataloging, use compare_analyze_guidance (note: your platform may require a prefix like mcp7_compare_analyze_guidance)'
+      nextPhase: 'After completing analysis and cataloging, use compare_analyze_guidance. REMEMBER: You cannot proceed to the next phase without calling phase_output with actual outputArtifacts (your analysis documents, JSON files, etc.)'
     },
     
     compare_analyze_guidance: {
