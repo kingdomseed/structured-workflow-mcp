@@ -40,6 +40,61 @@ I'm sharing this in case others have similar frustrations. Contributions, improv
 
 **Session State Management** - Tracks progress and prevents skipping phases
 
+## Installation
+
+### Installing via Smithery
+
+To install structured-workflow-mcp for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@kingdomseed/structured-workflow-mcp):
+
+```bash
+npx -y @smithery/cli install @kingdomseed/structured-workflow-mcp --client claude
+```
+
+### Manual Installation
+```bash
+# Clone the repository
+git clone https://github.com/kingdomseed/structured-workflow-mcp
+cd structured-workflow-mcp
+
+# Install dependencies and build
+npm install
+npm run build
+```
+
+## Configuration
+
+### Claude Desktop
+Add to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "structured-workflow": {
+      "command": "node",
+      "args": ["/path/to/your/download/dist/index.js"],
+      "env": {}
+    }
+  }
+}
+```
+
+### VS Code / Cursor / Windsurf
+Add to your MCP configuration:
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "structured-workflow": {
+        "command": "node",
+        "args": ["/path/to/your/download/dist/index.js"],
+        "env": {}
+      }
+    }
+  }
+}
+```
+
 ## Example Output Artifacts
 
 The server enforces that AI produces structured outputs like these:
@@ -89,59 +144,6 @@ The server enforces that AI produces structured outputs like these:
 ```
 
 Each phase requires documented analysis and planning before the AI can proceed to implementation.
-
-## Installation
-
-### Installing via Smithery
-
-To install structured-workflow-mcp for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@kingdomseed/structured-workflow-mcp):
-
-```bash
-npx -y @smithery/cli install @kingdomseed/structured-workflow-mcp --client claude
-```
-
-### Manual Installation
-```bash
-# Clone the repository
-git clone https://github.com/kingdomseed/structured-workflow-mcp
-cd structured-workflow-mcp
-
-# Install dependencies and build
-npm install
-npm run build
-```
-
-## Configuration
-
-### Claude Desktop
-Add to your `claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "structured-workflow": {
-      "command": "node",
-      "args": ["/path/to/structured-workflow-mcp/dist/index.js"]
-    }
-  }
-}
-```
-
-### VS Code / Cursor / Windsurf
-Add to your MCP configuration:
-
-```json
-{
-  "mcp": {
-    "servers": {
-      "structured-workflow": {
-        "command": "node",
-        "args": ["/path/to/structured-workflow-mcp/dist/index.js"]
-      }
-    }
-  }
-}
-```
 
 ## Tools
 
