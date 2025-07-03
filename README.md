@@ -1,6 +1,7 @@
 # Structured Workflow MCP Server
 
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://coff.ee/jasonholtdigital)
+[![smithery badge](https://smithery.ai/badge/@kingdomseed/structured-workflow-mcp)](https://smithery.ai/server/@kingdomseed/structured-workflow-mcp)
 
 An MCP server that enforces disciplined programming practices by requiring AI assistants to audit their work and produce verified outputs at each phase of development.
 
@@ -91,6 +92,15 @@ Each phase requires documented analysis and planning before the AI can proceed t
 
 ## Installation
 
+### Installing via Smithery
+
+To install structured-workflow-mcp for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@kingdomseed/structured-workflow-mcp):
+
+```bash
+npx -y @smithery/cli install @kingdomseed/structured-workflow-mcp --client claude
+```
+
+### Manual Installation
 ```bash
 # Clone the repository
 git clone https://github.com/kingdomseed/structured-workflow-mcp
