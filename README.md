@@ -43,7 +43,7 @@ I'm sharing this in case others have similar frustrations. Contributions, improv
 
 ## Installation
 
-### 🚀 Quick Start (Recommended) - Zero Installation
+### Quick Start (Recommended) - Zero Installation
 
 **Add to your AI assistant config** - Uses npx automatically:
 
@@ -75,7 +75,7 @@ I'm sharing this in case others have similar frustrations. Contributions, improv
 }
 ```
 
-### 📦 Global Installation (Optional)
+### Global Installation (Optional)
 
 You can install globally (local) first:
 
@@ -98,7 +98,7 @@ Then use in your AI assistant config:
 }
 ```
 
-### ⚡ Auto-Install via Smithery
+### Auto-Install via Smithery
 
 For Claude Desktop users (Smithery has other options like direct add to Cursor):
 
@@ -106,7 +106,7 @@ For Claude Desktop users (Smithery has other options like direct add to Cursor):
 npx -y @smithery/cli install structured-workflow-mcp --client claude
 ```
 
-### 🛠️ Manual Installation
+### Manual Installation
 
 For developers:
 
