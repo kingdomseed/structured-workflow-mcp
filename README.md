@@ -42,6 +42,20 @@ I'm sharing this in case others have similar frustrations. Contributions, improv
 
 ## Installation
 
+### Installing via NPM (Recommended)
+
+Install globally for use with any AI assistant:
+
+```bash
+npm install -g @kingdomseed/structured-workflow-mcp
+```
+
+Or run directly with npx (no installation required):
+
+```bash
+npx @kingdomseed/structured-workflow-mcp
+```
+
 ### Installing via Smithery
 
 To install structured-workflow-mcp for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@kingdomseed/structured-workflow-mcp):
@@ -64,8 +78,36 @@ npm run build
 ## Configuration
 
 ### Claude Desktop
+
+#### If installed via NPM globally:
 Add to your `claude_desktop_config.json`:
 
+```json
+{
+  "mcpServers": {
+    "structured-workflow": {
+      "command": "structured-workflow-mcp",
+      "args": [],
+      "env": {}
+    }
+  }
+}
+```
+
+#### If using npx (no installation required):
+```json
+{
+  "mcpServers": {
+    "structured-workflow": {
+      "command": "npx",
+      "args": ["@kingdomseed/structured-workflow-mcp"],
+      "env": {}
+    }
+  }
+}
+```
+
+#### If installed manually:
 ```json
 {
   "mcpServers": {
@@ -79,6 +121,8 @@ Add to your `claude_desktop_config.json`:
 ```
 
 ### VS Code / Cursor / Windsurf
+
+#### If installed via NPM globally:
 Add to your MCP configuration:
 
 ```json
@@ -86,8 +130,38 @@ Add to your MCP configuration:
   "mcp": {
     "servers": {
       "structured-workflow": {
-        "command": "node",
-        "args": ["/path/to/your/download/dist/index.js"],
+        "command": "structured-workflow-mcp",
+        "args": [],
+        "env": {}
+      }
+    }
+  }
+}
+```
+
+#### If using npx (no installation required):
+```json
+{
+  "mcp": {
+    "servers": {
+      "structured-workflow": {
+        "command": "npx",
+        "args": ["@kingdomseed/structured-workflow-mcp"],
+        "env": {}
+      }
+    }
+  }
+}
+```
+
+#### Short alias (if installed globally):
+```json
+{
+  "mcp": {
+    "servers": {
+      "structured-workflow": {
+        "command": "swmcp",
+        "args": [],
         "env": {}
       }
     }

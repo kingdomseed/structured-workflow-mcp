@@ -1,8 +1,19 @@
 {
-  "name": "structured-workflow-mcp",
+  "name": "@kingdomseed/structured-workflow-mcp",
   "version": "0.2.1",
   "description": "Disciplined workflow guidance for AI-assisted programming via MCP",
   "main": "dist/index.js",
+  "bin": {
+    "structured-workflow-mcp": "./dist/index.js",
+    "swmcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
