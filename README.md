@@ -207,6 +207,34 @@ npm test         # Run tests
 5. AI cannot skip phases or claim completion without verified outputs
 6. Session state prevents circumventing the structured approach
 
+## Testing the MCP Server
+
+You can quickly try out the Structured Workflow MCP server using the test prompts and helper scripts included in this repository.
+
+1. Build the server (if you haven't already):
+   ```bash
+   npm run build
+   ```
+2. Start the server:
+   ```bash
+   node dist/index.js
+   ```
+3. Open the test prompt [`docs/test_prompt/mcp_server_test_prompt.md`](docs/test_prompt/mcp_server_test_prompt.md) in your preferred MCP-compatible AI client and paste the contents.
+4. Alternatively, open the sample project located in [`refactor-test/`](refactor-test) for an end-to-end refactor workflow demo. Follow the steps in its `README.md` to run and observe the structured workflow in action.
+5. Watch the AI progress through each phase and verify the structured outputs produced.
+
+## Sample Prompts
+
+The [`docs/sample_prompts`](docs/sample_prompts) directory contains several ready-to-use prompts illustrating typical workflows:
+
+- `feature_workflow_prompt.md`
+- `refactor_workflow_prompt.md`
+- `test_workflow_prompt.md`
+- `tdd_workflow_prompt.md`
+- `custom_workflow_prompt.md`
+
+Use these as a starting point and adapt them to your projects.
+
 ## Building
 
 ```bash
