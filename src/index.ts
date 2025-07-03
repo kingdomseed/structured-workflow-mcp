@@ -22,7 +22,7 @@ import { createDiscoverWorkflowToolsTool, handleDiscoverWorkflowTools } from './
 
 // Server metadata
 const SERVER_NAME = 'structured-workflow-mcp';
-const SERVER_VERSION = '2.2.0'; // Version with multiple workflow types
+const SERVER_VERSION = '0.2.1'; // First published open-source release
 
 async function main() {
   const server = new Server(
