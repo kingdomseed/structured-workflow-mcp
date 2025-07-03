@@ -1,56 +1,110 @@
 # Structured Workflow MCP Server
 
-**Version**: 0.2.1
+An MCP server that enforces disciplined programming practices by requiring AI assistants to audit their work and produce verified outputs at each phase of development.
 
-An open-source TypeScript-based Model Context Protocol (MCP) server that provides AI coding assistants with structured workflow guidance tools for professional development practices. This server adds specialized workflow tools to your AI assistant without restricting access to any existing capabilities.
+## Why I Built This
 
-## Core Philosophy: "Guide, Don't Gate"
+**TLDR**: I found that prompting with these two words: INVENTORY and AUDIT, make AI think systematically and follow structured phases in development, but got tired of repeating them across every platform and prompt - so I built this MCP server to enforce this discipline automatically.
 
-- **Non-restrictive** - AI retains all its existing tools and capabilities
-- **Additive** - MCP tools enhance, not replace existing functionality  
-- **Guidance-based** - Provides instructions and recommendations, not enforcement
-- **One hard rule** - Files must be read before modification (for safety)
-- **Platform-agnostic** - Works with any MCP-compatible AI (Claude, Cursor, Windsurf, etc.)
-- **Local-only** - Simple stdio transport, no remote servers needed
+After a year of heavy AI development usage, I got frustrated with AI not thinking through problems the way I do.
 
-## Key Features
+When I approach a problem, I ask: How are these components connected? How do they relate to other systems? What side effects will this change produce? What steps ensure success? What already exists in my codebase?
 
-### 🚀 Multiple Workflow Types (v0.2.1)
+AI skips this analysis. It jumps into code changes without understanding the system it's building into. It creates new classes and folder structures when they already exist. It adds code without understanding component relationships or potential side effects.
 
-1. **Refactor Workflow** - Code improvement without changing functionality
-2. **Feature Workflow** - New functionality with integrated testing  
-3. **Test Workflow** - Focused test coverage improvement
-4. **TDD Workflow** - Test-Driven Development cycles
-5. **Custom Workflow** - Build your own with `build_custom_workflow`
+Planning modes helped, but didn't always force the AI to break down the problem properly, especially in larger existing codebases. Eventually I discovered two key words: inventory and audit. Forcing AI to INVENTORY and AUDIT before acting was the key to getting the model to be thorough and disciplined in understanding the system it was building into. *But* I had to keep repeating these instructions across multiple prompts and different AI platforms. I spent time with each of these - Cursor, Windsurf, Claude Code, Cline - a lot of time and a lot of tokens trying to get consistent the models to follow clear steps to arrive at a proper solution that fits the system it's building into.
 
-### 🎯 Core Capabilities
+I looked for existing MCP tools but didn't find anything quite like what I needed. The [Sequential Thinking MCP server](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking) was inspiring (and I still use this a lot), but I needed something that went further - forcing AI to follow structured phases and produce verifiable output before proceeding.
 
-- **Session Management** - Comprehensive state tracking throughout workflow
-- **Iteration Limits** - Configurable with automatic escalation to user input
-- **Real-Time Output** - Generates documentation in `workflow-output/` directory
-- **Validation System** - Phase completion requirements with blocking messages
-- **Safety Enforcement** - Read-before-write file protection
-- **Language Agnostic** - Works with any programming language or framework
+So I built this for myself. I need this kind of disciplined workflow. If others find it useful, great. If not, no worries - I'll keep using it because it solves my problem.
+
+I'm sharing this in case others have similar frustrations. Contributions, improvements, and discussion are welcome.
+
+**TLDR**: I found the magic words (INVENTORY and AUDIT) that make AI think systematically, but got tired of repeating them across every platform and prompt - so I built a server that enforces this discipline automatically.
+
+## Features
+
+**Enforced Workflow Phases** - AI must complete specific phases in order (audit, analysis, planning, implementation, testing, etc.)
+
+**Mandatory Output Artifacts** - Each phase requires structured documentation or verified outputs before proceeding
+
+**Multiple Workflow Types**:
+- Refactor workflows for code improvement  
+- Feature development with integrated testing
+- Test-focused workflows for coverage improvement
+- Test-driven development (TDD) cycles
+- Custom workflows for specialized needs
+
+**Output Verification** - The server validates that outputs contain meaningful content and proper structure
+
+**Session State Management** - Tracks progress and prevents skipping phases
+
+## Example Output Artifacts
+
+The server enforces that AI produces structured outputs like these:
+
+**AUDIT_INVENTORY Phase Output:**
+```json
+{
+  "filesAnalyzed": ["lib/auth/user_service.dart", "lib/auth/auth_middleware.dart"],
+  "dependencies": {
+    "providers": ["userProvider", "authStateProvider"],
+    "models": ["User", "AuthToken"]
+  },
+  "issues": [
+    "Single Responsibility Principle violation - handles too many concerns",
+    "File approaching 366 lines - recommended to keep widgets smaller"
+  ],
+  "changesList": [
+    {
+      "action": "CREATE",
+      "file": "lib/auth/components/auth_form.dart",
+      "description": "Extract authentication form logic",
+      "justification": "Component focused on form validation only"
+    }
+  ]
+}
+```
+
+**COMPARE_ANALYZE Phase Output:**
+```json
+{
+  "approaches": [
+    {
+      "name": "Incremental Component Extraction",
+      "complexity": "Medium",
+      "risk": "Low", 
+      "timeEstimate": "30-45 minutes"
+    }
+  ],
+  "recommendation": "Incremental Component Extraction",
+  "justification": "Provides best balance of benefits vs. risk",
+  "selectedImplementationOrder": [
+    "1. Extract form component (lowest risk)",
+    "2. Create validation service",
+    "3. Refactor main view"
+  ]
+}
+```
+
+Each phase requires documented analysis and planning before the AI can proceed to implementation.
 
 ## Installation
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/kingdomseed/structured-workflow-mcp
 cd structured-workflow-mcp
 
-# Install dependencies
+# Install dependencies and build
 npm install
-
-# Build the TypeScript code
 npm run build
 ```
 
 ## Configuration
 
-### For Claude Desktop
-
-Add to your Claude Desktop configuration:
+### Claude Desktop
+Add to your `claude_desktop_config.json`:
 
 ```json
 {
@@ -63,9 +117,8 @@ Add to your Claude Desktop configuration:
 }
 ```
 
-### For Cursor/Windsurf
-
-Add to your MCP settings:
+### VS Code / Cursor / Windsurf
+Add to your MCP configuration:
 
 ```json
 {
@@ -80,293 +133,89 @@ Add to your MCP settings:
 }
 ```
 
+## Tools
+
+### Workflow Entry Points
+
+**refactor_workflow** - Start a structured refactoring process with required analysis and planning phases
+
+**create_feature_workflow** - Develop new features with integrated testing and documentation requirements  
+
+**test_workflow** - Add test coverage with mandatory analysis of what needs testing
+
+**tdd_workflow** - Implement Test-Driven Development with enforced Red-Green-Refactor cycles
+
+**build_custom_workflow** - Create workflows with custom phases and validation requirements
+
+### Phase Guidance Tools
+
+**audit_inventory_guidance** - Forces thorough code analysis and change cataloging
+
+**compare_analyze_guidance** - Requires evaluation of multiple approaches with pros/cons
+
+**question_determine_guidance** - Mandates clarification and finalized planning
+
+**phase_output** - Validates and records structured outputs from each phase
+
+**workflow_status** - Check current progress and validation state
+
 ## Usage
 
-### Starting a Workflow
+The server enforces structured workflows through mandatory phases. Each workflow type has different phase requirements:
 
-Choose the appropriate workflow for your task:
+**Refactor Workflow**: AUDIT_INVENTORY → COMPARE_ANALYZE → QUESTION_DETERMINE → WRITE_OR_REFACTOR → LINT → ITERATE → PRESENT
 
-#### Option 1: Use a Specialized Workflow
+**Feature Workflow**: PLANNING → QUESTION_DETERMINE → WRITE_OR_REFACTOR → TEST → LINT → ITERATE → PRESENT  
 
-```javascript
-// For code improvements
-refactor_workflow({ 
-  task: "Refactor the authentication system to use JWT tokens",
-  context: {
-    targetFiles: ["auth.js", "middleware/auth.js"],
-    scope: "directory"
-  }
-})
+**Test Workflow**: AUDIT_INVENTORY → QUESTION_DETERMINE → WRITE_OR_REFACTOR → TEST → ITERATE → PRESENT
 
-// For new features
-create_feature_workflow({
-  task: "Add user profile management API endpoints"
-})
+**TDD Workflow**: PLANNING → WRITE_OR_REFACTOR → TEST → (Red-Green-Refactor cycles) → LINT → PRESENT
 
-// For test coverage
-test_workflow({
-  task: "Write unit tests for the payment processing module"
-})
+### Input Validation
 
-// For Test-Driven Development
-tdd_workflow({
-  task: "Implement shopping cart functionality using TDD"
-})
-```
+The server requires:
+- `task` (string): Description of what you want to accomplish
+- `outputArtifacts` (array): Structured documentation for each completed phase
 
-#### Option 2: Build a Custom Workflow
+### Output Validation
 
-```javascript
-build_custom_workflow({
-  task: "Complex refactoring with custom phases",
-  selectedPhases: ["AUDIT_INVENTORY", "COMPARE_ANALYZE", "WRITE_OR_REFACTOR", "LINT", "PRESENT"],
-  iterationLimits: { TEST: 10, LINT: 15, ITERATE: 20 }
-})
-```
+Each phase completion is validated for:
+- Meaningful content length (minimum 10 characters)
+- Valid JSON format for structured outputs
+- Phase-specific content requirements
+- Proper documentation of decisions and analysis
 
-### Workflow Phases
+### Safety Rule
 
-Different workflows use different phase sequences:
-
-#### Refactor Workflow
-1. **AUDIT_INVENTORY** - Analyze code AND catalog all required changes
-2. **COMPARE_ANALYZE** - Evaluate different approaches
-3. **QUESTION_DETERMINE** - Clarify requirements AND finalize plan
-4. **WRITE_OR_REFACTOR** - Implement changes
-5. **LINT** - Verify code quality
-6. **ITERATE** - Fix issues
-7. **PRESENT** - Summarize work
-
-#### Feature Workflow
-1. **PLANNING** - Create comprehensive plan
-2. **QUESTION_DETERMINE** - Clarify and finalize approach
-3. **WRITE_OR_REFACTOR** - Implement new functionality
-4. **TEST** - Run tests to verify
-5. **LINT** - Check code quality
-6. **ITERATE** - Fix any issues
-7. **PRESENT** - Summarize work
-
-#### Test Workflow
-1. **AUDIT_INVENTORY** - Understand what needs testing
-2. **QUESTION_DETERMINE** - Plan test strategy
-3. **WRITE_OR_REFACTOR** - Write tests
-4. **TEST** - Run tests
-5. **ITERATE** - Fix failing tests
-6. **PRESENT** - Summarize coverage
-
-#### TDD Workflow
-1. **PLANNING** - Plan the feature
-2. **WRITE_OR_REFACTOR** - Write failing test
-3. **TEST** - Verify test fails (Red)
-4. **WRITE_OR_REFACTOR** - Write implementation
-5. **TEST** - Verify test passes (Green)
-6. **WRITE_OR_REFACTOR** - Refactor (optional)
-7. **LINT** - Final quality check
-8. **PRESENT** - Summarize work
-
-### Available Tools
-
-#### Workflow Entry Points
-- `refactor_workflow` - Start a refactoring workflow
-- `create_feature_workflow` - Start a feature creation workflow
-- `test_workflow` - Start a test writing workflow
-- `tdd_workflow` - Start a TDD workflow
-- `build_custom_workflow` - Create a custom workflow with your phases
-
-#### Phase Guidance Tools
-- `audit_inventory_guidance` - Combined analysis and cataloging guidance
-- `compare_analyze_guidance` - Guidance for evaluating approaches
-- `question_determine_guidance` - Combined clarification and planning guidance
-- `refactor_guidance` - Get instructions for making changes
-- `test_guidance` - Guidance for running tests
-- `lint_guidance` - Learn how to verify code quality
-- `iterate_guidance` - Guidance for fixing issues
-- `present_guidance` - How to summarize your work
-
-#### Workflow Management
-- `workflow_status` - Check current progress and session state
-- `phase_output` - Record results from each phase
-- `validate_action` - Ensures files are read before modification
-- `validate_phase_completion` - Check if phase requirements are met
-- `user_input_required_guidance` - Handle escalation scenarios
-- `discover_workflow_tools` - See all available workflow tools
-
-### The Only Hard Rule
-
-**You must read a file before you can modify it.** This is enforced automatically to prevent accidental data loss. Everything else is guidance to help you work more effectively.
+Files must be read before modification. This prevents accidental data loss and ensures informed changes.
 
 ## Development
 
 ```bash
-# Run TypeScript compiler in watch mode
-npm run dev
-
-# Run linter
-npm run lint
-
-# Type checking
-npm run typecheck
-
-# Run tests (when implemented)
-npm test
+npm run dev      # TypeScript compiler in watch mode  
+npm run lint     # Run linter
+npm run typecheck # Type checking
+npm test         # Run tests
 ```
-
-## Architecture Overview
-
-### Technology Stack
-- **Language**: TypeScript
-- **SDK**: @modelcontextprotocol/sdk (v1.0.4)
-- **Transport**: stdio (local only)
-- **State Management**: In-memory session-based
-
-### Key Components
-
-1. **Session Manager** - Tracks workflow progress, file history, and validation states
-2. **Workflow Handler** - Executes workflows with shared logic across types
-3. **Workflow Presets** - Defines configurations for each workflow type
-4. **Tool Implementations** - Individual tool handlers for each MCP tool
-5. **Type System** - Comprehensive TypeScript types for safety
-
-### Design Principles
-
-- **Language/Framework Agnostic** - Works with any programming language
-- **Tool-Name Agnostic** - Describes actions, not specific tool names
-- **Directive Guidance** - Uses "MUST", "REQUIRED" for AI optimization
-- **DRY Architecture** - Shared WorkflowHandler avoids duplication
-- **Backward Compatible** - All original tools still functional
 
 ## How It Works
 
-1. AI connects to the MCP server via stdio transport
-2. Chooses appropriate workflow type based on task
-3. Follows phase-by-phase guidance using directive instructions
-4. Uses existing tools based on guidance recommendations
-5. Records outputs and progress in real-time
-6. Escalates to user input when iteration limits reached
+1. AI starts a workflow using one of the entry point tools
+2. Server creates a session and tracks phase progression  
+3. Each phase requires specific outputs before proceeding
+4. The `phase_output` tool validates artifacts have meaningful content
+5. AI cannot skip phases or claim completion without verified outputs
+6. Session state prevents circumventing the structured approach
 
-## Example Workflows
+## Building
 
-### Refactoring Example
-
-```
-User: "Refactor the user service to use dependency injection"
-
-AI: I'll help you refactor the user service. Let me start with the refactor workflow.
-[Calls refactor_workflow]
-
-AI: Starting AUDIT_INVENTORY phase to analyze and catalog changes...
-[Calls audit_inventory_guidance]
-[Uses file reading and search tools]
-[Documents all required changes]
-
-AI: Moving to COMPARE_ANALYZE phase to evaluate approaches...
-[Calls compare_analyze_guidance]
-[Compares different DI patterns]
-
-... continues through all phases ...
-
-AI: Here's my final summary with all changes implemented.
-[Calls present_guidance]
+```bash
+npm install
+npm run build
 ```
 
-### TDD Example
-
-```
-User: "Create a shopping cart module using TDD"
-
-AI: I'll implement the shopping cart using Test-Driven Development.
-[Calls tdd_workflow]
-
-AI: First, I'll write a failing test for adding items...
-[Calls refactor_guidance - for test writing]
-[Writes test]
-
-AI: Running the test to verify it fails...
-[Calls test_guidance]
-[Test fails as expected - Red phase]
-
-AI: Now implementing minimal code to pass...
-[Calls refactor_guidance - for implementation]
-[Writes code]
-
-AI: Running test again...
-[Calls test_guidance]
-[Test passes - Green phase]
-
-... continues with more test cycles ...
-```
-
-## Advanced Features
-
-### Iteration Management
-- Configurable limits per phase (TEST, LINT, ITERATE)
-- Automatic escalation to user input when stuck
-- Prevents infinite loops while maintaining flexibility
-
-### Real-Time Output
-- Generates documentation in `workflow-output/` directory
-- Markdown and JSON formats available
-- Progress tracking and phase artifacts
-
-### Validation System
-- Phase completion requirements
-- Self-check questions for AI verification
-- Blocking messages for critical steps
-
-## Troubleshooting
-
-### Common Issues
-
-1. **"No active session" error**
-   - Start a workflow using one of the workflow entry points first
-
-2. **"Cannot modify file before reading" error**
-   - This is the safety rule - read the file first, then modify
-
-3. **Iteration limit reached**
-   - The system will prompt for user input
-   - You can continue, skip, or modify requirements
-
-4. **Workflow selection**
-   - Use `refactor_workflow` for code improvements
-   - Use `create_feature_workflow` for new functionality
-   - Use `test_workflow` for adding tests
-   - Use `tdd_workflow` for test-first development
-
-## Contributing
-
-This is an open-source project and contributions are welcome! 
-
-### How to Contribute
-
-1. **Fork the repository** - Create your own fork to work on
-2. **Create a feature branch** - `git checkout -b feature/your-feature-name`
-3. **Make your changes** - Ensure TypeScript types are properly defined
-4. **Test your changes** - Add tests for new features
-5. **Submit a Pull Request** - Include a clear description of changes
-
-### Contribution Guidelines
-
-- Follow the existing code patterns and architecture
-- Maintain the "Guide, Don't Gate" philosophy
-- Update documentation for new features
-- Include tests for new functionality
-- Keep the tool language/framework agnostic
-
-### Reporting Issues
-
-Found a bug or have a feature request? Please open an issue on GitHub with:
-- Clear description of the problem or feature
-- Steps to reproduce (for bugs)
-- Expected vs actual behavior
-- Your environment details (OS, AI platform, etc.)
-
-## Version History
-
-- **v0.2.1** - First published open-source release with multiple workflow types
-- **v0.2.0** - Added workflow presets and enhanced guidance
-- **v0.1.0** - Initial development version with basic workflow support
+The server uses TypeScript with the @modelcontextprotocol/sdk and runs locally via stdio transport.
 
 ## License
 
-MIT
+This MCP server is licensed under the MIT License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the MIT License.
