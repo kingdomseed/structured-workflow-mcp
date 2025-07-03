@@ -239,8 +239,12 @@ async function main() {
 
 // Helper function to provide contextual error suggestions
 function getErrorSuggestion(toolName: string, errorMessage: string): string {
+  if (errorMessage.includes('Unknown tool')) {
+    return `Tool not found. Your platform may require a prefix (e.g., mcp7_${toolName} or mcp_${toolName}). Check how other MCP tools are named in your environment.`;
+  }
+  
   if (errorMessage.includes('No active session')) {
-    return 'Start a new workflow using build_custom_workflow tool first';
+    return 'Start a new workflow using build_custom_workflow tool first (remember to use any required platform prefix)';
   }
   
   if (toolName === 'build_custom_workflow' && errorMessage.includes('required')) {

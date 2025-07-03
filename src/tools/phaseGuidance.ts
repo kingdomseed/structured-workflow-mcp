@@ -66,6 +66,9 @@ function getSuggestiveGuidance(
 ): PhaseGuidance {
   const session = sessionManager.getSession();
   
+  // Platform prefix note to be added to all guidance
+  const platformPrefixNote = '\n\n**IMPORTANT**: If you get "Unknown tool" errors when calling the next phase tool, your platform may require a prefix (e.g., mcp7_[tool_name] or mcp_[tool_name]). Check how other MCP tools are named in your environment.';
+  
   const phaseGuidanceMap: Record<string, PhaseGuidance> = {
     audit_inventory_guidance: {
       phase: 'AUDIT_INVENTORY',
@@ -112,7 +115,7 @@ function getSuggestiveGuidance(
         risks: 'Potential issues or breaking changes',
         priority: 'Suggested order of implementation'
       },
-      nextPhase: 'After completing analysis and cataloging, use compare_analyze_guidance'
+      nextPhase: 'After completing analysis and cataloging, use compare_analyze_guidance (note: your platform may require a prefix like mcp7_compare_analyze_guidance)'
     },
     
     compare_analyze_guidance: {
@@ -320,6 +323,11 @@ function getSuggestiveGuidance(
     sessionManager.updatePhase(guidance.phase);
   }
 
+  // Add platform prefix note to nextPhase if it exists
+  if (guidance.nextPhase) {
+    guidance.nextPhase += platformPrefixNote;
+  }
+
   return guidance;
 }
 
@@ -329,6 +337,9 @@ function getDirectiveGuidance(
   outputDir: string
 ): PhaseGuidance {
   const session = sessionManager.getSession();
+  
+  // Platform prefix note to be added to all guidance
+  const platformPrefixNote = '\n\n**IMPORTANT**: If you get "Unknown tool" errors when calling the next phase tool, your platform may require a prefix (e.g., mcp7_[tool_name] or mcp_[tool_name]). Check how other MCP tools are named in your environment.';
   
   const phaseGuidanceMap: Record<string, PhaseGuidance> = {
     audit_inventory_guidance: {
@@ -895,6 +906,11 @@ function getDirectiveGuidance(
   // Update session phase if we have an active session
   if (session) {
     sessionManager.updatePhase(guidance.phase);
+  }
+
+  // Add platform prefix note to nextPhase if it exists
+  if (guidance.nextPhase) {
+    guidance.nextPhase += platformPrefixNote;
   }
 
   return guidance;

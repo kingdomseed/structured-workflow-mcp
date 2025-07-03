@@ -16,6 +16,21 @@ export async function handleDiscoverWorkflowTools() {
     purpose: 'This MCP server provides structured workflow guidance tools for various programming tasks',
     corePhilosophy: 'Guide, Don\'t Gate - All your existing tools remain available while we add helpful workflow guidance',
     
+    criticalNote: {
+      title: '⚠️ IMPORTANT: Platform-Specific Tool Names',
+      description: 'Different AI platforms may add prefixes to MCP tool names!',
+      details: [
+        'Some platforms add prefixes like "mcp_", "mcp7_", or similar to all tool names',
+        'If you get "Unknown tool" errors, check if your platform requires a prefix',
+        'For example, instead of "audit_inventory_guidance", you may need to use:',
+        '  - mcp_audit_inventory_guidance',
+        '  - mcp7_audit_inventory_guidance',
+        '  - Or another platform-specific prefix',
+        'Check your platform\'s documentation or try common prefixes if unsure'
+      ],
+      howToCheck: 'Look at how other MCP tools are named in your environment - they likely follow the same pattern'
+    },
+    
     workflowTypes: {
       title: '🚀 WORKFLOW ENTRY POINTS',
       description: 'Choose the workflow that best matches your task:',
