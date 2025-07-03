@@ -1,5 +1,7 @@
 # Structured Workflow MCP Server
 
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://coff.ee/jasonholtdigital)
+
 An MCP server that enforces disciplined programming practices by requiring AI assistants to audit their work and produce verified outputs at each phase of development.
 
 ## Why I Built This
@@ -147,27 +149,27 @@ Add to your MCP configuration:
 
 ### Phase Guidance Tools
 
-**audit_inventory_guidance** - Forces thorough code analysis and change cataloging
+- **audit_inventory_guidance** - Forces thorough code analysis and change cataloging
 
-**compare_analyze_guidance** - Requires evaluation of multiple approaches with pros/cons
+- **compare_analyze_guidance** - Requires evaluation of multiple approaches with pros/cons
 
-**question_determine_guidance** - Mandates clarification and finalized planning
+- **question_determine_guidance** - Mandates clarification and finalized planning
 
-**phase_output** - Validates and records structured outputs from each phase
+- **phase_output** - Validates and records structured outputs from each phase
 
-**workflow_status** - Check current progress and validation state
+- **workflow_status** - Check current progress and validation state
 
 ## Usage
 
 The server enforces structured workflows through mandatory phases. Each workflow type has different phase requirements:
 
-**Refactor Workflow**: AUDIT_INVENTORY → COMPARE_ANALYZE → QUESTION_DETERMINE → WRITE_OR_REFACTOR → LINT → ITERATE → PRESENT
+- **Refactor Workflow**: AUDIT_INVENTORY → COMPARE_ANALYZE → QUESTION_DETERMINE → WRITE_OR_REFACTOR → LINT → ITERATE → PRESENT
 
-**Feature Workflow**: PLANNING → QUESTION_DETERMINE → WRITE_OR_REFACTOR → TEST → LINT → ITERATE → PRESENT  
+- **Feature Workflow**: PLANNING → QUESTION_DETERMINE → WRITE_OR_REFACTOR → TEST → LINT → ITERATE → PRESENT  
 
-**Test Workflow**: AUDIT_INVENTORY → QUESTION_DETERMINE → WRITE_OR_REFACTOR → TEST → ITERATE → PRESENT
+- **Test Workflow**: AUDIT_INVENTORY → QUESTION_DETERMINE → WRITE_OR_REFACTOR → TEST → ITERATE → PRESENT
 
-**TDD Workflow**: PLANNING → WRITE_OR_REFACTOR → TEST → (Red-Green-Refactor cycles) → LINT → PRESENT
+- **TDD Workflow**: PLANNING → WRITE_OR_REFACTOR → TEST → (Red-Green-Refactor cycles) → LINT → PRESENT
 
 ### Input Validation
 
@@ -213,6 +215,23 @@ npm run build
 ```
 
 The server uses TypeScript with the @modelcontextprotocol/sdk and runs locally via stdio transport.
+
+## Pull Requests Welcome
+
+We welcome and encourage pull requests! Whether you're fixing bugs, adding features, or improving documentation, your contributions are valuable.
+
+Please follow these steps:
+
+1. Fork the repository on GitHub.
+2. Create a new branch: `git checkout -b feature/your-feature`.
+3. Make your changes and commit with clear, descriptive messages.
+4. Write tests for any new functionality and ensure all existing tests pass.
+5. Push to your branch: `git push origin feature/your-feature`.
+6. Open a pull request and describe your changes clearly.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more details, if available.  
+
+Thank you for contributing!
 
 ## License
 
