@@ -67,14 +67,14 @@ graph TD
 5. **Phase Validation** - Server validates outputs meet requirements before proceeding
 6. **Next Phase** - Process repeats until workflow is complete
 
-## File Output & Configuration
+## Workflow Output
 
-### Automatic File Creation
+### AI-Generated Documentation
 
-The server **automatically creates** numbered workflow files as you progress through phases:
+The server **suggests** numbered workflow files as you progress through phases. The AI assistant handles the actual file creation using its own tools:
 
 ```
-structured-workflow/
+workflows/
 ├── your-task-name/
 │   ├── 01-audit-inventory-2025-01-04.md
 │   ├── 02-compare-analyze-2025-01-04.json
@@ -86,30 +86,15 @@ structured-workflow/
 │   └── 08-present-2025-01-04.md
 ```
 
-### Configuration Options
+### Workflow Architecture
 
-**Default Behavior**: Files are saved to `./structured-workflow/[task-name]/` in your current directory.
+**File Handling**: The server provides suggested paths and formats but does not directly write files. Instead, it instructs the AI assistant to create these files using its own file system access.
 
-**Custom Output Directory**: Configure where files are created by adding CLI parameters to your MCP server config:
+**Consistent Naming**: Files follow a standardized naming convention with phase numbers, names, and timestamps.
 
-```json
-{
-  "mcpServers": {
-    "structured-workflow": {
-      "command": "npx",
-      "args": ["structured-workflow-mcp", "--output-dir", "./docs/workflows"],
-      "env": {}
-    }
-  }
-}
-```
+**Environment Independence**: The architecture works across any environment where the AI has appropriate file system permissions.
 
-**Available CLI Parameters**:
-- `--output-dir <path>` - Set custom output directory (default: `structured-workflow`)
-- `--working-dir <path>` - Set working directory for the server
-- `--help` - Show help message
-
-**Graceful Fallback**: If file creation fails (permissions, disk space), the server continues with validation-only mode - your workflow isn't interrupted.
+**Graceful Degradation**: If the AI is unable to create files, the workflow continues in memory-only mode - your progress isn't interrupted.
 
 ## Installation
 
@@ -134,20 +119,7 @@ structured-workflow/
 }
 ```
 
-**With custom output directory**:
-```json
-{
-  "mcp": {
-    "servers": {
-      "structured-workflow": {
-        "command": "npx",
-        "args": ["structured-workflow-mcp@latest", "--output-dir", "./docs/workflows"],
-        "env": {}
-      }
-    }
-  }
-}
-```
+
 
 **Claude Desktop** - Add to your `claude_desktop_config.json`:
 ```json
@@ -162,18 +134,7 @@ structured-workflow/
 }
 ```
 
-**With custom output directory**:
-```json
-{
-  "mcpServers": {
-    "structured-workflow": {
-      "command": "npx",
-      "args": ["structured-workflow-mcp@latest", "--output-dir", "./project-workflows"],
-      "env": {}
-    }
-  }
-}
-```
+
 
 ### Global Installation (Optional)
 

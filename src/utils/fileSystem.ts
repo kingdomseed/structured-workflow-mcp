@@ -6,7 +6,7 @@ import * as path from 'path';
  * NOTE: No helper here writes to disk. The MCP server now only SUGGESTS
  * file paths - the AI agent (Cascade) performs actual writes via tools.
  *
- * @version 0.2.4
+ * @version 0.2.5
  */
 
 export interface NumberedFileConfig {
