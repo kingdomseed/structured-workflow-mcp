@@ -153,7 +153,7 @@ structured-workflow/
   "mcpServers": {
     "structured-workflow": {
       "command": "npx",
-      "args": ["structured-workflow-mcp"],
+      "args": ["structured-workflow-mcp@latest"],
       "env": {}
     }
   }
@@ -166,7 +166,7 @@ structured-workflow/
   "mcpServers": {
     "structured-workflow": {
       "command": "npx",
-      "args": ["structured-workflow-mcp", "--output-dir", "./project-workflows"],
+      "args": ["structured-workflow-mcp@latest", "--output-dir", "./project-workflows"],
       "env": {}
     }
   }
