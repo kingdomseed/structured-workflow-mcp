@@ -7,7 +7,8 @@ import {
   generateNumberedFileName,
   DirectoryConfig,
   validateDirectoryAccess,
-  sanitizeTaskName 
+  sanitizeTaskName,
+  resolveOutputDirectory 
 } from '../utils/fileSystem';
 import { getDefaultOutputDirectory } from '../index';
 
@@ -136,15 +137,21 @@ async function buildCustomWorkflowImplementation(
     ITERATE: 15,
     ...params.iterationLimits
   };
+  // Resolve output directory: if the incoming value is relative, make it absolute relative to working directory (CWD).
+  const resolvedOutputDir = resolveOutputDirectory(
+    params.outputPreferences?.outputDirectory || getDefaultOutputDirectory(),
+    process.cwd()
+  );
+
   const outputPreferences = {
     formats: ['markdown'],
     realTimeUpdates: true,
     generateDiagrams: true,
     includeCodeSnippets: true,
-    outputDirectory: getDefaultOutputDirectory(),
     createProgressReport: true,
     createPhaseArtifacts: true,
-    ...params.outputPreferences
+    ...params.outputPreferences,
+    outputDirectory: resolvedOutputDir
   };
   const userCheckpoints = {
     beforeMajorChanges: true,
@@ -166,7 +173,6 @@ async function buildCustomWorkflowImplementation(
       escalateOnTime: false
     }
   };
-
   // Start session with configuration
   const session = sessionManager.startSession(params.task, workflowConfig);
 
@@ -178,7 +184,7 @@ async function buildCustomWorkflowImplementation(
   };
 
   // Validate and create directory
-  const dirValidation = validateDirectoryAccess(outputPreferences.outputDirectory);
+  const dirValidation = validateDirectoryAccess(resolvedOutputDir);
   if (!dirValidation.isValid) {
     return {
       error: 'DIRECTORY CREATION FAILED',

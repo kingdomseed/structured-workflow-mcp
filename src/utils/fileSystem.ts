@@ -146,3 +146,11 @@ export function validateDirectoryAccess(directoryPath: string): { isValid: boole
 export function getDefaultOutputDirectory(): string {
   return path.join(process.cwd(), 'structured-workflow');
 }
+
+/**
+ * Resolves an output directory. If the provided path is absolute, returns it as-is.
+ * Otherwise, treats it as relative to the provided base directory (defaults to CWD).
+ */
+export function resolveOutputDirectory(rawDir: string, baseDir: string = process.cwd()): string {
+  return path.isAbsolute(rawDir) ? rawDir : path.resolve(baseDir, rawDir);
+}

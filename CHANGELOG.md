@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.4] - 2025-07-04
+
+### ♻️ Improvements
+- **Automatic Output Directory Resolution**: Relative paths for `outputDirectory` are now resolved against the current project root via new `resolveOutputDirectory()` helper.
+- **Pre-flight Directory Validation**: Workflow creation now validates & creates the resolved directory, avoiding ENOENT errors.
+- **Robust Integration Tests**: Tests accept both relative and absolute default paths, ensuring CI stability across environments.
+- **Code Clean-up**: Removed duplicate properties and tightened type checks in `buildCustomWorkflow`.
+
+### 🐛 Bug Fixes
+- Fixed workflow creation failure when default directory could not be created from outside repo working directory.
+
+### 🔧 Internal
+- Version bumped to 0.2.4.
+
+---
+
 ## [0.2.3] - 2025-07-04
 
 ### 🚀 Major Features

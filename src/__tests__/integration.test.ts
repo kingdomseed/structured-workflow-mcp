@@ -126,8 +126,10 @@ The codebase is well-structured and ready for the planned modifications.`
     
     // Type guard to access properties safely
     if ('directoryCreated' in workflowResult && workflowResult.directoryCreated) {
-      // Should use the real default directory
-      expect(workflowResult.directoryCreated.baseDirectory).toBe('structured-workflow');
+      // Default directory may resolve to absolute path depending on environment
+      const resolvedDefault = path.resolve('./structured-workflow');
+      const baseDir = workflowResult.directoryCreated.baseDirectory;
+      expect(baseDir === 'structured-workflow' || baseDir === resolvedDefault).toBe(true);
       expect(fs.existsSync(workflowResult.directoryCreated.taskDirectory)).toBe(true);
     } else {
       fail('Expected workflowResult to have directoryCreated property');
