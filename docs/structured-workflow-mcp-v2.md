@@ -1,4 +1,4 @@
-# Structured Workflow MCP Server - Design Document v2.0
+# Structured Workflow MCP Server - Design Document v0.2.3
 
 ## Executive Summary
 
@@ -645,7 +645,7 @@ and then run linting to verify the changes.
 ```json
 {
   "name": "structured-workflow",
-  "version": "2.0.0",
+  "version": "0.2.3",
   "description": "Intelligent workflow guidance for AI-assisted refactoring",
   "tools": [
     "plan_workflow",
@@ -748,7 +748,7 @@ server.setRequestHandler('prompts/list', async () => {
 
 ## Summary
 
-The Structured Workflow MCP Server v2.0 is a **guidance system, not a control system**. It provides AI coding assistants with specialized workflow tools that teach professional refactoring practices through intelligent recommendations.
+The Structured Workflow MCP Server v0.2.3 is a **guidance system, not a control system**. It provides AI coding assistants with specialized workflow tools that teach professional refactoring practices through intelligent recommendations.
 
 ### What This Server Does:
 - **Adds workflow tools** to the AI's existing toolset via MCP

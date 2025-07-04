@@ -26,7 +26,7 @@ You approach this project with the experience of someone who has built multiple 
 
 ## Project Overview
 
-This is the Structured Workflow MCP Server v2.0 - a TypeScript-based MCP (Model Context Protocol) server designed to provide AI coding assistants with structured workflow guidance tools for professional refactoring practices.
+This is the Structured Workflow MCP Server v0.2.3 - a TypeScript-based MCP (Model Context Protocol) server designed to provide AI coding assistants with structured workflow guidance tools for professional refactoring practices.
 
 **Current Status**: Design phase - contains comprehensive design document but no implementation yet.
 
@@ -170,3 +170,155 @@ Before adding ANY new functionality:
 
 ### ENFORCEMENT
 These rules are **NON-NEGOTIABLE**. Violating them creates technical debt, slows development, and makes the codebase unmaintainable. When in doubt, refactor to simplify rather than adding complexity.
+
+## CRITICAL LESSONS LEARNED: Test Writing & Debugging
+
+### Overview
+During implementation of comprehensive test suite, we encountered and systematically resolved multiple complex testing challenges specific to TypeScript + Jest + ES modules + MCP server architecture. These lessons are **MANDATORY READING** for any future test development.
+
+### LESSON 1: Jest + TypeScript ES Module Configuration
+**Problem**: All tests failed with module resolution errors like "Cannot find module './session/SessionManager.js'"
+
+**Root Cause**: Jest wasn't properly configured for TypeScript ES modules and .js extension resolution.
+
+**Solution**: Updated `jest.config.js` with specific ES module support:
+```javascript
+export default {
+  preset: 'ts-jest/presets/default-esm',
+  testEnvironment: 'node',
+  extensionsToTreatAsEsm: ['.ts'],
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+  },
+  transform: {
+    '^.+\\.tsx?$': ['ts-jest', {
+      useESM: true,
+    }],
+  },
+};
+```
+
+**Critical Insight**: TypeScript ES modules with Jest require explicit configuration for both extension handling AND import resolution.
+
+### LESSON 2: Dynamic Import Testing Anti-Pattern
+**Problem**: CLI argument tests using `await import('../index')` suffered from module caching issues causing test interference.
+
+**Failed Approach**:
+```typescript
+// ❌ NEVER DO THIS - Dynamic imports in tests cause caching problems
+const { parseArguments } = await import('../index');
+```
+
+**Correct Approach**: Extract testable functions and import them directly:
+```typescript
+// ✅ ALWAYS DO THIS - Direct function imports for testing
+import { parseArguments } from '../index';
+```
+
+**Implementation**: Exported `parseArguments()` function from index.ts for direct testing rather than testing via dynamic imports.
+
+**Critical Insight**: Dynamic imports in Jest tests create module caching complexity. Always prefer direct function exports and imports for testability.
+
+### LESSON 3: Session Singleton Mocking Interference
+**Problem**: Using `jest.mock('../index')` to mock the session singleton caused state management to fail during integration tests.
+
+**Root Cause**: Jest mocking creates isolated module instances that break singleton patterns required for session state consistency.
+
+**Failed Approach**:
+```typescript
+// ❌ NEVER DO THIS - Mocking breaks singleton behavior
+jest.mock('../index');
+```
+
+**Correct Approach**: Allow real singleton behavior in tests and clean up state appropriately:
+```typescript
+// ✅ ALWAYS DO THIS - Use real singletons, manage state properly
+// No mocking - test with actual session manager instance
+```
+
+**Critical Insight**: Singleton patterns and Jest mocking are incompatible. Design tests to work with real singletons or refactor architecture to be more testable.
+
+### LESSON 4: Phase Content Validation Requirements
+**Problem**: Integration tests failed with "validation failed" errors despite seemingly correct test setup.
+
+**Root Cause Discovery Process**:
+1. **Initial Hypothesis**: Session state not persisting (wrong)
+2. **Debugging Method**: Added extensive logging throughout the validation pipeline
+3. **Actual Root Cause**: Phase-specific content validation was checking for keywords like 'audit', 'files', 'changes' in AUDIT_INVENTORY phase outputs
+
+**Failed Test Content**:
+```typescript
+// ❌ Generic content fails validation
+content: JSON.stringify({ completed: true })
+```
+
+**Correct Test Content**:
+```typescript
+// ✅ Phase-specific content passes validation  
+content: JSON.stringify({ 
+  audit: 'complete',
+  files: ['src/index.ts', 'src/utils/test.ts'],
+  changes: ['refactor main function', 'add error handling'],
+  completed: true 
+})
+```
+
+**Critical Insight**: Test artifacts must contain phase-appropriate content to pass validation. Generic test data is insufficient for workflow systems.
+
+### LESSON 5: Server Startup Prevention During Tests
+**Problem**: Tests importing the main module caused the MCP server to attempt startup, interfering with test execution.
+
+**Solution**: Added conditional server startup:
+```typescript
+// ✅ Prevent server startup during test imports
+if (require.main === module) {
+  main().catch(console.error);
+}
+```
+
+**Critical Insight**: Entry point files need conditional execution guards to prevent side effects during testing imports.
+
+### LESSON 6: Systematic Debugging Methodology
+**Our Successful Approach**:
+
+1. **External Analysis First**: Used web search to understand Jest + TypeScript + ES module compatibility issues
+2. **Priority-Based Fixes**: Fixed foundational issues (Jest config) before addressing secondary problems  
+3. **Extensive Logging**: Added console.log statements throughout the validation pipeline to trace execution
+4. **Root Cause Focus**: Continued debugging until we found the actual cause (content validation) rather than stopping at symptoms (state persistence)
+5. **Incremental Verification**: Ran tests after each fix to confirm progress
+
+**Anti-Pattern to Avoid**: Making multiple changes simultaneously without understanding which change fixes which problem.
+
+### LESSON 7: Test Architecture Design Principles
+
+**DO**:
+- ✅ Export testable functions directly from modules
+- ✅ Use real singleton instances in tests when required by architecture
+- ✅ Create phase-appropriate test data that matches validation requirements
+- ✅ Add conditional execution guards to prevent side effects during imports
+- ✅ Use systematic debugging with extensive logging when tests fail mysteriously
+
+**DON'T**:
+- ❌ Use dynamic imports for testing CLI functionality
+- ❌ Mock singleton dependencies when the architecture requires real singletons
+- ❌ Use generic test data that doesn't match domain-specific validation rules
+- ❌ Allow entry point modules to execute server startup during test imports
+- ❌ Make multiple changes simultaneously when debugging failing tests
+
+### LESSON 8: TypeScript Import Configuration
+**Critical Configuration**:
+- ES modules require `.js` extensions in import statements even when importing `.ts` files
+- Jest needs explicit `moduleNameMapper` to resolve `.js` imports to `.ts` files
+- `extensionsToTreatAsEsm: ['.ts']` is required for TypeScript ES module support
+
+### LESSON 9: MCP Server Testing Strategy
+**Successful Patterns**:
+- Test tool handlers in isolation using mock MCP context
+- Test session state management with real SessionManager instances
+- Test integration flows with realistic workflow data
+- Validate phase progression with content-appropriate test artifacts
+
+**Key Success Metric**: All 41 tests passing (original 27 + 14 new tests) after systematic resolution of all issues.
+
+### ENFORCEMENT OF TESTING LESSONS
+These lessons are **MANDATORY** for all future test development. Failure to follow these patterns will result in the same complex debugging cycles we experienced. When in doubt, refer back to this section before implementing tests.

@@ -35,7 +35,7 @@ export function getDefaultOutputDirectory(): string {
 
 // Server metadata
 const SERVER_NAME = 'structured-workflow-mcp';
-const SERVER_VERSION = '0.2.1'; // First published open-source release
+const SERVER_VERSION = '0.2.3'; // Enhanced CLI configuration and file management
 
 // Command-line argument parsing
 interface ServerConfig {

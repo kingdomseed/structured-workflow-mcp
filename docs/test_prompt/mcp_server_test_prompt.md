@@ -9,7 +9,7 @@ This prompt is designed to test the Structured Workflow MCP Server's ability to 
 - **Location**: `/refactor-test/src/UserService.ts`
 - **Purpose**: Test the MCP server's workflow guidance for refactoring
 - **Test Type**: SOLID principles compliance and refactoring
-- **MCP Server**: Structured Workflow MCP Server v0.2.1
+- **MCP Server**: Structured Workflow MCP Server v0.2.3
 
 ## Your Task
 

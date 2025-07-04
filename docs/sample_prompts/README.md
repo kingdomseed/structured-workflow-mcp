@@ -131,7 +131,7 @@ To improve these templates:
 
 ## Version Information
 
-- **MCP Server Version**: v0.2.1
+- **MCP Server Version**: v0.2.3
 - **Template Version**: 1.0
 - **Last Updated**: 2025-07-03
 - **Compatibility**: All MCP-compatible AI platforms
