@@ -4,8 +4,8 @@
   "description": "Disciplined workflow guidance for AI-assisted programming via MCP",
   "main": "dist/index.js",
   "bin": {
-    "structured-workflow-mcp": "./dist/index.js",
-    "swmcp": "./dist/index.js"
+    "structured-workflow-mcp": "dist/index.js",
+    "swmcp": "dist/index.js"
   },
   "files": [
     "dist",
