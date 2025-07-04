@@ -7,22 +7,17 @@ An MCP server that enforces disciplined programming practices by requiring AI as
 
 ## Why I Built This
 
-**TLDR**: I found that prompting with these two words: inventory and audit, helped make the AI think systematically and follow structured phases in development, but got tired of repeating them across every platform and prompt - so I built this MCP server to enforce this discipline automatically.
+**TLDR**: I got tired of repeating "inventory and audit first" across every AI platform and prompt, so I built an MCP server that automatically enforces this disciplined approach. It forces AI to think systematically and follow structured phases instead of jumping straight into code changes. 
 
-**The Details**:
-Like many of you, over the last year of learning to use AI in development, I got frustrated with AI not thinking through problems the way I do.
+So I've built an MCP server that fits into my workflow and thinking process while I'm programming. I made it available via npx and you can download it yourself if you want something local. 
 
-When I approach a problem, I ask: How are these components connected? How do they relate to other systems? What side effects will this change produce? What steps ensure success? What already exists in my codebase?
+In essence I was doing some repeated tasks with AI where I wanted it to complete refactoring work for part of a larger project. I was struggling because it was often missing or glossing over key things: classes or systems that already exist (a preferences service for example), creating duplicates of things, or when correcting mistakes, leaving orphaned unused methods/code around places, and when writing tests it would often pull in the wrong imports or put these together in the wrong way resulting in syntax errors but would jump straight into writing the next test without fixing the first one that was broken.
 
-AI skips this analysis. It jumps into code changes without understanding the system it's building into. It creates new classes and folder structures when they already exist. It adds code without understanding component relationships or potential side effects. The result was usually duplicated classes, functions, unused helpers, and other code that didn't fit the system I was working on.
+I sort of stumbled on this idea of the model needing to perform an audit and inventory of the current project (or not even the whole project--just one layer or feature in a project) before moving to any kind of implementation phase and it needed a lint iterate lint phase. I tried this with rules with limited success and then prompting with much better success but I was constantly repeating myself. 
 
-Planning modes helped, but didn't always force the AI to break down the problem properly, especially in larger existing codebases. Eventually I discovered two key words: inventory and audit. Forcing AI to INVENTORY and AUDIT before acting was the key to getting the model to be thorough and disciplined in understanding the system it was working on. *But* I had to keep repeating these instructions across multiple prompts and different AI platforms.
+So I started noodling on this idea of an MCP server that forced the AI to work through a problem in phases or lanes. So that's what this does. There's a number of different workflow styles and I'm open to any other ideas or improvements.
 
-I looked for existing MCP tools but didn't find anything quite like what I needed. The [Sequential Thinking MCP server](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking) was inspiring (and I still use this a lot), but I needed something that went further - forcing AI to follow structured phases and produce verifiable output before proceeding.
-
-So I built this for myself. I need this kind of disciplined workflow. If others find it useful, great. If not, no worries - I'll keep using it because it solves my problem.
-
-I'm sharing this in case others have similar frustrations. Contributions, improvements, and discussion are welcome.
+Feel free to check it out if it helps your use case. It's a work in progress but it has been doing a pretty great job for what I'm using it for now. Happy to share more if you are interested.
 
 ## Features
 
@@ -41,9 +36,84 @@ I'm sharing this in case others have similar frustrations. Contributions, improv
 
 **Session State Management** - Tracks progress and prevents skipping phases
 
+## How It Works
+
+Here's how the AI moves through a structured workflow:
+
+```mermaid
+graph TD
+    A[🚀 Start Workflow] --> B[AI Gets Phase Guidance]
+    B --> C{Create Phase Output}
+    C --> D[Auto-Save with Numbered Naming<br/>01-audit-inventory-2025-01-04.md]
+    D --> E[Phase Validation]
+    E --> F{All Phases Done?}
+    F -->|No| G[Move to Next Phase]
+    G --> B
+    F -->|Yes| H[Workflow Complete!]
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#fff3e0
+    style D fill:#e8f5e8
+    style E fill:#fff9c4
+    style H fill:#e8f5e8
+```
+
+**What happens at each step:**
+1. **Start Workflow** - AI calls a workflow tool (refactor_workflow, create_feature_workflow, etc.)
+2. **AI Gets Phase Guidance** - Server provides specific instructions for current phase (audit, analyze, implement, etc.)
+3. **Create Phase Output** - AI works through the phase and creates documentation/artifacts
+4. **Auto-Save** - Files are automatically saved with numbered naming in task directories
+5. **Phase Validation** - Server validates outputs meet requirements before proceeding
+6. **Next Phase** - Process repeats until workflow is complete
+
+## File Output & Configuration
+
+### Automatic File Creation
+
+The server **automatically creates** numbered workflow files as you progress through phases:
+
+```
+structured-workflow/
+├── your-task-name/
+│   ├── 01-audit-inventory-2025-01-04.md
+│   ├── 02-compare-analyze-2025-01-04.json
+│   ├── 03-question-determine-2025-01-04.md
+│   ├── 04-write-or-refactor-2025-01-04.md
+│   ├── 05-test-2025-01-04.json
+│   ├── 06-lint-2025-01-04.json
+│   ├── 07-iterate-2025-01-04.md
+│   └── 08-present-2025-01-04.md
+```
+
+### Configuration Options
+
+**Default Behavior**: Files are saved to `./structured-workflow/[task-name]/` in your current directory.
+
+**Custom Output Directory**: Configure where files are created by adding CLI parameters to your MCP server config:
+
+```json
+{
+  "mcpServers": {
+    "structured-workflow": {
+      "command": "npx",
+      "args": ["structured-workflow-mcp", "--output-dir", "./docs/workflows"],
+      "env": {}
+    }
+  }
+}
+```
+
+**Available CLI Parameters**:
+- `--output-dir <path>` - Set custom output directory (default: `structured-workflow`)
+- `--working-dir <path>` - Set working directory for the server
+- `--help` - Show help message
+
+**Graceful Fallback**: If file creation fails (permissions, disk space), the server continues with validation-only mode - your workflow isn't interrupted.
+
 ## Installation
 
-### 🚀 Quick Start (Recommended) - Zero Installation
+### Quick Start (Recommended) - Zero Installation
 
 **Add to your AI assistant config** - Uses npx automatically:
 
@@ -55,6 +125,21 @@ I'm sharing this in case others have similar frustrations. Contributions, improv
       "structured-workflow": {
         "command": "npx",
         "args": ["structured-workflow-mcp"],
+        "env": {}
+      }
+    }
+  }
+}
+```
+
+**With custom output directory**:
+```json
+{
+  "mcp": {
+    "servers": {
+      "structured-workflow": {
+        "command": "npx",
+        "args": ["structured-workflow-mcp", "--output-dir", "./docs/workflows"],
         "env": {}
       }
     }
@@ -75,9 +160,22 @@ I'm sharing this in case others have similar frustrations. Contributions, improv
 }
 ```
 
-### 📦 Global Installation (Optional)
+**With custom output directory**:
+```json
+{
+  "mcpServers": {
+    "structured-workflow": {
+      "command": "npx",
+      "args": ["structured-workflow-mcp", "--output-dir", "./project-workflows"],
+      "env": {}
+    }
+  }
+}
+```
 
-For better performance, install globally first:
+### Global Installation (Optional)
+
+You can install globally on your machine using NPM:
 
 ```bash
 npm install -g structured-workflow-mcp
@@ -98,17 +196,32 @@ Then use in your AI assistant config:
 }
 ```
 
-### ⚡ Auto-Install via Smithery
+**With custom output directory**:
+```json
+{
+  "mcp": {
+    "servers": {
+      "structured-workflow": {
+        "command": "structured-workflow-mcp",
+        "args": ["--output-dir", "/home/user/workflow-outputs"],
+        "env": {}
+      }
+    }
+  }
+}
+```
 
-For Claude Desktop users:
+### Auto-Install via Smithery
+
+Smithery provides a number of ways to install directly into your apps including this way for Claude Desktop:
 
 ```bash
 npx -y @smithery/cli install structured-workflow-mcp --client claude
 ```
 
-### 🛠️ Manual Installation
+### Manual Installation
 
-For developers:
+For developers, you can clone the repository and build it locally:
 
 ```bash
 git clone https://github.com/kingdomseed/structured-workflow-mcp

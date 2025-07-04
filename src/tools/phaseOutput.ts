@@ -1,6 +1,12 @@
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { SessionManager } from '../session/SessionManager';
 import { Phase } from '../types';
+import { 
+  saveWorkflowFile, 
+  DirectoryConfig, 
+  NumberedFileConfig,
+  validateDirectoryAccess 
+} from '../utils/fileSystem';
 
 export function createPhaseOutputTool(): Tool {
   return {
@@ -103,7 +109,7 @@ export async function handlePhaseOutput(
     if (artifact.format === 'json') {
       try {
         JSON.parse(artifact.content);
-      } catch (e) {
+      } catch {
         validationErrors.push(`Artifact "${artifact.path}": Invalid JSON format`);
       }
     }
@@ -128,12 +134,77 @@ export async function handlePhaseOutput(
       ]
     };
   }
+
+  // Save artifacts to disk with numbered naming
+  const savedArtifacts: Array<{
+    path: string;
+    format: 'markdown' | 'json' | 'text';
+    description: string;
+    content: string;
+    savedAt: string | null;
+    saveError?: string;
+  }> = [];
+  const outputDirectory = session.workflowConfig?.outputPreferences?.outputDirectory || 'structured-workflow';
   
-  // Record the phase output with artifacts
+  // Validate directory access
+  const dirValidation = validateDirectoryAccess(outputDirectory);
+  if (!dirValidation.isValid) {
+    return {
+      error: 'DIRECTORY ACCESS FAILED',
+      message: `⛔ Cannot save files: ${dirValidation.error}`,
+      resolution: [
+        'Check directory permissions',
+        'Ensure the output directory is writable',
+        'Try using a different output directory'
+      ]
+    };
+  }
+
+  // Configure directory structure
+  const directoryConfig: DirectoryConfig = {
+    baseDirectory: outputDirectory,
+    taskName: session.taskDescription,
+    createTaskSubdirectory: true
+  };
+
+  for (const artifact of params.outputArtifacts) {
+    try {
+      // Create file configuration
+      const fileConfig: NumberedFileConfig = {
+        phase: params.phase,
+        outputDirectory: outputDirectory,
+        extension: getExtensionForFormat(artifact.format),
+        includeDate: true
+      };
+
+      // Save file to disk
+      const savedPath = saveWorkflowFile(directoryConfig, fileConfig, artifact.content);
+      
+      // Update artifact with actual saved path
+      savedArtifacts.push({
+        ...artifact,
+        path: savedPath,
+        savedAt: new Date().toISOString()
+      });
+    } catch (error) {
+      // If file saving fails, fall back to validation-only mode
+      console.warn(`Failed to save artifact "${artifact.path}": ${error instanceof Error ? error.message : 'Unknown error'}`);
+      savedArtifacts.push({
+        ...artifact,
+        savedAt: null,
+        saveError: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  }
+  
+  // Record the phase output with artifacts (including saved paths)
   const enrichedOutput = {
     ...params.output,
-    artifacts: params.outputArtifacts,
-    validatedAt: new Date().toISOString()
+    artifacts: savedArtifacts,
+    validatedAt: new Date().toISOString(),
+    outputDirectory: outputDirectory,
+    taskDirectory: directoryConfig.createTaskSubdirectory ? 
+      `${outputDirectory}/${session.taskDescription}` : outputDirectory
   };
   
   sessionManager.recordPhaseOutput(params.phase, enrichedOutput);
@@ -156,15 +227,48 @@ export async function handlePhaseOutput(
     });
   }
   
+  // Count successfully saved artifacts
+  const savedCount = savedArtifacts.filter(a => !a.saveError).length;
+  const failedCount = savedArtifacts.length - savedCount;
+
   return {
     recorded: true,
     phase: params.phase,
     artifactsValidated: params.outputArtifacts.length,
-    artifacts: params.outputArtifacts.map(a => ({ path: a.path, format: a.format, description: a.description })),
+    artifactsSaved: savedCount,
+    artifactsFailed: failedCount,
+    artifacts: savedArtifacts.map(a => ({ 
+      path: a.path, 
+      format: a.format, 
+      description: a.description,
+      savedAt: a.savedAt,
+      saveError: a.saveError 
+    })),
+    outputDirectory: enrichedOutput.outputDirectory,
+    taskDirectory: enrichedOutput.taskDirectory,
     timestamp: new Date().toISOString(),
-    message: `✅ Successfully recorded output for ${params.phase} phase with ${params.outputArtifacts.length} validated artifact(s)`,
+    message: savedCount > 0 
+      ? `✅ Successfully recorded and saved ${savedCount} artifact(s) for ${params.phase} phase` + 
+        (failedCount > 0 ? ` (${failedCount} failed to save)` : '')
+      : `✅ Successfully validated ${params.outputArtifacts.length} artifact(s) for ${params.phase} phase (file saving disabled)`,
     hint: 'Use workflow_status to see overall progress, or validate_phase_completion to verify requirements'
   };
+}
+
+/**
+ * Maps artifact formats to file extensions
+ */
+function getExtensionForFormat(format: 'markdown' | 'json' | 'text'): string {
+  switch (format) {
+    case 'markdown':
+      return 'md';
+    case 'json':
+      return 'json';
+    case 'text':
+      return 'txt';
+    default:
+      return 'txt';
+  }
 }
 
 function validatePhaseSpecificContent(

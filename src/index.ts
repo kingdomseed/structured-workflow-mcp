@@ -20,11 +20,99 @@ import { createWorkflowStatusTool, handleWorkflowStatus } from './tools/workflow
 import { createPhaseOutputTool, handlePhaseOutput } from './tools/phaseOutput.js';
 import { createDiscoverWorkflowToolsTool, handleDiscoverWorkflowTools } from './tools/discoverWorkflowTools.js';
 
+// Global server configuration
+let globalServerConfig: ServerConfig = {};
+
+// Function to get server configuration (for use by tools)
+export function getServerConfig(): ServerConfig {
+  return { ...globalServerConfig };
+}
+
+// Function to get default output directory
+export function getDefaultOutputDirectory(): string {
+  return globalServerConfig.outputDirectory || 'structured-workflow';
+}
+
 // Server metadata
 const SERVER_NAME = 'structured-workflow-mcp';
 const SERVER_VERSION = '0.2.1'; // First published open-source release
 
+// Command-line argument parsing
+interface ServerConfig {
+  outputDirectory?: string;
+  workingDirectory?: string;
+}
+
+export function parseArguments(argv: string[] = process.argv.slice(2)): ServerConfig {
+  const config: ServerConfig = {};
+  const args = argv;
+  
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    const nextArg = args[i + 1];
+    
+    switch (arg) {
+      case '--output-dir':
+      case '--outputDirectory':
+        if (nextArg && !nextArg.startsWith('--')) {
+          config.outputDirectory = nextArg;
+          i++; // Skip next argument since we consumed it
+        }
+        break;
+      case '--working-dir':
+      case '--workingDirectory':
+        if (nextArg && !nextArg.startsWith('--')) {
+          config.workingDirectory = nextArg;
+          i++; // Skip next argument since we consumed it
+        }
+        break;
+      case '--help':
+      case '-h':
+        console.log(`
+${SERVER_NAME} v${SERVER_VERSION}
+
+Usage: structured-workflow-mcp [options]
+
+Options:
+  --output-dir <path>     Default output directory for workflow files (default: 'structured-workflow')
+  --working-dir <path>    Working directory for the server (default: current directory)
+  --help, -h              Show this help message
+
+Examples:
+  structured-workflow-mcp --output-dir ./docs/workflows
+  structured-workflow-mcp --output-dir /tmp/workflow-outputs --working-dir /project/root
+`);
+        process.exit(0);
+        break;
+    }
+  }
+  
+  return config;
+}
+
 async function main() {
+  // Parse command-line arguments
+  const serverConfig = parseArguments();
+  
+  // Set global configuration for tools to access
+  globalServerConfig = serverConfig;
+  
+  // Set working directory if specified
+  if (serverConfig.workingDirectory) {
+    try {
+      process.chdir(serverConfig.workingDirectory);
+      console.error(`[Config] Working directory set to: ${serverConfig.workingDirectory}`);
+    } catch (error) {
+      console.error(`[Config Error] Failed to set working directory: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      process.exit(1);
+    }
+  }
+  
+  // Log configuration
+  console.error(`[Config] Default output directory: ${getDefaultOutputDirectory()}`);
+  if (serverConfig.outputDirectory) {
+    console.error(`[Config] Output directory configured via command line`);
+  }
   const server = new Server(
     {
       name: SERVER_NAME,
@@ -288,8 +376,10 @@ process.on('SIGTERM', () => {
   process.exit(0);
 });
 
-// Run the server
-main().catch((error) => {
-  console.error('💥 Failed to start server:', error);
-  process.exit(1);
-});
+// Run the server only when this file is executed directly (not imported)
+if (require.main === module) {
+  main().catch((error) => {
+    console.error('💥 Failed to start server:', error);
+    process.exit(1);
+  });
+}

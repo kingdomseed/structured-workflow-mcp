@@ -72,7 +72,10 @@ describe('PhaseOutput Tool', () => {
     expect(res.phase).toBe('AUDIT_INVENTORY');
     expect(res.artifactsValidated).toBe(1);
     expect(res.artifacts).toBeDefined();
-    expect(res.artifacts![0].path).toBe('audit-analysis-results');
+    // With new file saving functionality, path is now the actual saved file path
+    expect(res.artifacts![0].path).toContain('structured-workflow');
+    expect(res.artifacts![0].path).toContain('01-audit-inventory');
+    expect(res.artifacts![0].path).toContain('.json');
     expect(res.artifacts![0].format).toBe('json');
   });
 });

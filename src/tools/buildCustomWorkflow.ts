@@ -2,6 +2,14 @@ import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { SessionManager } from '../session/SessionManager';
 import { WorkflowConfiguration, Phase, OutputFileInstruction } from '../types';
 import { WorkflowType, getWorkflowPreset, detectWorkflowType } from '../workflows/WorkflowPresets';
+import { 
+  createWorkflowDirectory, 
+  generateNumberedFileName,
+  DirectoryConfig,
+  validateDirectoryAccess,
+  sanitizeTaskName 
+} from '../utils/fileSystem';
+import { getDefaultOutputDirectory } from '../index';
 
 export function createBuildCustomWorkflowTool(): Tool {
   return {
@@ -133,7 +141,7 @@ async function buildCustomWorkflowImplementation(
     realTimeUpdates: true,
     generateDiagrams: true,
     includeCodeSnippets: true,
-    outputDirectory: 'workflow-output',
+    outputDirectory: getDefaultOutputDirectory(),
     createProgressReport: true,
     createPhaseArtifacts: true,
     ...params.outputPreferences
@@ -162,10 +170,43 @@ async function buildCustomWorkflowImplementation(
   // Start session with configuration
   const session = sessionManager.startSession(params.task, workflowConfig);
 
-  // Generate initial output file instructions
+  // Create directory structure automatically
+  const directoryConfig: DirectoryConfig = {
+    baseDirectory: outputPreferences.outputDirectory,
+    taskName: params.task,
+    createTaskSubdirectory: true
+  };
+
+  // Validate and create directory
+  const dirValidation = validateDirectoryAccess(outputPreferences.outputDirectory);
+  if (!dirValidation.isValid) {
+    return {
+      error: 'DIRECTORY CREATION FAILED',
+      message: `⛔ Cannot create workflow directory: ${dirValidation.error}`,
+      resolution: [
+        'Check directory permissions',
+        'Ensure the specified directory is writable',
+        'Try using a different output directory'
+      ]
+    };
+  }
+
+  // Create the workflow directory structure
+  const createdDirectory = createWorkflowDirectory(directoryConfig);
+  const sanitizedTaskName = sanitizeTaskName(params.task);
+
+  // Generate numbered file names for initial files
+  const planningFileName = generateNumberedFileName({
+    phase: 'PLANNING',
+    outputDirectory: createdDirectory,
+    extension: 'md',
+    includeDate: true
+  });
+
+  // Generate initial output file instructions with numbered naming
   const initialOutputFiles: OutputFileInstruction[] = [
     {
-      path: `${outputPreferences.outputDirectory}/00-workflow-plan.md`,
+      path: `${createdDirectory}/${planningFileName}`,
       description: 'Initial workflow plan and configuration',
       required: true,
       format: 'markdown',
@@ -173,7 +214,7 @@ async function buildCustomWorkflowImplementation(
       validationRules: ['Must contain task description', 'Must list all selected phases', 'Must include iteration limits']
     },
     {
-      path: `${outputPreferences.outputDirectory}/workflow-status.json`,
+      path: `${createdDirectory}/workflow-status.json`,
       description: 'Machine-readable workflow progress',
       required: true,
       format: 'json',
@@ -201,21 +242,29 @@ async function buildCustomWorkflowImplementation(
       '🛑 SAFETY RULE: Files must be read before modification (this is enforced)',
       '⏱️ ITERATION LIMITS: Automatic escalation to user input when limits are reached'
     ],
+    directoryCreated: {
+      baseDirectory: outputPreferences.outputDirectory,
+      taskDirectory: createdDirectory,
+      sanitizedTaskName: sanitizedTaskName,
+      message: `✅ Directory structure automatically created at: ${createdDirectory}`
+    },
     requiredFirstActions: [
       {
-        action: 'CREATE_OUTPUT_DIRECTORY',
-        instruction: `You MUST create the directory "${outputPreferences.outputDirectory}" in the current project`,
-        blocking: true
+        action: 'DIRECTORY_AUTO_CREATED',
+        instruction: `✅ Output directory automatically created: "${createdDirectory}"`,
+        completed: true,
+        blocking: false
       },
       {
         action: 'CREATE_INITIAL_FILES',
-        instruction: 'You MUST create the initial workflow documentation files',
+        instruction: 'You can now start creating phase output files using the numbered naming system',
         files: initialOutputFiles,
-        blocking: true
+        blocking: false,
+        note: 'Files will be automatically saved with numbered naming (01-audit-inventory-YYYY-MM-DD.md)'
       },
       {
         action: 'BEGIN_FIRST_PHASE',
-        instruction: `After creating the required files, call "${selectedPhases[0].toLowerCase()}_guidance" to begin the workflow`,
+        instruction: `Call "${selectedPhases[0].toLowerCase()}_guidance" to begin the workflow`,
         blocking: true
       }
     ],
