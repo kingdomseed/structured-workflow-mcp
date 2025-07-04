@@ -117,6 +117,8 @@ structured-workflow/
 
 **Add to your AI assistant config** - Uses npx automatically:
 
+> 💡 **Note**: I recommend using `@latest` to ensure you always get the newest features and fixes. Without `@latest`, npx may cache older versions.
+
 **VS Code / Cursor / Windsurf** - Add to your MCP settings:
 ```json
 {
@@ -124,7 +126,7 @@ structured-workflow/
     "servers": {
       "structured-workflow": {
         "command": "npx",
-        "args": ["structured-workflow-mcp"],
+        "args": ["structured-workflow-mcp@latest"],
         "env": {}
       }
     }
@@ -139,7 +141,7 @@ structured-workflow/
     "servers": {
       "structured-workflow": {
         "command": "npx",
-        "args": ["structured-workflow-mcp", "--output-dir", "./docs/workflows"],
+        "args": ["structured-workflow-mcp@latest", "--output-dir", "./docs/workflows"],
         "env": {}
       }
     }
@@ -401,7 +403,7 @@ The server uses TypeScript with the @modelcontextprotocol/sdk and runs locally v
 
 ## Pull Requests Welcome
 
-We welcome and encourage pull requests! Whether you're fixing bugs, adding features, or improving documentation, your contributions are valuable.
+I welcome and encourage pull requests! Whether you're fixing bugs, adding features, or improving documentation, your contributions are valuable.
 
 Please follow these steps:
 
