@@ -1,11 +1,12 @@
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { SessionManager } from '../session/SessionManager';
 import { Phase } from '../types';
-import { 
-  saveWorkflowFile, 
-  DirectoryConfig, 
+import * as path from 'path';
+import {
   NumberedFileConfig,
-  validateDirectoryAccess 
+  resolveOutputDirectory,
+  generateNumberedFileName,
+  sanitizeTaskName
 } from '../utils/fileSystem';
 
 export function createPhaseOutputTool(): Tool {
@@ -135,7 +136,6 @@ export async function handlePhaseOutput(
     };
   }
 
-  // Save artifacts to disk with numbered naming
   const savedArtifacts: Array<{
     path: string;
     format: 'markdown' | 'json' | 'text';
@@ -144,57 +144,29 @@ export async function handlePhaseOutput(
     savedAt: string | null;
     saveError?: string;
   }> = [];
-  const outputDirectory = session.workflowConfig?.outputPreferences?.outputDirectory || 'structured-workflow';
+
+  // Resolve output directory (handles relative paths)
+  const rawOutputDirectory = session.workflowConfig?.outputPreferences?.outputDirectory || 'structured-workflow';
+  const outputDirectory = resolveOutputDirectory(rawOutputDirectory, process.cwd());
   
-  // Validate directory access
-  const dirValidation = validateDirectoryAccess(outputDirectory);
-  if (!dirValidation.isValid) {
-    return {
-      error: 'DIRECTORY ACCESS FAILED',
-      message: `⛔ Cannot save files: ${dirValidation.error}`,
-      resolution: [
-        'Check directory permissions',
-        'Ensure the output directory is writable',
-        'Try using a different output directory'
-      ]
-    };
-  }
-
-  // Configure directory structure
-  const directoryConfig: DirectoryConfig = {
-    baseDirectory: outputDirectory,
-    taskName: session.taskDescription,
-    createTaskSubdirectory: true
-  };
-
   for (const artifact of params.outputArtifacts) {
-    try {
-      // Create file configuration
-      const fileConfig: NumberedFileConfig = {
-        phase: params.phase,
-        outputDirectory: outputDirectory,
-        extension: getExtensionForFormat(artifact.format),
-        includeDate: true
-      };
+    // Build a numbered filename suggestion
+    const fileConfig: NumberedFileConfig = {
+      phase: params.phase,
+      outputDirectory: outputDirectory,
+      extension: getExtensionForFormat(artifact.format),
+      includeDate: true
+    };
+    const suggestedFileName = generateNumberedFileName(fileConfig);
 
-      // Save file to disk
-      const savedPath = saveWorkflowFile(directoryConfig, fileConfig, artifact.content);
-      
-      // Update artifact with actual saved path
-      savedArtifacts.push({
-        ...artifact,
-        path: savedPath,
-        savedAt: new Date().toISOString()
-      });
-    } catch (error) {
-      // If file saving fails, fall back to validation-only mode
-      console.warn(`Failed to save artifact "${artifact.path}": ${error instanceof Error ? error.message : 'Unknown error'}`);
-      savedArtifacts.push({
-        ...artifact,
-        savedAt: null,
-        saveError: error instanceof Error ? error.message : 'Unknown error'
-      });
-    }
+    const suggestedPath = path.join(outputDirectory, sanitizeTaskName(session.taskDescription), suggestedFileName);
+
+    // Prepare array of artifact write instructions; no disk operation
+    savedArtifacts.push({
+      ...artifact,
+      path: suggestedPath,
+      savedAt: null // Nothing actually written
+    });
   }
   
   // Record the phase output with artifacts (including saved paths)
@@ -203,8 +175,7 @@ export async function handlePhaseOutput(
     artifacts: savedArtifacts,
     validatedAt: new Date().toISOString(),
     outputDirectory: outputDirectory,
-    taskDirectory: directoryConfig.createTaskSubdirectory ? 
-      `${outputDirectory}/${session.taskDescription}` : outputDirectory
+    taskDirectory: path.join(outputDirectory, sanitizeTaskName(session.taskDescription))
   };
   
   sessionManager.recordPhaseOutput(params.phase, enrichedOutput);

@@ -3,12 +3,10 @@ import { SessionManager } from '../session/SessionManager';
 import { WorkflowConfiguration, Phase, OutputFileInstruction } from '../types';
 import { WorkflowType, getWorkflowPreset, detectWorkflowType } from '../workflows/WorkflowPresets';
 import { 
-  createWorkflowDirectory, 
   generateNumberedFileName,
-  DirectoryConfig,
-  validateDirectoryAccess,
   sanitizeTaskName,
-  resolveOutputDirectory 
+  resolveOutputDirectory,
+  validateDirectoryAccess
 } from '../utils/fileSystem';
 import { getDefaultOutputDirectory } from '../index';
 
@@ -176,35 +174,32 @@ async function buildCustomWorkflowImplementation(
   // Start session with configuration
   const session = sessionManager.startSession(params.task, workflowConfig);
 
-  // Create directory structure automatically
-  const directoryConfig: DirectoryConfig = {
-    baseDirectory: outputPreferences.outputDirectory,
-    taskName: params.task,
-    createTaskSubdirectory: true
-  };
-
-  // Validate and create directory
+  // Validate directory access (read-only check)
   const dirValidation = validateDirectoryAccess(resolvedOutputDir);
-  if (!dirValidation.isValid) {
-    return {
-      error: 'DIRECTORY CREATION FAILED',
-      message: `⛔ Cannot create workflow directory: ${dirValidation.error}`,
-      resolution: [
-        'Check directory permissions',
-        'Ensure the specified directory is writable',
-        'Try using a different output directory'
-      ]
-    };
-  }
-
-  // Create the workflow directory structure
-  const createdDirectory = createWorkflowDirectory(directoryConfig);
+  
+  // Get the sanitized task name for subdirectory
   const sanitizedTaskName = sanitizeTaskName(params.task);
+  
+  // Construct the target directory path (no actual creation happens)
+  const suggestedDirectory = resolvedOutputDir && sanitizedTaskName ? 
+    `${resolvedOutputDir}/${sanitizedTaskName}` :
+    resolvedOutputDir;
+    
+  // Report validation issues but continue with the workflow
+  const directoryWarning = !dirValidation.isValid ? {
+    warning: 'DIRECTORY ACCESS ISSUE',
+    message: `⚠️ Output directory may not be writable: ${dirValidation.error}`,
+    impact: 'The AI agent will be instructed to create this directory. If it fails, artifacts will remain in-memory only.',
+    resolution: [
+      'Check directory permissions',
+      'Ensure the specified directory is writable'
+    ]
+  } : null;
 
   // Generate numbered file names for initial files
   const planningFileName = generateNumberedFileName({
     phase: 'PLANNING',
-    outputDirectory: createdDirectory,
+    outputDirectory: suggestedDirectory,
     extension: 'md',
     includeDate: true
   });
@@ -212,7 +207,7 @@ async function buildCustomWorkflowImplementation(
   // Generate initial output file instructions with numbered naming
   const initialOutputFiles: OutputFileInstruction[] = [
     {
-      path: `${createdDirectory}/${planningFileName}`,
+      path: `${suggestedDirectory}/${planningFileName}`,
       description: 'Initial workflow plan and configuration',
       required: true,
       format: 'markdown',
@@ -220,7 +215,7 @@ async function buildCustomWorkflowImplementation(
       validationRules: ['Must contain task description', 'Must list all selected phases', 'Must include iteration limits']
     },
     {
-      path: `${createdDirectory}/workflow-status.json`,
+      path: `${suggestedDirectory}/workflow-status.json`,
       description: 'Machine-readable workflow progress',
       required: true,
       format: 'json',
@@ -241,6 +236,7 @@ async function buildCustomWorkflowImplementation(
       userCheckpoints,
       escalationEnabled: true
     },
+    ...(directoryWarning ? { directoryWarning } : {}),
     criticalInstructions: [
       '⚠️ DIRECTIVE WORKFLOW: This is not suggestive guidance - you MUST follow the structured approach',
       '📋 PHASE VALIDATION: Each phase has specific completion requirements that must be met',
@@ -250,16 +246,16 @@ async function buildCustomWorkflowImplementation(
     ],
     directoryCreated: {
       baseDirectory: outputPreferences.outputDirectory,
-      taskDirectory: createdDirectory,
+      taskDirectory: suggestedDirectory,
       sanitizedTaskName: sanitizedTaskName,
-      message: `✅ Directory structure automatically created at: ${createdDirectory}`
+      message: `ℹ️ Suggested output directory path: ${suggestedDirectory}`
     },
     requiredFirstActions: [
       {
-        action: 'DIRECTORY_AUTO_CREATED',
-        instruction: `✅ Output directory automatically created: "${createdDirectory}"`,
-        completed: true,
-        blocking: false
+        action: 'CREATE_OUTPUT_DIRECTORY',
+        instruction: `ℹ️ Create output directory if needed: "${suggestedDirectory}"`,
+        completed: false,
+        blocking: true
       },
       {
         action: 'CREATE_INITIAL_FILES',
