@@ -5,12 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.5] - 2025-07-04
+## [0.2.6] - 2025-07-05
 
-### 🔧 Internal
-- **Enhanced Testing**: Added Jest-based test coverage for file-existence logic using mock-fs
-- **Complete FS Refactor**: Removed all direct filesystem writes from TypeScript code
-- **Improved Error Handling**: Directory write failures now gracefully degrade to in-memory mode
+- ### 🛠️ Improvements
+- **Phase Guidance Enhancements**: Inject universal tool-usage reminders into all suggestive and directive phases (audit, compare, write/refactor, lint, iterate, present).
+- **Test Coverage**: Added normalization in Jest tests to handle Unicode hyphen variants in guidance instructions.
 
 ---
 
@@ -143,4 +142,4 @@ None in this release - all changes are backward compatible.
 
 ---
 
-**Full Changelog**: https://github.com/[username]/structured-workflow-mcp/compare/v0.2.2...v0.2.3
+**Full Changelog**: https://github.com/kingdomseed/structured-workflow-mcp/compare/v0.2.2...v0.2.6

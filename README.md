@@ -67,6 +67,8 @@ graph TD
 5. **Phase Validation** - Server validates outputs meet requirements before proceeding
 6. **Next Phase** - Process repeats until workflow is complete
 
+One benefit of this breakdown is that the AI agent receive instruction sets that are relevant to the current phase and not the entire workflow. This can help prevent the AI from getting lost in the weeds of the entire workflow and instead focus on the current phase. An interesting article on this can be read here: [LLMs Get Lost In Multi-Turn Conversation](https://arxiv.org/abs/2505.06120v1)
+
 ## Workflow Output
 
 ### AI-Generated Documentation

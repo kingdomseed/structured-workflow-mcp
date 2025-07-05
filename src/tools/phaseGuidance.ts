@@ -320,6 +320,36 @@ function getSuggestiveGuidance(
     throw new Error(`Unknown phase guidance: ${phaseName}`);
   }
 
+  // ---------------------------------------------------------------------------
+  // Augment guidance with universal tool‑usage reminders
+  // ---------------------------------------------------------------------------
+  // Derived from docs/helpful-instructions.md.  These reminders encourage the
+  // agent to:
+  //   1. Keep working until the task is fully solved before yielding.
+  //   2. Use analysis tools (file‑reading / search) rather than guessing.
+  //   3. Plan and reflect before/after each tool call.
+  // We inject them into most phases except QUESTION_DETERMINE which already
+  // centers on planning and clarification.
+
+  const universalHelpfulInstructions = [
+    'You are an agent – keep working until the user’s query is fully resolved **before** yielding back.',
+    'If you are unsure about file contents or project structure, leverage your file‑reading and search tools – do **NOT** guess or fabricate details.',
+    'Plan extensively before each tool/function call and reflect on prior outcomes; avoid blindly chaining calls.'
+  ];
+
+  const phasesToInclude = [
+    'AUDIT_INVENTORY',
+    'COMPARE_ANALYZE',
+    'WRITE_OR_REFACTOR',
+    'LINT',
+    'ITERATE',
+    'PRESENT'
+  ];
+
+  if (phasesToInclude.includes(guidance.phase)) {
+    guidance.instructions.push(...universalHelpfulInstructions);
+  }
+
   // Update session phase if we have an active session
   if (session) {
     sessionManager.updatePhase(guidance.phase);
@@ -903,6 +933,30 @@ function getDirectiveGuidance(
   const guidance = phaseGuidanceMap[phaseName];
   if (!guidance) {
     throw new Error(`Unknown phase guidance: ${phaseName}`);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Augment directive guidance with universal tool-usage reminders
+  // ---------------------------------------------------------------------------
+  // These reminders ensure consistency with suggestive guidance:
+  //   * Keep working until task is fully resolved before yielding
+  //   * Use file-reading/search tools rather than guessing
+  //   * Plan and reflect before/after each tool call
+  const universalHelpfulInstructions = [
+    'You are an agent – keep working until the user’s query is fully resolved **before** yielding back.',
+    'If you are unsure about file contents or project structure, leverage your file-reading and search tools – do **NOT** guess or fabricate details.',
+    'Plan extensively before each tool/function call and reflect on prior outcomes; avoid blindly chaining calls.'
+  ];
+  const phasesToInclude = [
+    'AUDIT_INVENTORY',
+    'COMPARE_ANALYZE',
+    'WRITE_OR_REFACTOR',
+    'LINT',
+    'ITERATE',
+    'PRESENT'
+  ];
+  if (phasesToInclude.includes(guidance.phase)) {
+    guidance.instructions.push(...universalHelpfulInstructions);
   }
 
   // Update session phase if we have an active session

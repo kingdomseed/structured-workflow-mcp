@@ -4,9 +4,9 @@ import * as path from 'path';
 /**
  * Minimal filesystem utilities.
  * NOTE: No helper here writes to disk. The MCP server now only SUGGESTS
- * file paths - the AI agent (Cascade) performs actual writes via tools.
+ * file paths - the AI agent (Cascade, etc) performs actual writes via tools.
  *
- * @version 0.2.5
+ * @version 0.2.6
  */
 
 export interface NumberedFileConfig {

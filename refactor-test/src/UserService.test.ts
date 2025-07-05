@@ -1,6 +1,6 @@
 import { UserService } from './UserService';
 
-// Mock nodemailer
+// Mock nodemailer createTransport for tests
 jest.mock('nodemailer', () => ({
   createTransport: jest.fn().mockReturnValue({
     sendMail: jest.fn().mockResolvedValue({ messageId: 'test' })

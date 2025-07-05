@@ -37,15 +37,22 @@ export class UserService {
   private reportTemplates: Map<string, string> = new Map();
   
   constructor() {
-    // Hardcoded email configuration - violates Open/Closed
-    this.emailTransporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 587,
-      auth: {
-        user: 'hardcoded@email.com',
-        pass: 'hardcodedPassword123'
-      }
-    });
+    // Email transporter setup
+    // In tests, override to dummy transporter to prevent real SMTP connections
+    if (process.env.NODE_ENV === 'test') {
+      this.emailTransporter = {
+        sendMail: async (_opts: any) => ({ messageId: 'test' })
+      } as unknown as nodemailer.Transporter;
+    } else {
+      this.emailTransporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        auth: {
+          user: 'hardcoded@email.com',
+          pass: 'hardcodedPassword123'
+        }
+      });
+    }
     
     // Initialize report templates
     this.reportTemplates.set('user', '<h1>User Report</h1>');

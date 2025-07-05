@@ -1,4 +1,4 @@
-# Structured Workflow MCP Server - Design Document v0.2.5
+# Structured Workflow MCP Server - Design Document v0.2.6
 
 ## Executive Summary
 
