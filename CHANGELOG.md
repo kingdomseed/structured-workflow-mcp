@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.7] - 2025-07-07
+
+### 🚀 New Features
+- **SETUP Phase**: Added new initial phase to establish workflow environment and file organization patterns before starting analysis
+- **Simplified AUDIT_INVENTORY**: Reduced required documentation from 5 files to 2 files (01-audit-analysis.md and 01-inventory-changes.json)
+
+### 🛠️ Improvements
+- **Fixed ITERATE and PRESENT Phases**: Added missing `requiredOutputFiles` arrays to ensure consistent file output patterns
+- **Clarified File Path Patterns**: Replaced ambiguous `${outputDir}` references with explicit `structured-workflow/{task-name}/` patterns throughout all phases
+- **Updated Documentation Examples**: Fixed misleading file name examples (e.g., "analysis.md") to use correct numbered patterns (e.g., "01-audit-analysis.md")
+- **Improved phase_output Guidance**: Clarified confusing "files OR structured JSON" phrasing to emphasize numbered file naming convention
+
+### 🐛 Bug Fixes
+- Fixed file creation inconsistencies where early phases created unnumbered files in project root while later phases correctly used numbered files in workflow-output directory
+- Updated phase numbering to accommodate new SETUP phase (SETUP=0, AUDIT=1, etc.)
+
+### 🔧 Internal
+- Updated Phase type definition to include SETUP
+- Updated validation criteria for all phases
+- Updated workflow presets to include SETUP phase
+- Enhanced file system utilities to support new phase numbering
+
 ## [0.2.6] - 2025-07-05
 
 - ### 🛠️ Improvements

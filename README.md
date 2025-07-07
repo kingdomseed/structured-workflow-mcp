@@ -21,7 +21,7 @@ Feel free to check it out if it helps your use case. It's a work in progress but
 
 ## Features
 
-**Enforced Workflow Phases** - AI must complete specific phases in order (audit, analysis, planning, implementation, testing, etc.)
+**Enforced Workflow Phases** - AI must complete specific phases in order (setup, audit, analysis, planning, implementation, testing, etc.)
 
 **Mandatory Output Artifacts** - Each phase requires structured documentation or verified outputs before proceeding
 
@@ -44,7 +44,7 @@ Here's how the AI moves through a structured workflow:
 graph TD
     A[🚀 Start Workflow] --> B[AI Gets Phase Guidance]
     B --> C{Create Phase Output}
-    C --> D[Auto-Save with Numbered Naming<br/>01-audit-inventory-2025-01-04.md]
+    C --> D[Auto-Save with Numbered Naming<br/>00-setup-confirmation-2025-01-07.md]
     D --> E[Phase Validation]
     E --> F{All Phases Done?}
     F -->|No| G[Move to Next Phase]

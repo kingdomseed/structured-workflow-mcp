@@ -35,7 +35,7 @@ export function getDefaultOutputDirectory(): string {
 
 // Server metadata
 const SERVER_NAME = 'structured-workflow-mcp';
-const SERVER_VERSION = '0.2.6'; // Enhanced CLI configuration and file management with no direct filesystem writes
+const SERVER_VERSION = '0.2.7'; // Added SETUP phase, simplified AUDIT_INVENTORY, fixed ITERATE/PRESENT phases
 
 // Command-line argument parsing
 interface ServerConfig {
