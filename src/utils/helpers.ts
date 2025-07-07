@@ -55,6 +55,7 @@ export function generateNextStepSuggestions(_completedPhases: Phase[], currentPh
   
   const phaseGuidanceMap: Record<Phase, string> = {
     PLANNING: 'Use audit_inventory_guidance to begin understanding and cataloging',
+    SETUP: 'Use audit_inventory_guidance to begin analyzing the codebase',
     AUDIT_INVENTORY: 'Use compare_analyze_guidance to evaluate different approaches',
     COMPARE_ANALYZE: 'Use question_determine_guidance to clarify and finalize your strategy',
     QUESTION_DETERMINE: 'Use refactor_guidance to start implementing changes',

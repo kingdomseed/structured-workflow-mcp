@@ -1,5 +1,6 @@
 export type Phase = 
   | 'PLANNING'
+  | 'SETUP'
   | 'AUDIT_INVENTORY'
   | 'COMPARE_ANALYZE'
   | 'QUESTION_DETERMINE'

@@ -24,6 +24,7 @@ export const WORKFLOW_PRESETS: Record<WorkflowType, WorkflowPreset> = {
     description: 'Systematic approach to improving existing code without changing functionality',
     type: 'refactor',
     phases: [
+      'SETUP',
       'AUDIT_INVENTORY',
       'COMPARE_ANALYZE', 
       'QUESTION_DETERMINE',
@@ -57,6 +58,7 @@ export const WORKFLOW_PRESETS: Record<WorkflowType, WorkflowPreset> = {
     description: 'Structured approach to adding new functionality with testing',
     type: 'feature',
     phases: [
+      'SETUP',
       'PLANNING',
       'QUESTION_DETERMINE',
       'WRITE_OR_REFACTOR',
@@ -90,6 +92,7 @@ export const WORKFLOW_PRESETS: Record<WorkflowType, WorkflowPreset> = {
     description: 'Focused workflow for creating or improving test coverage',
     type: 'test',
     phases: [
+      'SETUP',
       'AUDIT_INVENTORY',  // Understand what needs testing
       'QUESTION_DETERMINE',  // Plan test strategy
       'WRITE_OR_REFACTOR',  // Write tests (writing tests)
@@ -122,6 +125,7 @@ export const WORKFLOW_PRESETS: Record<WorkflowType, WorkflowPreset> = {
     description: 'Red-Green-Refactor cycle for test-first development',
     type: 'tdd',
     phases: [
+      'SETUP',
       'PLANNING',
       'WRITE_OR_REFACTOR',  // Write failing test
       'TEST',  // Verify test fails

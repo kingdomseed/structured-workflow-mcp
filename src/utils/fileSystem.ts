@@ -34,7 +34,8 @@ export function sanitizeTaskName(taskName: string): string {
  */
 function getPhaseNumber(phase: string): number {
   const phaseMap: Record<string, number> = {
-    'PLANNING': 0,
+    'SETUP': 0,
+    'PLANNING': 0,  // Keep planning as 0 for backward compatibility
     'AUDIT_INVENTORY': 1,
     'COMPARE_ANALYZE': 2,
     'QUESTION_DETERMINE': 3,

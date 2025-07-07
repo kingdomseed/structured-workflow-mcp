@@ -31,7 +31,7 @@ export function createValidationTools(): Tool[] {
         properties: {
           phase: {
             type: 'string',
-            enum: ['AUDIT_INVENTORY', 'COMPARE_ANALYZE', 'QUESTION_DETERMINE', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'ITERATE', 'PRESENT'],
+            enum: ['SETUP', 'AUDIT_INVENTORY', 'COMPARE_ANALYZE', 'QUESTION_DETERMINE', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'ITERATE', 'PRESENT'],
             description: 'The phase to validate'
           },
           completedWork: {
@@ -173,6 +173,38 @@ export async function handleValidatePhaseCompletion(
 
 function getValidationCriteriaForPhase(phase: Phase, outputDir: string): ValidationCriteria {
   const phaseValidationMap: Record<Phase, ValidationCriteria> = {
+    SETUP: {
+      minimumRequirements: {
+        workingDirectoryConfirmed: true,
+        outputPatternAcknowledged: true,
+        toolsListed: true,
+        patternUnderstood: true,
+        outputFilesCreated: 1
+      },
+      blockingMessages: [
+        '⛔ Working directory not confirmed',
+        '⛔ Output pattern not acknowledged',
+        '⛔ Available tools not listed',
+        '⛔ Required setup file not created'
+      ],
+      expectedFiles: [
+        'structured-workflow/{task-name}/00-setup-confirmation.md'
+      ],
+      selfCheckQuestions: [
+        'Have I confirmed the working directory?',
+        'Have I acknowledged the output pattern?',
+        'Have I listed available tools?',
+        'Have I created the setup confirmation file?'
+      ],
+      completionCriteria: [
+        'Working directory verified',
+        'Output pattern understood',
+        'Setup confirmation documented'
+      ],
+      cannotProceedUntil: [
+        'Setup confirmation file created with all requirements'
+      ]
+    },
     AUDIT_INVENTORY: {
       minimumRequirements: {
         // Audit requirements
@@ -182,51 +214,34 @@ function getValidationCriteriaForPhase(phase: Phase, outputDir: string): Validat
         targetFileRead: true,
         // Inventory requirements
         changesIdentified: 10,
-        impactAnalyzed: true,
-        risksAssessed: true,
-        prioritiesSet: true,
+        categoriesAssigned: true,
         // Combined output files
-        outputFilesCreated: 5
+        outputFilesCreated: 2
       },
       blockingMessages: [
         '⛔ Target file has not been read completely',
-        '⛔ Insufficient responsibilities identified',
-        '⛔ Architectural principles analysis incomplete',
-        '⛔ Dependency mapping not completed',
-        '⛔ Insufficient changes identified (need minimum 10)',
-        '⛔ Impact analysis not completed',
-        '⛔ Risk assessment missing',
-        '⛔ Priority ordering not established',
+        '⛔ Audit analysis incomplete',
+        '⛔ Insufficient changes cataloged (minimum 10)',
         '⛔ Required output files not created'
       ],
       expectedFiles: [
-        `${outputDir}/01-audit-findings.md`,
-        `${outputDir}/01-audit-dependency-diagram.md`,
-        `${outputDir}/01-audit-principle-analysis.json`,
-        `${outputDir}/02-inventory-changes.json`,
-        `${outputDir}/02-inventory-impact.md`
+        'structured-workflow/{task-name}/01-audit-analysis.md',
+        'structured-workflow/{task-name}/01-inventory-changes.json'
       ],
       selfCheckQuestions: [
         'Have I read the target file completely?',
-        'Have I identified distinct responsibilities and concerns?',
-        'Have I analyzed architectural principles based on user/project context?',
-        'Have I created a dependency diagram?',
-        'Have I identified at least 10 specific changes?',
-        'Have I analyzed the impact of each change?',
-        'Have I assessed risks and dependencies?',
-        'Have I created priority ordering?',
-        'Have I created all 5 required output files?'
+        'Have I documented all distinct responsibilities and concerns?',
+        'Have I analyzed architectural principles?',
+        'Have I included dependency mapping in the audit?',
+        'Have I cataloged at least 10 specific changes?',
+        'Have I categorized changes as must-have or nice-to-have?',
+        'Have I created both required output files?'
       ],
       completionCriteria: [
-        'Target file read and analyzed',
-        'Responsibilities and concerns documented',
-        'Architectural principles analyzed based on context',
-        'Dependency diagram created',
-        'Minimum 10 changes cataloged',
-        'Impact analysis complete',
-        'Risk assessment documented',
-        'Priority ordering established',
-        'All output files generated'
+        'Target file read and understood',
+        'Comprehensive audit analysis documented',
+        'Minimum 10 changes cataloged with categories',
+        'Both output files generated with required content'
       ],
       cannotProceedUntil: [
         'All validation criteria met',

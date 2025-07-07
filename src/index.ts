@@ -207,6 +207,7 @@ async function main() {
           };
 
         // Phase guidance tools (automatically route based on session configuration)
+        case 'setup_guidance':
         case 'audit_inventory_guidance':
         case 'compare_analyze_guidance':
         case 'question_determine_guidance':

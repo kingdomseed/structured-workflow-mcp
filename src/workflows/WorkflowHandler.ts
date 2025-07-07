@@ -87,6 +87,23 @@ function buildPhaseDetails(phases: Phase[], workflowType: WorkflowType) {
 
 function getPhaseConfigurations(workflowType: WorkflowType): Record<string, any> {
   const baseConfigs = {
+    SETUP: {
+      purpose: 'Initialize workflow environment and establish file organization patterns',
+      keyActions: [
+        'Verify current working directory',
+        'Understand project structure and context',
+        'Confirm output directory pattern: structured-workflow/{task-name}/',
+        'Acknowledge numbered file naming convention'
+      ],
+      expectedOutput: {
+        workingDirectory: 'Current working directory path',
+        projectContext: 'Brief description of the project',
+        outputPattern: 'Confirmation of file organization pattern',
+        toolsAvailable: 'List of available analysis tools'
+      },
+      estimatedDuration: '5 minutes',
+      guidanceTool: 'setup_guidance'
+    },
     PLANNING: {
       purpose: 'Create a comprehensive plan for the task',
       keyActions: [

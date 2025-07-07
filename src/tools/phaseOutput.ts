@@ -12,7 +12,7 @@ import {
 export function createPhaseOutputTool(): Tool {
   return {
     name: 'phase_output',
-    description: 'Record the output/results when completing a workflow phase - REQUIRES ACTUAL OUTPUT ARTIFACTS (files OR structured JSON)',
+    description: 'Record the output/results when completing a workflow phase - REQUIRES ACTUAL OUTPUT ARTIFACTS with numbered file naming',
     inputSchema: {
       type: 'object',
       properties: {
@@ -52,7 +52,7 @@ export function createPhaseOutputTool(): Tool {
             },
             required: ['path', 'format', 'description', 'content']
           },
-          description: 'MANDATORY: List of actual output artifacts (files OR structured JSON) you created for this phase',
+          description: 'MANDATORY: List of actual output artifacts you created for this phase (use numbered file names)',
           minItems: 1
         }
       },

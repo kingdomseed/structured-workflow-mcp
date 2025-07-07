@@ -5,6 +5,11 @@ import { PhaseGuidance } from '../types';
 export function createPhaseGuidanceTools(): Tool[] {
   const phaseTools: Tool[] = [
     {
+      name: 'setup_guidance',
+      description: 'Get guidance for the SETUP phase - initialize workflow and establish patterns',
+      inputSchema: { type: 'object', properties: {} }
+    },
+    {
       name: 'audit_inventory_guidance',
       description: 'Get guidance for the AUDIT_INVENTORY phase - analyze code and catalog changes',
       inputSchema: { type: 'object', properties: {} }
@@ -50,11 +55,10 @@ export async function handlePhaseGuidance(
 ): Promise<PhaseGuidance> {
   const session = sessionManager.getSession();
   const isDirectiveMode = session?.workflowConfig !== undefined;
-  const outputDir = session?.workflowConfig?.outputPreferences.outputDirectory || 'workflow-output';
   
   // Route to appropriate guidance based on mode
   if (isDirectiveMode) {
-    return getDirectiveGuidance(phaseName, sessionManager, outputDir);
+    return getDirectiveGuidance(phaseName, sessionManager);
   } else {
     return getSuggestiveGuidance(phaseName, sessionManager);
   }
@@ -70,6 +74,40 @@ function getSuggestiveGuidance(
   const platformPrefixNote = '\n\n**IMPORTANT**: If you get "Unknown tool" errors when calling the next phase tool, your platform may require a prefix (e.g., mcp7_[tool_name] or mcp_[tool_name]). Check how other MCP tools are named in your environment.';
   
   const phaseGuidanceMap: Record<string, PhaseGuidance> = {
+    setup_guidance: {
+      phase: 'SETUP',
+      objective: 'Initialize workflow environment and establish clear file organization patterns',
+      instructions: [
+        '--- ENVIRONMENT SETUP ---',
+        'Verify your current working directory',
+        'Understand the project structure and context',
+        'Confirm available tools and capabilities',
+        '--- FILE ORGANIZATION PATTERN ---',
+        'Workflow outputs will be organized in: structured-workflow/{task-name}/',
+        'This is the default location (customizable via --output-dir)',
+        'All phase documents will use numbered prefixes: 00-setup, 01-audit, etc.',
+        'Create your documentation content following this pattern'
+      ],
+      suggestedApproach: [
+        'List your current working directory path',
+        'Identify the main project files relevant to the task',
+        'Document the default output pattern: structured-workflow/{task-name}/',
+        'Confirm you understand where documentation will be created'
+      ],
+      importantNotes: [
+        'This phase establishes the foundation for organized workflow execution',
+        'The file pattern shown (structured-workflow/{task-name}/) is the expected location',
+        'All subsequent phases will follow this numbered documentation pattern',
+        'Understanding this pattern now prevents confusion later'
+      ],
+      expectedOutput: {
+        workingDirectory: 'Current working directory path',
+        projectContext: 'Brief description of the project',
+        outputPattern: 'Confirmation of structured-workflow/{task-name}/ pattern',
+        toolsAvailable: 'List of available analysis and file tools'
+      },
+      nextPhase: 'Use audit_inventory_guidance to begin analyzing the codebase'
+    },
     audit_inventory_guidance: {
       phase: 'AUDIT_INVENTORY',
       objective: 'Thoroughly analyze the codebase AND catalog all required changes',
@@ -101,8 +139,8 @@ function getSuggestiveGuidance(
         'The audit informs the inventory - they work together',
         'Take detailed notes using any format (text, diagrams, etc.)',
         'The more thorough your analysis and cataloging, the smoother the implementation',
-        '⚠️ CRITICAL: You MUST create actual documentation artifacts (like analysis.md, plan.json, etc.)',
-        '⚠️ CRITICAL: When using phase_output, you MUST provide the outputArtifacts array with actual output content (files OR structured JSON)'
+        '⚠️ CRITICAL: You MUST create documentation following the numbered pattern (01-audit-analysis.md, 01-inventory-changes.json)',
+        '⚠️ CRITICAL: When using phase_output, you MUST provide the outputArtifacts array with actual content you created'
       ],
       expectedOutput: {
         // Audit outputs
@@ -117,7 +155,7 @@ function getSuggestiveGuidance(
         risks: 'Potential issues or breaking changes',
         priority: 'Suggested order of implementation'
       },
-      nextPhase: 'After completing analysis and cataloging, use compare_analyze_guidance. REMEMBER: You cannot proceed to the next phase without calling phase_output with actual outputArtifacts (your analysis documents, JSON files, etc.)'
+      nextPhase: 'After completing analysis and cataloging, use compare_analyze_guidance. REMEMBER: You cannot proceed to the next phase without calling phase_output with actual outputArtifacts (01-audit-analysis.md, 01-inventory-changes.json)'
     },
     
     compare_analyze_guidance: {
@@ -338,6 +376,7 @@ function getSuggestiveGuidance(
   ];
 
   const phasesToInclude = [
+    'SETUP',
     'AUDIT_INVENTORY',
     'COMPARE_ANALYZE',
     'WRITE_OR_REFACTOR',
@@ -365,8 +404,7 @@ function getSuggestiveGuidance(
 
 function getDirectiveGuidance(
   phaseName: string,
-  sessionManager: SessionManager,
-  outputDir: string
+  sessionManager: SessionManager
 ): PhaseGuidance {
   const session = sessionManager.getSession();
   
@@ -374,6 +412,78 @@ function getDirectiveGuidance(
   const platformPrefixNote = '\n\n**IMPORTANT**: If you get "Unknown tool" errors when calling the next phase tool, your platform may require a prefix (e.g., mcp7_[tool_name] or mcp_[tool_name]). Check how other MCP tools are named in your environment.';
   
   const phaseGuidanceMap: Record<string, PhaseGuidance> = {
+    setup_guidance: {
+      phase: 'SETUP',
+      objective: 'Initialize workflow environment and establish clear documentation patterns - REQUIRED FIRST PHASE',
+      
+      directiveInstructions: [
+        '🏁 MANDATORY: You MUST verify working directory and project context',
+        '📂 REQUIRED: You MUST acknowledge the output directory pattern',
+        '📝 CRITICAL: Documentation will be created in structured-workflow/{task-name}/',
+        '🔧 ESSENTIAL: You MUST confirm available tools and readiness'
+      ],
+
+      instructions: [
+        'Verify current working directory path',
+        'Identify project structure and main files',
+        'Understand the task context and requirements',
+        'IMPORTANT: All workflow outputs go to structured-workflow/{task-name}/',
+        'This is the default location (customizable via --output-dir)',
+        'Files will use numbered prefixes: 00-setup, 01-audit, etc.'
+      ],
+
+      requiredOutputFiles: [
+        {
+          path: 'structured-workflow/{task-name}/00-setup-confirmation.md',
+          description: 'Workflow environment setup confirmation',
+          required: true,
+          format: 'markdown',
+          validationRules: [
+            'Must state current working directory',
+            'Must confirm output location: structured-workflow/{task-name}/',
+            'Must list available analysis tools',
+            'Must acknowledge numbered file pattern'
+          ]
+        }
+      ],
+
+      validationCriteria: {
+        minimumRequirements: {
+          workingDirectoryConfirmed: true,
+          outputPatternAcknowledged: true,
+          toolsListed: true,
+          patternUnderstood: true
+        },
+        blockingMessages: [
+          '⛔ CANNOT PROCEED: Working directory not confirmed',
+          '⛔ CANNOT PROCEED: Output pattern not acknowledged',
+          '⛔ CANNOT PROCEED: Required setup file not created'
+        ],
+        expectedFiles: [
+          'structured-workflow/{task-name}/00-setup-confirmation.md'
+        ],
+        selfCheckQuestions: [
+          'Have I confirmed the working directory?',
+          'Do I understand where files will be created?',
+          'Have I listed available tools?'
+        ],
+        completionCriteria: [
+          'Working directory verified',
+          'Output pattern understood',
+          'Setup confirmation documented'
+        ],
+        cannotProceedUntil: [
+          'Setup confirmation file created with all requirements'
+        ]
+      },
+
+      expectedOutput: {
+        setupConfirmation: 'Complete environment setup documentation',
+        outputFiles: '1 required setup file created'
+      },
+
+      nextPhase: 'Use audit_inventory_guidance to analyze the codebase'
+    },
     audit_inventory_guidance: {
       phase: 'AUDIT_INVENTORY',
       objective: 'Thoroughly analyze the codebase AND catalog all required changes - CRITICAL FOUNDATION PHASE',
@@ -389,7 +499,8 @@ function getDirectiveGuidance(
         '📊 REQUIRED: You MUST analyze impact of each change',
         '🎯 CRITICAL: You MUST prioritize changes by risk and dependencies',
         '--- OUTPUT REQUIREMENTS ---',
-        '📁 BLOCKING: You MUST create all required analysis and catalog files'
+        '📁 REQUIRED: Create documentation in structured-workflow/{task-name}/ directory',
+        '📝 MANDATORY: Create exactly 2 files with the specified naming pattern'
       ],
 
       instructions: [
@@ -419,59 +530,27 @@ function getDirectiveGuidance(
 
       requiredOutputFiles: [
         {
-          path: `${outputDir}/01-audit-findings.md`,
-          description: 'Comprehensive audit findings and analysis',
+          path: 'structured-workflow/{task-name}/01-audit-analysis.md',
+          description: 'Comprehensive audit analysis including all findings',
           required: true,
           format: 'markdown',
           validationRules: [
-            'Must list distinct responsibilities and concerns',
-            'Must include architectural principle analysis (based on user context)',
-            'Must contain dependency mapping',
-            'Must identify code smells and issues'
+            'Must include distinct responsibilities and concerns section',
+            'Must include architectural principles analysis section',
+            'Must include dependency mapping section (can be text or diagram)',
+            'Must identify code smells and improvement opportunities'
           ]
         },
         {
-          path: `${outputDir}/01-audit-dependency-diagram.md`,
-          description: 'Visual dependency diagram (Mermaid or text-based)',
-          required: true,
-          format: 'markdown',
-          validationRules: [
-            'Must show external dependencies',
-            'Must show internal module relationships',
-            'Must include data flow visualization'
-          ]
-        },
-        {
-          path: `${outputDir}/01-audit-principle-analysis.json`,
-          description: 'Structured architectural principle analysis',
-          required: true,
-          format: 'json',
-          validationRules: [
-            'Must analyze principles specified by user/context',
-            'Must provide specific examples for each violation or adherence',
-            'Must be valid JSON format'
-          ]
-        },
-        {
-          path: `${outputDir}/02-inventory-changes.json`,
+          path: 'structured-workflow/{task-name}/01-inventory-changes.json',
           description: 'Structured catalog of all required changes',
           required: true,
           format: 'json',
           validationRules: [
             'Must contain at least 10 specific changes',
-            'Must include file, type, description, risk, dependencies for each',
+            'Must include file, type, description for each change',
+            'Must categorize as must-have or nice-to-have',
             'Must be valid JSON with consistent structure'
-          ]
-        },
-        {
-          path: `${outputDir}/02-inventory-impact.md`,
-          description: 'Impact analysis and risk assessment',
-          required: true,
-          format: 'markdown',
-          validationRules: [
-            'Must analyze breaking changes',
-            'Must identify cascade effects',
-            'Must include priority ordering'
           ]
         }
       ],
@@ -482,46 +561,33 @@ function getDirectiveGuidance(
           architecturalPrinciplesAnalyzed: true,
           dependenciesMapped: true,
           changesIdentified: 10,
-          impactAnalyzed: true,
-          risksAssessed: true,
-          prioritiesSet: true,
-          filesCreated: 5
+          categoriesAssigned: true,
+          filesCreated: 2
         },
         blockingMessages: [
           '⛔ CANNOT PROCEED: Target file has not been read',
-          '⛔ CANNOT PROCEED: Insufficient responsibilities identified',
-          '⛔ CANNOT PROCEED: Architectural principle analysis incomplete',
-          '⛔ CANNOT PROCEED: Insufficient changes cataloged',
-          '⛔ CANNOT PROCEED: Impact analysis incomplete',
+          '⛔ CANNOT PROCEED: Audit analysis incomplete',
+          '⛔ CANNOT PROCEED: Insufficient changes cataloged (minimum 10)',
           '⛔ CANNOT PROCEED: Required output files missing'
         ],
         expectedFiles: [
-          `${outputDir}/01-audit-findings.md`, 
-          `${outputDir}/01-audit-dependency-diagram.md`, 
-          `${outputDir}/01-audit-principle-analysis.json`,
-          `${outputDir}/02-inventory-changes.json`,
-          `${outputDir}/02-inventory-impact.md`
+          'structured-workflow/{task-name}/01-audit-analysis.md', 
+          'structured-workflow/{task-name}/01-inventory-changes.json'
         ],
         selfCheckQuestions: [
           'Have I read the target file completely?',
-          'Have I identified distinct responsibilities and concerns?',
-          'Have I analyzed architectural principles based on user/project context?',
-          'Have I created a dependency diagram?',
+          'Have I documented all distinct responsibilities and concerns?',
+          'Have I analyzed architectural principles?',
+          'Have I included dependency mapping in the audit?',
           'Have I cataloged at least 10 specific changes?',
-          'Have I analyzed the impact of each change?',
-          'Have I assessed risks and created priority ordering?',
-          'Have I created all 5 required output files?'
+          'Have I categorized changes as must-have or nice-to-have?',
+          'Have I created both required output files?'
         ],
         completionCriteria: [
           'Target file read and understood',
-          'Responsibilities and concerns documented',
-          'Architectural principles analyzed with examples',
-          'Dependency diagram created',
-          'Minimum 10 changes cataloged',
-          'Impact analysis complete',
-          'Risk assessment documented',
-          'Priority ordering established',
-          'All output files generated'
+          'Comprehensive audit analysis documented',
+          'Minimum 10 changes cataloged with categories',
+          'Both output files generated with required content'
         ],
         cannotProceedUntil: [
           'All validation criteria are met',
@@ -531,18 +597,9 @@ function getDirectiveGuidance(
       },
 
       expectedOutput: {
-        // Audit outputs
-        filesAnalyzed: 'Complete list of files examined',
-        responsibilities: 'Distinct responsibilities and concerns identified',
-        dependencies: 'Comprehensive dependency mapping',
-        principleAnalysis: 'Detailed architectural principle analysis based on context',
-        codeSmells: 'Issues and improvement opportunities',
-        // Inventory outputs
-        changesList: 'Detailed catalog of all modifications needed',
-        impactAnalysis: 'Assessment of each change\'s effects',
-        riskAssessment: 'Risk levels and mitigation strategies',
-        priorityOrder: 'Implementation sequence based on dependencies',
-        outputFiles: '5 required documentation files created'
+        auditAnalysis: 'Comprehensive audit document with all findings',
+        inventoryChanges: 'JSON catalog of required changes',
+        outputFiles: '2 required documentation files created in structured-workflow/{task-name}/'
       },
 
       nextPhase: 'After completing validation, use compare_analyze_guidance',
@@ -583,7 +640,7 @@ function getDirectiveGuidance(
 
       requiredOutputFiles: [
         {
-          path: `${outputDir}/03-refactor-progress.md`,
+          path: 'structured-workflow/{task-name}/03-refactor-progress.md',
           description: 'Real-time refactoring progress and changes',
           required: true,
           format: 'markdown',
@@ -594,7 +651,7 @@ function getDirectiveGuidance(
           ]
         },
         {
-          path: `${outputDir}/03-refactor-changes.json`,
+          path: 'structured-workflow/{task-name}/03-refactor-changes.json',
           description: 'Structured log of all modifications',
           required: true,
           format: 'json',
@@ -619,7 +676,7 @@ function getDirectiveGuidance(
           '⛔ CANNOT PROCEED: Implementation incomplete',
           '⛔ CANNOT PROCEED: Required files not created'
         ],
-        expectedFiles: [`${outputDir}/03-refactor-progress.md`, `${outputDir}/03-refactor-changes.json`],
+        expectedFiles: ['structured-workflow/{task-name}/03-refactor-progress.md', 'structured-workflow/{task-name}/03-refactor-changes.json'],
         selfCheckQuestions: [
           'Have I read all files before modifying them?',
           'Have I implemented the planned changes?',
@@ -680,7 +737,7 @@ function getDirectiveGuidance(
 
       requiredOutputFiles: [
         {
-          path: `${outputDir}/05-lint-results.md`,
+          path: 'structured-workflow/{task-name}/05-lint-results.md',
           description: 'Comprehensive linting and quality check results',
           required: true,
           format: 'markdown',
@@ -723,6 +780,21 @@ function getDirectiveGuidance(
         'Track progress toward clean code state'
       ],
 
+      requiredOutputFiles: [
+        {
+          path: 'structured-workflow/{task-name}/07-iterate-progress.md',
+          description: 'Documentation of all iteration fixes and adjustments',
+          required: true,
+          format: 'markdown',
+          validationRules: [
+            'Must list each issue addressed',
+            'Must describe how each issue was fixed',
+            'Must include verification results after fixes',
+            'Must note any remaining issues'
+          ]
+        }
+      ],
+
       expectedOutput: {
         fixesApplied: 'List of all issues resolved',
         fixDescription: 'How each issue was addressed',
@@ -753,6 +825,21 @@ function getDirectiveGuidance(
         'Provide metrics on files modified, tests updated, issues resolved',
         'Include recommendations for future improvements',
         'Create final summary presentation document'
+      ],
+
+      requiredOutputFiles: [
+        {
+          path: 'structured-workflow/{task-name}/08-final-summary.md',
+          description: 'Final presentation summary of all work completed',
+          required: true,
+          format: 'markdown',
+          validationRules: [
+            'Must include executive summary',
+            'Must list all changes made',
+            'Must include metrics and improvements',
+            'Must provide lessons learned and recommendations'
+          ]
+        }
       ],
 
       expectedOutput: {
@@ -820,7 +907,7 @@ function getDirectiveGuidance(
 
       requiredOutputFiles: [
         {
-          path: `${outputDir}/04-question-clarifications.md`,
+          path: 'structured-workflow/{task-name}/04-question-clarifications.md',
           description: 'Questions, assumptions, and clarifications',
           required: true,
           format: 'markdown',
@@ -832,7 +919,7 @@ function getDirectiveGuidance(
           ]
         },
         {
-          path: `${outputDir}/04-determine-implementation-plan.json`,
+          path: 'structured-workflow/{task-name}/04-determine-implementation-plan.json',
           description: 'Detailed step-by-step implementation plan',
           required: true,
           format: 'json',
@@ -844,7 +931,7 @@ function getDirectiveGuidance(
           ]
         },
         {
-          path: `${outputDir}/04-determine-roadmap.md`,
+          path: 'structured-workflow/{task-name}/04-determine-roadmap.md',
           description: 'Visual implementation roadmap',
           required: true,
           format: 'markdown',
@@ -875,9 +962,9 @@ function getDirectiveGuidance(
           '⛔ CANNOT PROCEED: Required files not created'
         ],
         expectedFiles: [
-          `${outputDir}/04-question-clarifications.md`,
-          `${outputDir}/04-determine-implementation-plan.json`,
-          `${outputDir}/04-determine-roadmap.md`
+          'structured-workflow/{task-name}/04-question-clarifications.md',
+          'structured-workflow/{task-name}/04-determine-implementation-plan.json',
+          'structured-workflow/{task-name}/04-determine-roadmap.md'
         ],
         selfCheckQuestions: [
           'Have I reviewed all ambiguities from previous phases?',
@@ -948,6 +1035,7 @@ function getDirectiveGuidance(
     'Plan extensively before each tool/function call and reflect on prior outcomes; avoid blindly chaining calls.'
   ];
   const phasesToInclude = [
+    'SETUP',
     'AUDIT_INVENTORY',
     'COMPARE_ANALYZE',
     'WRITE_OR_REFACTOR',

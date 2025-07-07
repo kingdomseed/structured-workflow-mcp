@@ -31,10 +31,10 @@ export function createBuildCustomWorkflowTool(): Tool {
           type: 'array',
           items: {
             type: 'string',
-            enum: ['AUDIT_INVENTORY', 'COMPARE_ANALYZE', 'QUESTION_DETERMINE', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'ITERATE', 'PRESENT']
+            enum: ['SETUP', 'AUDIT_INVENTORY', 'COMPARE_ANALYZE', 'QUESTION_DETERMINE', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'ITERATE', 'PRESENT']
           },
           description: 'Select which phases to include in your workflow',
-          default: ['AUDIT_INVENTORY', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'PRESENT']
+          default: ['SETUP', 'AUDIT_INVENTORY', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'PRESENT']
         },
         iterationLimits: {
           type: 'object',
@@ -128,7 +128,7 @@ async function buildCustomWorkflowImplementation(
   sessionManager: SessionManager
 ) {
   // Set defaults for optional parameters
-  const selectedPhases = params.selectedPhases || ['AUDIT_INVENTORY', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'PRESENT'];
+  const selectedPhases = params.selectedPhases || ['SETUP', 'AUDIT_INVENTORY', 'WRITE_OR_REFACTOR', 'TEST', 'LINT', 'PRESENT'];
   const iterationLimits = {
     TEST: 5,
     LINT: 10,
@@ -335,6 +335,7 @@ This plan will be updated throughout the workflow. Check \`workflow-status.json\
 function getPhaseDescription(phase: Phase): string {
   const descriptions: Record<Phase, string> = {
     PLANNING: 'Initial workflow setup and planning',
+    SETUP: 'Initialize environment and establish file organization patterns',
     AUDIT_INVENTORY: 'Read, analyze code and catalog all required changes',
     COMPARE_ANALYZE: 'Evaluate different implementation approaches',
     QUESTION_DETERMINE: 'Clarify ambiguities and finalize implementation strategy',
@@ -352,6 +353,7 @@ function getPhaseDescription(phase: Phase): string {
 function estimateWorkflowDuration(phases: Phase[]): number {
   const phaseEstimates: Record<Phase, number> = {
     PLANNING: 5,
+    SETUP: 5,
     AUDIT_INVENTORY: 25,  // Combined time for audit + inventory
     COMPARE_ANALYZE: 10,
     QUESTION_DETERMINE: 15,  // Combined time for question + determine
