@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "nodemailer": "^6.9.7"
+    "nodemailer": "^7.0.7"
   },
   "devDependencies": {
     "@types/jest": "^29.5.8",
