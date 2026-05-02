@@ -1,7 +1,6 @@
 # Structured Workflow MCP Server
 
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://coff.ee/jasonholtdigital)
-[![smithery badge](https://smithery.ai/badge/@kingdomseed/structured-workflow-mcp)](https://smithery.ai/server/@kingdomseed/structured-workflow-mcp)
 
 NOTE: I am not currently working on this or actively maintaining it. I learned a few things about prompting and agents while making this MCP server. It has a lot of very valuable ideas that could be used or improved upon as an MCP server but I'm also looking at ways to incorporate the core ideas into Agents, for example, in Claude. The core idea here is that AI should follow specific, pre-determined steps to solving a problem, just like we as humans might do and there may be other ways to achieve this apart from this MCP server. 
 
@@ -176,14 +175,6 @@ Then use in your AI assistant config:
     }
   }
 }
-```
-
-### Auto-Install via Smithery
-
-Smithery provides a number of ways to install directly into your apps including this way for Claude Desktop:
-
-```bash
-npx -y @smithery/cli install structured-workflow-mcp --client claude
 ```
 
 ### Manual Installation
