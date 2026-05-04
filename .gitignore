@@ -8,3 +8,9 @@ coverage/
 *.tgz
 .vscode/
 .idea/
+
+# Local research corpus for external skill/plugin package sources.
+.workflow-research-sources/
+
+# Raw research and subagent work products are local-only until curated.
+docs/research/

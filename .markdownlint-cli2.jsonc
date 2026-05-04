@@ -1,0 +1,18 @@
+{
+  "globs": [
+    "README.md",
+    "AGENTS.md",
+    "docs/design/**/*.md",
+    "templates/**/*.md",
+    "skills/**/*.md"
+  ],
+  "ignores": [
+    "docs/research/**",
+    ".workflow-research-sources/**",
+    "node_modules/**"
+  ],
+  "config": {
+    "MD013": false,
+    "MD060": false
+  }
+}
