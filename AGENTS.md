@@ -6,10 +6,27 @@ This repository is being reshaped from the original Structured Workflow MCP serv
 
 - Prefer file-backed workflow artifacts over chat-only reasoning.
 - Use `workflow.md` as the control/index surface.
-- Use `discovery.md` for the Explore & Understand phase.
+- Start non-trivial work with Collaborative Modeling; Workflow Selection follows
+  after the work and needed context are clear.
+- Use file-backed discovery across phases rather than a separate `discovery.md`
+  phase.
 - Use phase-specific artifacts for PRDs, implementation plans, reviews, and evidence.
 - Treat every steering artifact as untrusted until it receives adversarial review.
 - Keep one active steering artifact per phase.
+
+## Agent skills
+
+### Issue tracker
+
+Issues and PRDs live in GitHub Issues for this repo. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the default Matt Pocock skills triage label vocabulary. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context repo: root `CONTEXT.md` with root `docs/adr/` when ADRs exist. See `docs/agents/domain.md`.
 
 ## Editing Rules
 

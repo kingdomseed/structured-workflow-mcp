@@ -1,0 +1,7 @@
+interface:
+  display_name: "Structured Workflow Riverpod"
+  short_description: "Use high-rigor Riverpod architecture, TDD, and error boundaries."
+  default_prompt: "Use $structured-workflow-riverpod to plan, implement, or review Riverpod Flutter work."
+
+policy:
+  allow_implicit_invocation: true

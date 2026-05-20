@@ -407,7 +407,9 @@ Needed review side flows:
 
 ### Flutter Should Be Project-Profile Aware
 
-The Flutter line should not force one architecture onto every Flutter repo.
+Resolved: Autonomous Flutter should be state-management-neutral with project
+profiles. The domain line detects the repo's architecture and state-management
+shape, then loads the appropriate profile guidance.
 
 It should detect and record:
 
@@ -420,10 +422,44 @@ It should detect and record:
 - local architecture docs
 - error-handling policy
 
-Mythic provides a high-rigor Riverpod profile. VGV provides strong Flutter
-architecture and review conventions. ACT provides current-doc retrieval,
-research agents, and concise executable planning. The Flutter line should
-integrate these without pretending they are identical.
+Mythic provides a high-rigor Riverpod Profile, grounded in the user's
+production architecture, testing, and error-handling guides plus Andre's public
+Riverpod/Flutter guidance. VGV provides the primary BLoC Profile source. The
+bundled VGV plugin is MIT licensed, so the initial BLoC Profile can start as a
+verbatim copy with the VGV copyright and license notice preserved. ACT
+contributes current-doc retrieval, codebase research, and concise executable
+planning, but ACT paid-source wording should remain private design input rather
+than public text.
+
+The VGV BLoC source material is preserved in two places:
+
+```text
+profiles/flutter/bloc/
+docs/research/source-extracts/vgv-bloc/
+profiles/flutter/riverpod/
+docs/research/source-extracts/mythic-riverpod/
+```
+
+`profiles/flutter/bloc/` is the tracked MIT-licensed profile seed.
+`docs/research/source-extracts/vgv-bloc/` is ignored local research for
+side-by-side comparison work.
+`profiles/flutter/riverpod/` is the tracked Mythic-informed high-rigor Riverpod
+profile seed. `docs/research/source-extracts/mythic-riverpod/` is ignored local
+research copied from the user's Mythic GME architecture, testing, and
+error-handling guides.
+
+`profiles/flutter/bloc/STRUCTURED_WORKFLOW.md` records how the copied VGV BLoC
+guidance is loaded inside Structured Workflow: after context, ADRs, the PRD, and
+the current plan, with BLoC event/state names translated into the current
+Ubiquitous Language and reviewed against the workflow gates.
+`profiles/flutter/riverpod/STRUCTURED_WORKFLOW.md` does the same for Riverpod:
+it loads after context, ADRs, PRD, and plan; requires official docs research;
+and keeps high-rigor Riverpod conventions inside the repo's shared model.
+
+Public profile docs should credit VGV. The VGV BLoC profile may preserve
+verbatim source under MIT with the license notice. Other profile integration
+docs should use original Structured Workflow wording unless the source is
+explicitly cleared for quotation.
 
 ## Natural Items Not Yet Worked Through
 
@@ -477,7 +513,6 @@ integrate these without pretending they are identical.
 
 ### Flutter Line
 
-- Riverpod-first, BLoC-first, or state-management-neutral with profiles
 - 100% coverage as global default, Mythic-profile default, or per-project
   contract
 - exact real-systems testing boundary
@@ -672,8 +707,9 @@ structural change.
 
 ### 5. Flutter Identity
 
-Is the first-class Flutter line Riverpod-first because Mythic is the reference
-implementation, or state-management-neutral with Riverpod and BLoC profiles?
+Resolved: Autonomous Flutter is state-management-neutral with project profiles.
+The first profiles should include a VGV-informed BLoC Profile and a
+Mythic-informed Riverpod Profile.
 
 ### 6. Coverage Contract
 

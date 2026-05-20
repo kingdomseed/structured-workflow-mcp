@@ -5,7 +5,7 @@
 - Collaborative Modeling:
 - Context:
 - ADRs:
-- Discovery / inventory:
+- Inventory / audit:
 
 ## Problem Statement
 

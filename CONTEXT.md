@@ -54,9 +54,17 @@ _Avoid_: Checklist item with no blocking force
 The active document that guides the current phase of work.
 _Avoid_: Supporting note, archived report, raw transcript
 
+**File-Backed Discovery**:
+The practice of recording findings, questions, answers, evidence, and decisions in workflow files so durable documents carry context instead of relying on the model's context window.
+_Avoid_: Discovery as a separate required phase, chat transcript as the only memory
+
 **Workflow**:
 A top-level route named after the kind of work being performed.
 _Avoid_: Abstract delivery labels, generic task buckets, side flow
+
+**Workflow Selection**:
+The routing decision made after Collaborative Modeling has clarified what kind of work is actually being done and what context the model needs next.
+_Avoid_: Preselecting a workflow before the shared design concept is understood
 
 **Workflow Skill**:
 A skill loaded for a specific workflow that guides how the shared artifact spine should be used for that kind of work.
@@ -98,9 +106,17 @@ _Avoid_: Agreement, approval, prompt, plan, spec as the whole shared context
 The post-alignment phase where the agent executes approved software work independently inside the agreed design, architecture, validation, and review constraints.
 _Avoid_: Autonomous software engineering as if it begins at the first prompt
 
+**End-to-End System Build**:
+The effort to build the complete Structured Workflow system one component at a time without reducing the target to a minimal or partial package.
+_Avoid_: MVP as scope reduction, weird piecemeal subset, stopping after a few starter skills
+
 **Autonomous Loop**:
 The repeated implementation cycle where the agent builds a vertical slice, validates it, runs review agents, fixes findings, publishes work, handles PR feedback, and repeats until the work is merge-ready.
 _Avoid_: One-pass build task, tests-pass-and-stop
+
+**Round Trip Skill System**:
+The existing VGV-style skill loop that can build a slice, run review rounds, apply fixes, commit, push, open a PR, and respond to PR feedback until the work is merge-ready.
+_Avoid_: Treating round trip execution as unproven, replacing proven VGV-style loops before integrating them
 
 **Slice Loop**:
 The per-vertical-slice cycle of writing the failing proof, making the smallest passing change, refactoring, validating, reviewing, fixing, recording evidence, and optionally committing the slice.
@@ -218,6 +234,18 @@ _Avoid_: Fork, separate product
 The Flutter domain line for Structured Workflow.
 _Avoid_: Structured Workflow as a whole
 
+**Project Profile**:
+A repo-specific description of the Flutter architecture, state management, testing contract, generated-code policy, validation boundaries, and local conventions Structured Workflow must follow.
+_Avoid_: One global Flutter architecture for every repo
+
+**BLoC Profile**:
+A Project Profile for Flutter repos that use Bloc or Cubit, drawing primarily from Very Good Ventures' Bloc engineering conventions.
+_Avoid_: Generic Flutter state-management advice, Riverpod assumptions
+
+**Riverpod Profile**:
+A Project Profile for Flutter repos that use Riverpod, initially informed by the user's Mythic GME architecture, testing, and error-handling guides.
+_Avoid_: Treating Mythic-specific choices as universal Flutter rules
+
 ## Relationships
 
 - **Structured Workflow** uses **Collaborative Modeling** to reach **Shared Understanding** before allowing **Autonomous Implementation**.
@@ -234,6 +262,11 @@ _Avoid_: Structured Workflow as a whole
 - The **Orchestrator** owns reconciliation when **Review Agent** reports
   disagree.
 - A **Gate** controls whether a **Steering Artifact** can be used downstream.
+- **File-Backed Discovery** applies across all workflow phases rather than
+  living in a separate `discovery.md` phase.
+- **Collaborative Modeling** is the shared entry point for Structured Workflow.
+- **Workflow Selection** happens after **Collaborative Modeling** has clarified
+  what the model is working on and what context it needs.
 - **Feature Workflow**, **Refactor Workflow**, and **Diagnostic Workflow** are
   named for the work they do.
 - A **Workflow Skill** changes the guidance for a workflow without changing the
@@ -268,9 +301,15 @@ _Avoid_: Structured Workflow as a whole
 - Research that changes product behavior, architecture direction, scope, or
   AFK/HITL classification becomes **HITL** and needs human approval.
 - **Autonomous Implementation** depends on **Shared Understanding**.
+- The successor work is an **End-to-End System Build**: components can be built
+  sequentially, but the intended scope remains the complete Structured Workflow
+  system.
 - **Feature Workflow** and **Refactor Workflow** use an **Autonomous Loop** after
   collaborative modeling, PRD, and planning make the work buildable.
 - **Autonomous Loop** work uses **Test-Driven Development**.
+- **Round Trip Skill System** is evidence that the VGV-style autonomous loop
+  execution shape works and should be integrated rather than treated as
+  speculative.
 - The **Autonomous Loop** contains a **Slice Loop** for each approved vertical
   slice and a **Near-PR Hardening Loop** before opening a PR.
 - A **Slice Loop** should not outrun its feedback: one proof, one smallest
@@ -322,6 +361,18 @@ _Avoid_: Structured Workflow as a whole
   Limit** prevents.
 - **Deep Module** boundaries make **Autonomous Implementation** safer to delegate and easier to review.
 - **Autonomous Flutter** is a **Domain Line** of **Structured Workflow**.
+- **Autonomous Flutter** uses **Project Profile** detection rather than a single
+  state-management identity.
+- **BLoC Profile** and **Riverpod Profile** are **Project Profile** variants.
+- A **Project Profile** is loaded after **Context**, relevant ADRs, PRD, and
+  implementation-plan context so stack guidance is applied inside the shared
+  model rather than replacing it.
+- **BLoC Profile** guidance must translate example event, state, repository,
+  and widget names into the current **Ubiquitous Language** before planning or
+  implementation.
+- **Riverpod Profile** guidance must be calibrated to the repo's risk posture,
+  ADRs, coverage contract, generated-provider policy, and real-system testing
+  boundary before implementation.
 
 ## Example Dialogue
 
@@ -340,3 +391,14 @@ _Avoid_: Structured Workflow as a whole
 - "Review perspective" was unclear; resolved: a review perspective is just a review side flow.
 - "Capability" can be confused with skill; resolved: **Capability** is the behavior, while skills, side flows, hooks, commands, and tools are execution shapes.
 - "Autonomous Delivery Workflow" was too abstract; resolved: name workflows after the work, such as **Feature Workflow**, **Refactor Workflow**, and **Diagnostic Workflow**.
+- "Minimal first executable package" can imply shrinking the goal to a small
+  starter subset; resolved: the work is an **End-to-End System Build** built
+  one component at a time.
+- "Workflow Entry Point", "Setup Workspace", "Restore/Create Context", and
+  "Explore & Understand" appeared in scaffold diagrams/templates before they
+  were defined through shared understanding; resolved: **Collaborative
+  Modeling** is the entry point, **Workflow Selection** follows it, and those
+  scaffold labels disappear unless a concrete later need earns them back.
+- "`discovery.md`" as a named pre-phase disappeared, but **File-Backed
+  Discovery** remains a cross-phase practice inherited from Planning with
+  Files.

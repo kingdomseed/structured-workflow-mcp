@@ -98,6 +98,35 @@ adapters, hooks, evidence capture, and domain lines around that spine. It should
 not replace the spine with a parallel artifact model unless a specific pressure
 test shows the baseline is insufficient.
 
+### Project Profiles Extend The Spine
+
+Domain guidance is loaded through Project Profiles after the shared model is in
+view. A profile does not replace `CONTEXT.md`, ADRs, the PRD, or the
+implementation plan. It explains how the repo's chosen stack and architecture
+should express the shared model.
+
+For Flutter, this means Autonomous Flutter is state-management-neutral at the
+top level. A BLoC repo loads the BLoC Profile; a Riverpod repo loads the
+Riverpod Profile; other state-management approaches can add their own profiles
+when the need is real.
+
+The first BLoC Profile starts from Very Good Ventures' MIT-licensed BLoC
+guidance, with the VGV license preserved. Structured Workflow adds integration
+notes around that source so BLoC conventions follow the current ubiquitous
+language, PRD, ADRs, official docs research, implementation plan, TDD loop, and
+review gates.
+
+The first Riverpod Profile should be informed by the user's Mythic GME
+architecture, testing, and error-handling guides, plus official Flutter,
+Riverpod, Dart, and package documentation. It should remain a profile, not a
+claim that every Flutter project should copy Mythic's exact risk posture.
+
+The initial Riverpod Profile is a high-rigor profile. Its strongest rules, such
+as generated-provider standardization, strict layered boundaries, 100%
+non-generated line coverage, and real local persistence tests, are profile
+choices that must be confirmed against a repo's ADRs and risk model before
+autonomous implementation begins.
+
 ### Capabilities Can Have Multiple Execution Shapes
 
 Some capabilities are useful in more than one place.
@@ -335,6 +364,11 @@ Typed failure boundaries should be planned and reviewed phase by phase.
 Structured Workflow should become general at the protocol level and opinionated
 for Flutter at the domain-pack level.
 
+Autonomous Flutter should be state-management-neutral with project profiles.
+The workflow should detect the repo's architecture and state-management shape,
+then load profile-specific guidance instead of making Riverpod or BLoC the
+identity of the whole domain line.
+
 The Flutter development line should synthesize:
 
 - Matt Pocock-style shared design concept, ubiquitous language, deep modules,
@@ -344,6 +378,18 @@ The Flutter development line should synthesize:
   concise executable plans
 - the user's Mythic GME architecture, testing, and error-handling guides as
   proof that this shape already solved real alignment problems in production
+
+The first profile sources are:
+
+- VGV-informed BLoC Profile for Bloc/Cubit projects
+- Mythic-informed Riverpod Profile for high-rigor Riverpod projects, grounded in
+  the user's production guides and Andre's public Riverpod/Flutter guidance
+- ACT-informed research/planning support, handled as private design input where
+  the source package is paid
+
+The VGV BLoC Profile can start from the VGV skill text verbatim because the VGV
+AI Flutter Plugin is MIT licensed. The copied profile must preserve the VGV
+copyright and license notice.
 
 ## Influences And Credit
 

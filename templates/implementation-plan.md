@@ -4,7 +4,6 @@
 
 - Steering artifact:
 - Steering artifact review:
-- Discovery:
 - PRD:
 
 ## Goal

@@ -2,11 +2,11 @@
 
 ## Current State
 
-Phase: Explore & Understand
+Phase: Collaborative Modeling
 Status: in_progress
 Workflow: undecided
-Active artifact: discovery.md
-Next gate: Discovery Review
+Active artifact: Collaborative Modeling
+Next gate: Workflow Selection
 
 ## Workflow Selection
 
@@ -30,8 +30,6 @@ Why not the other workflows:
 
 ## Artifacts
 
-- Discovery: discovery.md
-- Discovery review:
 - Research artifacts:
   - Official docs:
   - Codebase research:
@@ -55,9 +53,7 @@ Why not the other workflows:
 
 ## Gates
 
-- [ ] Workspace set up
-- [ ] Discovery captured
-- [ ] Discovery reviewed
+- [ ] Collaborative Modeling has enough shared understanding for routing
 - [ ] Workflow selected
 - [ ] Research artifacts written
 - [ ] Research accepted for planning
