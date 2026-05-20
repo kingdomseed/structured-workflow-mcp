@@ -88,10 +88,8 @@ problem, solution, user stories, implementation decisions, testing decisions,
 boundaries, and notes. Technical specification details can live inside the PRD
 when the work requires them.
 
-The term `spec` is avoided for the default artifact because it can pull agents
-toward a specs-to-code workflow, where the document becomes a substitute for
-shared understanding. In Structured Workflow, the PRD records the shared design
-concept; it does not replace it.
+Structured Workflow uses PRD as a record of shared understanding. The PRD
+records the shared design concept; it does not replace it.
 
 ## Initial Workflows
 

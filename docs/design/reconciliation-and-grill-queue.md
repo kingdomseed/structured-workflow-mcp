@@ -643,10 +643,9 @@ The first workflow set is resolved enough for v1:
 - Refactor Workflow
 - Diagnostic Workflow
 
-Current vocabulary correction: do not use "subflow" unless it is later defined.
 Use **Side Flow** for focused workflows, including review side flows invoked
 inside review gates. Some capabilities, such as Architecture Improvement, can
-exist in both shapes.
+exist in both directly triggered and review-gate shapes.
 
 Second vocabulary correction: name workflows after the work they do. The user's
 `vgv-pr-roundtrip` skill describes the autonomous loop that belongs inside a
