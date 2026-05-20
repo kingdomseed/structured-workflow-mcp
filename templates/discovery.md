@@ -23,7 +23,7 @@ Raw request:
 
 ## Clarifying Questions
 
-| Question | Answer | Effect on routing/spec/plan |
+| Question | Answer | Effect on routing/PRD/plan |
 | --- | --- | --- |
 |  |  |  |
 
@@ -43,23 +43,17 @@ Raw request:
 
 - TBD
 
-## Candidate Lanes
+## Candidate Workflows
 
-| Lane | Fit | Rationale |
+| Workflow | Fit | Rationale |
 | --- | --- | --- |
-| Brainstorm |  |  |
-| Fix |  |  |
-| Improve |  |  |
-| Test |  |  |
-| Plan |  |  |
-| Build |  |  |
-| Review |  |  |
-| Maintain |  |  |
-| Resume |  |  |
+| Feature Workflow |  |  |
+| Refactor Workflow |  |  |
+| Diagnostic Workflow |  |  |
 
-## Recommended Lane
+## Recommended Workflow
 
-Lane:
+Workflow:
 
 Rationale:
 

@@ -4,48 +4,36 @@
 
 Phase: Explore & Understand
 Status: in_progress
-Lane: undecided
+Workflow: undecided
 Active artifact: discovery.md
 Next gate: Discovery Review
 
-## Lane Selection
+## Workflow Selection
 
-- [ ] Brainstorm
-- [ ] Fix
-- [ ] Improve
-- [ ] Test
-- [ ] Plan
-- [ ] Build
-- [ ] Review
-- [ ] Maintain
-- [ ] Resume
+- [ ] Feature Workflow
+- [ ] Refactor Workflow
+- [ ] Diagnostic Workflow
 
 ## Routing Decision
 
-Recommended lane:
+Recommended workflow:
 
 Rationale:
 
 - TBD
 
-Why not the other lanes:
+Why not the other workflows:
 
-- Brainstorm:
-- Fix:
-- Improve:
-- Test:
-- Plan:
-- Build:
-- Review:
-- Maintain:
-- Resume:
+- Feature Workflow:
+- Refactor Workflow:
+- Diagnostic Workflow:
 
 ## Artifacts
 
 - Discovery: discovery.md
 - Discovery review:
-- Spec:
-- Spec review:
+- PRD:
+- PRD review:
 - Implementation plan:
 - Plan review:
 - Evidence:
@@ -56,18 +44,17 @@ Why not the other lanes:
 - [ ] Workspace set up
 - [ ] Discovery captured
 - [ ] Discovery reviewed
-- [ ] Lane selected
+- [ ] Workflow selected
 - [ ] Active phase artifact drafted
 - [ ] Active phase artifact reviewed
 - [ ] Human/orchestrator resolution complete
 - [ ] Build verified
 - [ ] Completion evidence reviewed
 
-## Lane-Specific Gates
+## Workflow-Specific Gates
 
 - [ ] Diagnosis reviewed
 - [ ] Audit/inventory reviewed
-- [ ] Coverage findings reviewed
 - [ ] Research findings reviewed
 - [ ] Plan reviewed
 - [ ] Implementation slice reviewed

@@ -7,7 +7,7 @@ This repository is being reshaped from the original Structured Workflow MCP serv
 - Prefer file-backed workflow artifacts over chat-only reasoning.
 - Use `workflow.md` as the control/index surface.
 - Use `discovery.md` for the Explore & Understand phase.
-- Use phase-specific artifacts for specs, implementation plans, reviews, and evidence.
+- Use phase-specific artifacts for PRDs, implementation plans, reviews, and evidence.
 - Treat every steering artifact as untrusted until it receives adversarial review.
 - Keep one active steering artifact per phase.
 
