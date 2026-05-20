@@ -3,7 +3,19 @@
 ## Source
 
 - Implementation plan:
+- Vertical slice:
 - Relevant review:
+
+## Loop
+
+- Slice Loop:
+- Near-PR Hardening Loop:
+- PR feedback loop:
+
+## Commit And PR Boundary
+
+- Slice commit:
+- PR boundary: single PR unless Plan Split says otherwise
 
 ## Commands Run
 

@@ -89,8 +89,8 @@ grill with docs
 -> update CONTEXT.md or CONTEXT-MAP.md as language crystallizes
 -> create sparse ADRs only for durable trade-off decisions
 -> synthesize the PRD from the conversation and codebase understanding
--> decompose approved work into vertical tracer-bullet slices
--> let autonomous agents implement AFK-ready slices
+-> decompose approved work into vertical slices
+-> let autonomous agents implement AFK vertical slices
 ```
 
 Structured Workflow adds an explicit control surface, review gates, runtime
@@ -104,16 +104,20 @@ Some capabilities are useful in more than one place.
 
 Architecture improvement is the clearest example. The user can trigger it
 directly as a side flow when they want to investigate or improve the codebase.
-The autonomous loop can also invoke architecture improvement as a review
-perspective through a focused review agent.
+The autonomous loop can also invoke architecture improvement as a review side
+flow through a focused review agent.
 
 The same distinction can apply to diagnosis, triage, PR feedback handling, test
 quality review, simplicity review, and architecture review. The capability is
 the same family of judgment, but the execution shape changes:
 
 - **Side Flow**: user-triggered, focused, may stand alone.
-- **Review Perspective**: invoked inside a review gate, usually through a
-  focused subagent report.
+- **Review side flow**: invoked inside a review gate, usually through a focused
+  subagent report.
+
+Side Flow can have named variants in the same way Workflow has named variants:
+Review Side Flow, Triage Side Flow, Diagnostic Side Flow, Architecture
+Improvement Side Flow, PR Feedback Side Flow, and similar focused flows.
 
 Visual exploration is another side capability. During Collaborative Modeling,
 the agent can offer a Visual Companion when the decision is easier to make by
@@ -211,7 +215,7 @@ The normal artifact path is:
 CONTEXT.md / CONTEXT-MAP.md
 -> ADRs when needed
 -> PRD
--> tracer-bullet slices
+-> vertical slices
 ```
 
 The PRD should be synthesized only after the conversation and codebase
@@ -461,6 +465,15 @@ The agent should:
 - keep error handling and testing local to each slice
 - stop when the plan or interface is wrong
 
+Slice commits are allowed as checkpoints, but they are not the delivery
+boundary. The default delivery boundary is one coherent PR unless the plan was
+explicitly split into multiple PRs.
+
+Before the PR opens, the branch should enter a Near-PR Hardening Loop: repeated
+local review rounds, fixes after each round, fresh validation, and evidence
+reconciliation. For the Flutter line, the current default is three VGV-style
+review rounds unless the user or workflow skill overrides it.
+
 ### Refactor
 
 Refactor follows the same broad shape as feature work, but the PRD becomes
@@ -505,7 +518,15 @@ and places where the codebase makes both human and model reasoning harder.
 
 ### Review
 
-Review should be multi-perspective when risk warrants it:
+Review should use required, core, and domain-specific review side flows.
+Feature and Refactor work always run simplicity, TDD/test readiness, and PRD
+compliance review before autonomous implementation. Refactor work always runs
+architecture/deep-module review. Feature work runs architecture/deep-module
+review when it touches module seams, interfaces, layers, package boundaries,
+state-management boundaries, or persistence/network seams.
+
+Additional domain review side flows are selected by the plan, PRD, codebase
+research, official docs research, risk profile, and workflow skill:
 
 - PRD review
 - plan technical review

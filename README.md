@@ -15,9 +15,14 @@ Setup Workspace
 -> workflow.md
 -> Collaborative Modeling
 -> PRD
+-> PRD Review Side Flow
+-> Research Artifacts
 -> Implementation Plan
+-> Plan Review Side Flow
 -> Autonomous Loop
--> Review And Evidence
+-> Near-PR Hardening Loop
+-> PR Feedback
+-> Evidence
 ```
 
 The workflow uses one control surface and one active steering artifact per phase.
@@ -58,14 +63,15 @@ architecture guide.
 .ai-workflow/
   workflow.md
   discovery.md
+  research/
   reviews/
   prds/
   plans/
   evidence/
 ```
 
-`workflow.md` tracks routing, phase gates, active artifacts, review status, and
-links. It is not the implementation plan.
+`workflow.md` tracks routing, phase gates, active artifacts, research artifacts,
+review status, and links. It is not the implementation plan.
 
 `discovery.md` captures the first Explore & Understand gate. It is not the PRD.
 
@@ -103,6 +109,15 @@ Every steering artifact receives adversarial review before downstream use.
 ```text
 One agent's confident artifact is not trustworthy by itself.
 ```
+
+Feature and Refactor work use a test-driven autonomous loop after the PRD and
+implementation plan have been reviewed. Vertical slices may be committed as
+checkpoints, but the default delivery boundary is one coherent PR unless a Plan
+Split explicitly creates multiple PRs.
+
+Before a PR opens, the branch goes through a Near-PR Hardening Loop. For the
+Flutter line, the current default is three VGV-style local review rounds unless
+the user or workflow skill overrides that count.
 
 ## Active Documents
 

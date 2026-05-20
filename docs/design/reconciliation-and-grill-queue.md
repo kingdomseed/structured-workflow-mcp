@@ -85,7 +85,7 @@ The Flutter line becomes opinionated:
 - vertical-slice TDD
 - real validation boundaries
 - typed error-handling policy
-- specialized review perspectives
+- specialized review side flows
 
 ## Source Authority
 
@@ -180,7 +180,7 @@ unless pressure tests show it is insufficient:
 CONTEXT.md / CONTEXT-MAP.md
 -> sparse ADRs
 -> PRD
--> vertical tracer-bullet slices
+-> vertical slices
 ```
 
 The PRD is the normal post-modeling intent artifact. It records the problem,
@@ -227,8 +227,10 @@ Architecture improve artifacts should name:
 - behavior-preservation evidence
 - ADR implications
 
-Open question: whether architecture vocabulary is core protocol vocabulary,
-domain-line vocabulary, or both.
+Resolved: architecture vocabulary is both core and domain-line aware. Core
+concepts such as Deep Module, Interface, Feedback Loop, and TDD belong to the
+protocol language. Stack-specific architecture reviewers and package/layer
+rules belong to the relevant domain line.
 
 ### Plan Needs Richer Inputs
 
@@ -245,6 +247,85 @@ They should load:
 - validation and error policy
 - Flutter domain-pack profile when relevant
 
+### Plan Review Can Use Core And Domain Agents
+
+The plan gate is also an opportunity to select focused review agents based on
+the stack and risk surface.
+
+Across ACT, Superpowers, and VGV, the same pattern appears in different
+language:
+
+- research agents gather current docs and local codebase evidence before or
+  during planning
+- plan reviewers check whether the plan is complete, aligned, decomposed, and
+  buildable
+- scope reviewers decide whether the plan should be split into smaller
+  independently reviewable pieces
+- simplicity reviewers challenge unnecessary abstraction, speculative scope,
+  and overbuilt implementation shape
+- test reviewers check whether the work can be proved by meaningful feedback
+  loops
+- architecture reviewers check layer boundaries, dependency direction, module
+  shape, and state-management correctness
+- spec or PRD compliance reviewers distrust implementer summaries and compare
+  actual work back to the approved artifact
+- user-flow reviewers search for missing journeys, edge cases, roles,
+  permissions, error states, and ambiguous user feedback
+
+Resolved direction: Structured Workflow should separate **Required Review
+Agents**, **Core Review Agents**, and **Domain Review Agents**.
+
+Core Review Agents are considered for ordinary software plans regardless of
+stack:
+
+- plan readiness
+- plan splitting
+- simplicity
+- TDD/test readiness
+- architecture/deep-module review
+- PRD compliance
+- code quality
+
+Some core agents are always-on for a workflow. They are not selected by the
+orchestrator's taste or by stack detection.
+
+For Feature Workflow and Refactor Workflow:
+
+- code simplicity review always runs
+- TDD/test readiness always runs because implementation is always TDD
+- PRD compliance always runs before autonomous work
+
+For Refactor Workflow:
+
+- architecture/deep-module review always runs
+- the review should use Matt Pocock's architecture language where applicable:
+  module, interface, implementation, depth, seam, adapter, leverage, locality,
+  deletion test, and "the interface is the test surface"
+
+For Feature Workflow:
+
+- architecture/deep-module review runs whenever the feature adds, changes, or
+  depends on module seams, public interfaces, architectural layers, package
+  boundaries, state-management boundaries, or persistence/network seams
+
+Domain Review Agents are selected only when the work touches their area:
+
+- Flutter official-docs researcher
+- Flutter codebase researcher
+- Bloc/state-management reviewer
+- Drift/persistence reviewer
+- navigation reviewer
+- accessibility reviewer
+- security reviewer
+- localization reviewer
+- user-flow reviewer
+- any project-specific module or context reviewer
+
+This keeps the gate strict without making every plan run every available
+specialist. The orchestrator runs required review agents first, then selects
+additional domain review agents from the plan, PRD, codebase research, official
+docs research, risk profile, and chosen workflow skill.
+
 ### Build Must Protect The Interface
 
 Build should execute bounded vertical slices, but it also needs stop
@@ -258,12 +339,60 @@ Build should stop and route back when:
 - error category was misclassified
 - a regression seam is missing and that absence changes risk
 
-### Review Needs Named Perspectives
+### Autonomous Loop Needs Slice And Near-PR Review Cycles
+
+Resolved direction: the autonomous loop should contain two different review
+rhythms.
+
+The first rhythm is the **Slice Loop**:
+
+```text
+take next approved vertical slice
+-> write failing proof first
+-> make the smallest passing change
+-> refactor
+-> run validation
+-> run required slice review agents
+-> fix findings
+-> update evidence
+-> commit the slice when useful
+-> continue or stop at a HITL gate
+```
+
+The second rhythm is the **Near-PR Hardening Loop**:
+
+```text
+all planned local slices complete
+-> run multiple VGV-style review rounds
+-> fix each round before starting the next
+-> validate again
+-> reconcile docs and evidence
+-> commit and push
+-> open PR
+-> handle PR feedback until merge-ready
+```
+
+This preserves the user's existing `vgv-pr-roundtrip` lesson: completed local
+slices are not enough. Before a PR is opened, the branch still needs repeated
+review pressure, especially around simplicity, architecture, test quality,
+PR-readiness, and integration between slices.
+
+Default for the Flutter line: keep the VGV-style pre-PR review count at three
+rounds unless the user or workflow skill overrides it. This may become lighter
+after Structured Workflow has been tested in real projects, but the first
+version should keep the hardening loop explicit.
+
+Resolved commit/PR boundary: vertical slices may be committed independently as
+checkpoints, but the default delivery boundary is one coherent PR. One PR per
+slice only happens when a Plan Split explicitly decides the work should become
+multiple independently reviewable PRs.
+
+### Review Needs Named Side Flows
 
 Review is a universal gate and can also appear as a directly triggered side
 flow.
 
-Needed perspectives:
+Needed review side flows:
 
 - PRD/shared-design review
 - domain-language review
@@ -322,23 +451,18 @@ integrate these without pretending they are identical.
 
 ### Workflow Model
 
-- whether Feature Workflow, Refactor Workflow, and Diagnostic Workflow are the
-  complete v1 workflow set
 - how diagnostic side flows relate to Diagnostic Workflow
 - how architecture improvement side flows relate to Refactor Workflow and
-  review perspectives
+  review side flows
 - whether issue creation belongs to planning, delivery, or a separate adapter
 - whether delivery and handoff are completion phases or side flows
 - how Review operates as both universal gate and side flow
 - how resumable work consumes handoff artifacts
-- which capabilities can be both directly triggered side flows and review
-  perspectives inside the autonomous loop
-- which named workflows Structured Workflow should support first
+- which capabilities can be both directly triggered side flows and review side
+  flows inside the autonomous loop
 
 ### Workspace Model
 
-- whether the workspace remains `.ai-workflow/`
-- whether domain language lives inside workflow, repo docs, or both
 - whether ADRs are workflow-local, repo-local, or host-specific
 - how `workflow.md` links active language, ADR, PRD, plan, evidence, and
   handoff artifacts
@@ -346,8 +470,6 @@ integrate these without pretending they are identical.
 
 ### Collaborative Modeling
 
-- PRD section shape and technical-spec detail policy
-- when `CONTEXT.md` becomes required
 - how many grill loops are expected before artifact synthesis
 - how unresolved decisions are represented
 - how user stories, implementation decisions, testing decisions, interfaces,
@@ -366,8 +488,6 @@ integrate these without pretending they are identical.
 
 ### Plan And Slice Model
 
-- whether tracer-bullet slices live inside the plan or in `slices/`
-- whether every slice gets HITL/AFK classification
 - how local slice packets become external issues without making trackers
   mandatory
 - whether issue creation belongs to Plan, Delivery, or a separate adapter
@@ -392,13 +512,13 @@ integrate these without pretending they are identical.
 
 ### Review
 
-- review perspective taxonomy
+- review side flow taxonomy
 - review packet templates
 - review-of-review behavior
 - how to reconcile conflicting subagent reviews
 - what blocks downstream use versus what is advisory
 - how glossary and ADR alignment are checked
-- which review perspectives map to reusable side flows
+- which review side flows map to reusable side flows
 
 ### Hooks And Runtime Adapters
 
@@ -428,9 +548,81 @@ These should be handled one branch at a time.
 
 Resolved: the normal output of Collaborative Modeling is a PRD.
 
-Open follow-up: decide the exact PRD template sections, including where
-technical-spec details, interface decisions, validation standards, unresolved
-questions, and out-of-scope boundaries live.
+Matt Pocock's `to-prd` skill is the baseline shape:
+
+- synthesize from existing conversation and codebase understanding
+- do not interview the user again during PRD creation
+- use the project's glossary and respect relevant ADRs
+- sketch major modules to build or modify
+- actively look for deep-module opportunities with simple, testable interfaces
+- check module and testing expectations with the user before publishing
+
+The baseline PRD sections are:
+
+- Problem Statement
+- Solution
+- User Stories
+- Implementation Decisions
+- Testing Decisions
+- Out of Scope
+- Further Notes
+
+Resolved: do not add an Open Questions section to the PRD. Questions must be
+closed during Collaborative Modeling before PRD synthesis. If a question is
+still open, the PRD is not ready.
+
+Resolved: review status should not live inside the PRD because it can go stale.
+`workflow.md` and the review artifact track whether the PRD is reviewed and
+approved for downstream use.
+
+Resolved: a short Source section is acceptable when it points to the few
+artifacts the PRD depends on: Collaborative Modeling notes, context files, ADRs,
+and discovery/inventory evidence.
+
+Resolved: workflow-specific PRD emphasis belongs in workflow skills, not in the
+PRD template. The Feature Workflow and Refactor Workflow can use the same PRD
+spine while loading different guidance for what to consider and how to fill the
+sections.
+
+The Refactor Workflow skill should draw from software engineering principles
+such as Domain-Driven Design and John Ousterhout's _A Philosophy of Software
+Design_: domain language, deep modules, simple interfaces, locality, leverage,
+testability, and behavior preservation.
+
+### 1a. PRD Review Gate
+
+Resolved: after `to-prd` produces a PRD, the next step is a PRD Review Side
+Flow. The PRD itself does not carry review status.
+
+The source pass over adjacent systems supports this shape:
+
+- ACT's spec review is adversarial, codebase-grounded, evidence-cited, and
+  blocks editing until findings are visible.
+- VGV's refine-approach flow checks clarity, completeness, specificity, scope,
+  YAGNI, UX coherence, data fit, codebase fit, and verification, then presents
+  visible findings before updates.
+- Superpowers' spec reviewer calibrates the review to block only on issues
+  that would cause real planning or implementation problems.
+
+Structured Workflow should combine those ideas with Matt's PRD baseline:
+
+- review the PRD against the glossary, ADRs, discovery/inventory evidence, and
+  codebase reality
+- verify questions are closed; if not, return to Collaborative Modeling
+- verify the PRD reflects the user's intent with fidelity
+- verify module/interface decisions are clear enough to plan from
+- verify deep-module opportunities were considered where relevant
+- verify testing decisions identify behavior, module seams, and useful prior
+  art
+- verify scope boundaries prevent accidental expansion
+- separate blocking findings from advisory improvements
+- write a review artifact and update `workflow.md`
+- apply accepted findings back into the PRD before planning begins
+
+The gate passes only when no blocking findings remain and accepted findings
+have been reconciled into the PRD. Advisory improvements can be recorded
+without blocking planning, but anything accepted as necessary must update the
+PRD before the plan treats it as authoritative.
 
 ### 2. Context Scope And Strictness
 
@@ -452,9 +644,9 @@ The first workflow set is resolved enough for v1:
 - Diagnostic Workflow
 
 Current vocabulary correction: do not use "subflow" unless it is later defined.
-Use **Side Flow** for a directly triggered focused workflow. Use **Review
-Perspective** for a focused lens invoked inside a review gate. Some
-capabilities, such as Architecture Improvement, can exist in both shapes.
+Use **Side Flow** for focused workflows, including review side flows invoked
+inside review gates. Some capabilities, such as Architecture Improvement, can
+exist in both shapes.
 
 Second vocabulary correction: name workflows after the work they do. The user's
 `vgv-pr-roundtrip` skill describes the autonomous loop that belongs inside a
@@ -466,7 +658,8 @@ Diagnosis belongs to a separate diagnostic workflow. It may run autonomously in
 parts, but it is not part of the normal path for feature or refactor work.
 
 Feature Workflow and Refactor Workflow both contain an autonomous loop after
-collaborative modeling, PRD, and planning. Every autonomous implementation loop requires TDD.
+collaborative modeling, PRD, and planning. Every autonomous implementation loop
+requires TDD.
 Diagnostic Workflow may use collaborative modeling as an initial gate when the
 bug is ambiguous, domain-heavy, or architecture-sensitive. Its hard gate is a
 feedback loop that proves the reported failure before the fix and regression
@@ -500,8 +693,83 @@ services, storage, serialization, and platform integration.
 
 ### 8. Slice Representation
 
-Do tracer-bullet slices live inside the implementation plan, or in dedicated
-slice artifacts?
+Resolved: vertical slices live inside the implementation plan by default.
+
+Source pass:
+
+- Matt's `to-issues` turns an approved plan or PRD into issue-tracker slices
+  after the higher-level artifact exists. It classifies slices as HITL or AFK
+  and asks the user to approve granularity, dependencies, and split/merge
+  choices before publishing.
+- VGV planning records local research, external-doc decisions, requirements,
+  tasks, verification steps, and a first thin vertical slice. VGV technical
+  review can recommend splitting a plan into smaller plan files when one PR is
+  too large.
+- ACT planning produces terse phased implementation plans. Its style contract
+  makes Phase 1 a thin end-to-end vertical slice and splits phases only around
+  risk, integration, or checkpoint boundaries.
+- Superpowers planning produces bite-sized executable tasks and requires
+  self-review against the source spec, placeholder scan, type consistency, and
+  task coverage.
+
+Structured Workflow decision:
+
+- Matt's vertical-slice model from `to-issues` is the primary model for turning
+  a reviewed PRD or plan into implementation work.
+- Software planning uses separate research agents by default.
+- A Docs Research Agent retrieves current official docs, version constraints,
+  migration notes, and API guidance. This includes language syntax, SDK
+  behavior, framework APIs, package APIs, platform APIs, test APIs, lint rules,
+  and external services. It is especially important for Flutter, Dart, Bloc,
+  Riverpod, GoRouter, platform APIs, and third-party packages.
+- Docs research uses official documentation only. It does not use blogs,
+  generic web best-practices posts, or community advice as authority.
+- If official docs do not cover an innovative or unusual approach, the Docs
+  Research Agent records the documentation gap instead of pretending the gap is
+  resolved.
+- Best-practice claims in the plan must come from official docs, accepted local
+  project conventions, or explicitly credited engineering principles already
+  accepted by the workflow.
+- A Codebase Research Agent inspects local project structure, conventions,
+  reference implementations, and architecture patterns so the plan matches the
+  actual repo.
+- Codebase research is evidence-only. It uses current repo files, committed
+  docs, accepted local conventions, and exact references. It may infer from
+  patterns, but must label inference clearly.
+- Docs Research Agent and Codebase Research Agent reports are separate Research
+  Artifact files. They are not inline-only summaries inside the plan.
+- The plan links the research artifacts and may include brief extracted
+  decisions, but the source reports must remain inspectable by later agents.
+- Research Artifacts live under `.ai-workflow/research/<plan-slug>/`, for
+  example `official-docs.md` and `codebase-research.md`.
+- `workflow.md` tracks active Research Artifacts and whether each report is
+  accepted for planning. The implementation plan also links them, but
+  `workflow.md` is the control surface that prevents the planner from skipping
+  or ignoring them.
+- The orchestrator can accept routine docs/codebase research for planning.
+- Any research finding that changes product behavior, architecture direction,
+  scope, or AFK/HITL classification becomes HITL and needs human approval.
+- Skipping docs research requires an explicit low-risk justification. "Repo
+  local" is not enough by itself because even local Dart code depends on
+  current Dart, Flutter, analyzer, testing, and package behavior.
+- The planner reconciles those research reports before writing the plan.
+- The implementation plan contains vertical slices directly.
+- A Plan Split creates separate plan artifacts or external issue slices only
+  when the plan is too large for one autonomous loop, one PR, or one useful
+  review.
+- Every vertical slice is classified as AFK or HITL.
+- The user's Autonomy Intent is recorded before planning: all-AFK if possible,
+  or HITL allowed where decisions/access/approval are required.
+- AFK means ready for fully autonomous end-to-end execution after Collaborative
+  Modeling, PRD, and planning are complete.
+- HITL means human judgment, approval, access, product decision, architecture
+  decision, or visual choice is required inside the loop.
+- The plan review side flow may recommend a Plan Split, but the orchestrator
+  reconciles that recommendation before creating new artifacts.
+- The first implementation unit should be a thin vertical slice unless the plan
+  explicitly explains why that is impossible.
+- Every requirement or user story in the PRD should map to at least one
+  implementation task and one verification step.
 
 ### 9. Missing Regression Seam
 
@@ -529,7 +797,7 @@ The cleanup pass left these questions for the `grill-with-docs` queue:
 - What minimum evidence must exist before the system chooses Feature Workflow,
   Refactor Workflow, or Diagnostic Workflow?
 - Should artifact review be one generic review capability, or phase-specific
-  review perspectives?
+  review side flows?
 - Which final claims require reviewed evidence before the agent can report,
   commit, push, or open a PR?
 - How should the orchestrator reconcile subagent and reviewer outputs as
@@ -543,16 +811,24 @@ The cleanup pass left these questions for the `grill-with-docs` queue:
 
 ## Recommended Next Move
 
-Use `grill-with-docs` on the first unresolved branch: PRD Artifact.
+Use `grill-with-docs` on the next unresolved branch: Flutter Identity.
 
 The workflow set is resolved enough for v1. Context scope is resolved enough to
 keep the glossary strict. ADR Gate is resolved enough to follow Matt's
-supporting-document model. The next useful branch is the PRD artifact because
-it is the output of Collaborative Modeling and the input to planning.
+supporting-document model. PRD Artifact and PRD Review Gate are resolved enough
+to draft templates and skills later. Plan And Slice Model is resolved enough for
+the first scaffold: vertical slices live in the implementation plan, every slice
+gets AFK/HITL classification, research artifacts are required by default, slice
+commits are allowed, and one coherent PR is the default delivery boundary.
+
+The next useful branch is Flutter Identity because it decides whether the first
+domain line is state-management-neutral with profiles, Riverpod-first, or
+BLoC-first, and how VGV, ACT, Flutter-team, and Mythic guidance layer onto the
+core protocol.
 
 Suggested starting question:
 
 ```text
-What should the PRD template look like so it supports both Feature Workflow and
-architecture-focused Refactor Workflow without muddying the ubiquitous language?
+Should Autonomous Flutter be state-management-neutral with project profiles, or
+should the first public version privilege a specific reference stack?
 ```

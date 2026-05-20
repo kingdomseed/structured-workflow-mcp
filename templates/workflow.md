@@ -32,12 +32,26 @@ Why not the other workflows:
 
 - Discovery: discovery.md
 - Discovery review:
+- Research artifacts:
+  - Official docs:
+  - Codebase research:
+- Research accepted for planning:
+- Research acceptance owner: Orchestrator / HITL
+- Research-triggered gates:
 - PRD:
 - PRD review:
 - Implementation plan:
 - Plan review:
+- Plan review agents:
+  - Required:
+  - Core:
+  - Domain:
 - Evidence:
 - Evidence review:
+- Slice commits:
+- Near-PR hardening:
+- PR boundary:
+- PR feedback:
 
 ## Gates
 
@@ -45,10 +59,14 @@ Why not the other workflows:
 - [ ] Discovery captured
 - [ ] Discovery reviewed
 - [ ] Workflow selected
+- [ ] Research artifacts written
+- [ ] Research accepted for planning
 - [ ] Active phase artifact drafted
 - [ ] Active phase artifact reviewed
 - [ ] Human/orchestrator resolution complete
 - [ ] Build verified
+- [ ] Near-PR hardening complete
+- [ ] PR feedback resolved
 - [ ] Completion evidence reviewed
 
 ## Workflow-Specific Gates

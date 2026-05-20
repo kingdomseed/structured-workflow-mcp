@@ -2,9 +2,10 @@
 
 ## Source
 
-- Discovery:
-- Discovery review:
-- Related artifacts:
+- Collaborative Modeling:
+- Context:
+- ADRs:
+- Discovery / inventory:
 
 ## Problem Statement
 
@@ -26,18 +27,6 @@ The solution to the problem, from the user's perspective.
 
 - TBD
 
-## Boundaries
-
-## Assumptions
-
 ## Out Of Scope
 
 ## Further Notes
-
-## Open Questions
-
-## Review
-
-- PRD review:
-- Domain/codebase review:
-- Resolution:
