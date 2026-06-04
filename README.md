@@ -1,48 +1,44 @@
 # Structured Workflow
 
-Structured Workflow is a small set of installable agent skills, companion
-agents, and hooks for helping coding agents work through a clear design cycle:
-understand the problem, shape options, build deliberately, and evaluate the
-result.
+Structured Workflow installs a design cycle into your coding agent — and a
+durable memory that keeps the agent from losing its place in that cycle.
 
-This repo is not a source archive. It should contain the runtime assets that can
-be installed into an agent harness, plus the minimum documentation needed to
-explain how those assets fit together.
+It ships as installable skills, companion agents, and hooks for agent
+harnesses. Together they give an agent a clear way to move through a piece of
+work: understand the problem, shape options, build deliberately, and evaluate
+the result.
 
-## What This Installs
+## One System, Two Aspects
 
-The repo is organized around three agent-facing surfaces:
+Structured Workflow is a single idea with two inseparable parts.
 
-- `skills/` contains reusable `SKILL.md` workflows that can be discovered and
-  installed by skill-aware agent systems.
-- `agents/` contains subagent definitions for harnesses that support specialized
-  agent roles.
-- `hooks/` contains guardrails and automation hooks for harnesses that support
-  execution-time checks.
+**The workflow is the framework.** Real design work is a fluid motion between
+phases — inquiry, ideas, building, evaluation — not a fixed sequence of steps.
+The MYP Design Cycle describes that motion well, because it treats design as an
+evidence-producing process rather than a single implementation step. This is the
+high-level frame the agent works inside, for any project.
 
-The primary compatibility target for public distribution is the open agent
-skills install flow:
+**Durable files are how the agent keeps track.** An LLM's context is volatile
+memory: it compresses, drifts, and is eventually lost. So the agent's position
+in the cycle — what it has learned, where it is, and where it is going next — has
+to live somewhere durable. Structured Workflow keeps that in a small, fixed set
+of files, and uses hooks to reconnect the agent to them as context shifts.
 
-```sh
-npx skills add <owner>/<repo>
-```
+The cycle tells the agent where it is going. The files let it remember where it
+is.
 
-The skills registry is the narrowest shared install surface. Agents and hooks
-are companion assets for harnesses that can use them directly.
+## The Workflow: Four Phases
 
-## The Four Buckets
-
-Structured Workflow uses four buckets adapted from the MYP Design Cycle. The
-cycle is a useful fit because it treats design as an evidence-producing process,
-not as a single implementation step.
+Structured Workflow uses four phases adapted from the MYP Design Cycle. They are
+a fluid motion, not rigid gates — a skill belongs to the phase where it most
+helps the agent make progress.
 
 ### `inquiry-analysis`
 
 Clarify the situation before choosing a solution.
 
-Use this bucket for skills and agents that help define the problem, identify
-stakeholders, gather context, inspect existing systems, compare examples, surface
-constraints, and write the first design brief.
+Define the problem, identify stakeholders, gather context, inspect existing
+systems, compare examples, surface constraints, and write the first design brief.
 
 Typical outputs:
 
@@ -56,9 +52,9 @@ Typical outputs:
 
 Turn understanding into options.
 
-Use this bucket for skills and agents that help generate alternatives, compare
-trade-offs, sharpen requirements, prototype directions, choose a path, and make
-the plan legible before implementation begins.
+Generate alternatives, compare trade-offs, sharpen requirements, prototype
+directions, choose a path, and make the plan legible before implementation
+begins.
 
 Typical outputs:
 
@@ -72,9 +68,8 @@ Typical outputs:
 
 Build the chosen solution while preserving traceability.
 
-Use this bucket for skills and agents that help implement, coordinate changes,
-keep work aligned with the plan, adapt when evidence changes, and record the
-reason for meaningful deviations.
+Implement, coordinate changes, keep work aligned with the plan, adapt when
+evidence changes, and record the reason for meaningful deviations.
 
 Typical outputs:
 
@@ -88,9 +83,8 @@ Typical outputs:
 
 Test the solution and decide what should happen next.
 
-Use this bucket for skills and agents that help verify behavior, review quality,
-compare outcomes against the original criteria, identify follow-up work, and
-explain impact.
+Verify behavior, review quality, compare outcomes against the original criteria,
+identify follow-up work, and explain impact.
 
 Typical outputs:
 
@@ -100,9 +94,50 @@ Typical outputs:
 - improvement list
 - release or handoff summary
 
-## Repository Shape
+## Durable Memory: The Working Files
 
-The intended public shape is:
+Context is volatile, so the agent writes its working memory to a deliberately
+small, fixed set of files. The set is bounded on purpose: tell an agent to "keep
+notes" and it will sprawl into endless side documents. A small set keeps the
+working memory coherent, and lets the agent answer — at any moment — what phase
+it is in, why it is here, and where it is going next.
+
+These files live in your project, not in this repo. Two artifacts anchor the
+work beyond the working set:
+
+- **Linear issues** are the task workspace — where work is organized and tracked
+  at the project level.
+- **`PRD.md`** is an output — the cleaned-up result of interviews and decisions,
+  ready to be reviewed and broken into issues.
+
+Hooks maintain continuity. They bring the current phase, prior context, and the
+next action back into the agent's attention at the right moments, so the work
+survives context loss.
+
+The durable-files idea draws on two projects that treat the filesystem as the
+agent's persistent memory: Cline's Memory Bank and Othman Adi's
+planning-with-files.
+
+## What This Installs
+
+The repo is organized around three agent-facing surfaces:
+
+- `skills/` — reusable `SKILL.md` workflows, discoverable and installable by
+  skill-aware agent systems, grouped under the four phases.
+- `agents/` — subagent definitions for harnesses that support specialized roles.
+- `hooks/` — guardrails and continuity hooks for harnesses that support
+  execution-time checks.
+
+The primary distribution target is the open agent skills install flow:
+
+```sh
+npx skills add <owner>/<repo>
+```
+
+The skills registry is the narrowest shared install surface; agents and hooks
+are companion assets for harnesses that can use them directly.
+
+## Repository Shape
 
 ```text
 skills/
@@ -120,51 +155,23 @@ agents/
 hooks/
 ```
 
-Each installable skill should live in its own folder with a `SKILL.md` file.
-The four bucket folders are organizational boundaries, not extra phases. A skill
-belongs in the bucket where it primarily helps the agent make progress.
-
-## What Belongs Here
-
-Keep assets that are meant to be installed, reused, or cited by this project:
-
-- authored Structured Workflow skills
-- authored companion agents
-- authored hooks
-- concise docs explaining how the system is organized
-- attribution and provenance for retained source material
-
-## What Does Not Belong Here
-
-Do not vendor broad upstream corpora or private inspiration sources into this
-repo. External projects can inform the design, but copied bodies should not be
-kept here unless they are intentionally retained, attributed, and licensed for
-reuse.
-
-In particular, this repo should not accumulate disposable research dumps, raw
-source extracts, or copied skill bundles that can be pulled again from their
-original upstream projects.
+Each installable skill lives in its own folder with a `SKILL.md` file. The four
+phase folders are organizational boundaries, not extra phases.
 
 ## Attribution
 
-Attributions and retained source lineage should live in `NOTICE.md`. Each entry
-should identify:
+Retained source lineage lives in `NOTICE.md`. Each entry identifies:
 
 - the source project or author
 - the retained file or idea
 - the license or permission basis
-- the specific Structured Workflow skill, agent, or hook that uses it
-
-## Status
-
-This repo is being rebuilt from a clean R&D archive into a publishable install
-repo. The root should stay focused on the final public shape. Draft material,
-contradictory notes, and recovery evidence belong outside the install surfaces
-until they are deliberately promoted.
+- the Structured Workflow skill, agent, or hook that uses it
 
 ## References
 
 - [IB: Design in the MYP](https://www.ibo.org/programmes/middle-years-programme/curriculum/design/)
 - [IB MYP Design Subject Brief](https://www.ibo.org/globalassets/new-structure/brochures-and-infographics/pdfs/myp-brief_design_2015.pdf)
 - [Design and Inquiry: MYP Design Cycle](https://sites.google.com/view/designandinquiry/myp-design)
+- [Cline Memory Bank](https://docs.cline.bot/prompting/cline-memory-bank)
+- [Othman Adi: planning-with-files](https://github.com/OthmanAdi/planning-with-files)
 - [vercel-labs/skills](https://github.com/vercel-labs/skills)
