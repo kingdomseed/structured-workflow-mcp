@@ -1,7 +1,0 @@
-interface:
-  display_name: "VGV Bloc"
-  short_description: "Apply VGV Bloc and Cubit conventions for Flutter and Dart state management."
-  default_prompt: "Use this skill when creating, modifying, testing, or reviewing Bloc, Cubit, flutter_bloc, or bloc_test code."
-
-policy:
-  allow_implicit_invocation: true
