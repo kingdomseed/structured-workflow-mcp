@@ -36,6 +36,10 @@ Core moves of the engine:
 - **Slice vertically, not horizontally.** Each slice is a tracer bullet that cuts
   through all layers and is demoable on its own — never a horizontal layer that
   only matters once everything else exists.
+- **Choose the technical approach as part of planning.** Deciding which skills,
+  conventions, tools, and methodology a slice needs is itself a planning act — it
+  shapes the slices and can add new ones (such as a final end-to-end verification
+  slice), so it is settled while slicing, not bolted on during the build.
 - **Lead with the thinnest end-to-end slice.** Prove the path through the whole
   system first, then thicken it.
 - **Label every slice human-ready or agent-ready.** HITL slices need human
@@ -57,13 +61,17 @@ worked out in the creating-solution document; the build itself produces the code
 
 - **C1 — The plan.** Decompose the PRD into tracer-bullet vertical slices, drafted
   in the document so they can be refined and reviewed before becoming issues.
-- **C2 — The technical approach.** Chosen *while* slicing: which engineering
-  conventions apply (for example VGV's Flutter/Dart practices, or Vercel's
-  TypeScript/React conventions), which tools the work needs (for example Patrol
-  for end-to-end testing), and the methodology that carries the plan forward (for
-  example TDD). These are attached to the slices so each issue says how it should
-  be built. We reference existing conventions here; a named principles document is
-  deferred to Evaluating.
+- **C2 — The technical approach.** Choosing the technical approach *is part of the
+  planning*, not a separate step after it — C1 and C2 go back and forth. While
+  slicing, the agent decides which engineering conventions apply (for example
+  VGV's Flutter/Dart practices, or Vercel's TypeScript/React conventions), which
+  tools the work needs (for example Patrol for end-to-end testing), and the
+  methodology that carries the plan forward (for example TDD). That choice feeds
+  back into the slices: it is attached to each issue so it says how it should be
+  built, and it can **add slices** — for example, knowing the build needs a
+  visual-validation artifact for a high confidence signal adds a final
+  Patrol end-to-end slice to fully verify the result. We reference existing
+  conventions here; a named principles document is deferred to Evaluating.
 - **C3 — The build.** Follow the published slices: mark each issue in-progress,
   build it, verify it builds and functions at the slice level, commit, and mark it
   complete.
@@ -141,7 +149,8 @@ Criteria the breakdown is judged against:
   first.
 - **Labels** — each slice is correctly marked HITL or AFK.
 - **Technical approach** — conventions, tools, and methodology are named per slice
-  and match what the codebase actually uses.
+  and match what the codebase actually uses, and any verification slices the
+  approach implies (for example an end-to-end run) are present.
 
 ## When the phase is done
 

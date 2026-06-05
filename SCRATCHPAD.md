@@ -25,10 +25,11 @@ surface.
 
 ## MYP Strand Structure (grounded in the design-cycle diagrams)
 
-Verified against the Criterion A and Criterion B diagrams on the Design and
-Inquiry site (Aidan Hammond). Each criterion has four strands, and **the first
-three strands produce the fourth — and the fourth is the handoff artifact.** The
-structure is symmetric across phases:
+Verified against the Criterion A, B, and C diagrams on the Design and Inquiry
+site (Aidan Hammond). Each criterion has four strands. In A and B **the first
+three strands produce the fourth — and the fourth is the handoff artifact**
+(symmetric). **Criterion C breaks that symmetry:** C1 and C2 interleave into the
+plan, C3 builds it, and C4 justifies departures.
 
 ```text
 A1 need      \
@@ -39,6 +40,13 @@ B1 spec/criteria \
 B2 ideas+prototype } -> B4 PRD/export (the requirements for creating the chosen
 B3 chosen+justified/                   solution; "planning drawings" reinterpreted
                                        per task: API contracts, schema, test seams)
+
+C1 planning  <->  C2 technical skills  (choosing which skills/tools/methodology
+       |                                to use IS part of planning; the choice
+       | reviewed, exported to tracker  shapes the slices and can add new ones)
+       v
+C3 build the slices  ->  C4 justified changes  (departures from the plan, with
+                                                confidence)
 ```
 
 The dotted arrows are the intrinsic back-and-forth (research feeds every strand;
@@ -56,8 +64,16 @@ flowchart LR
   B3 --> B4[PRD / planning requirements]
   B1 -.feeds.-> B3
   B2 -.prototype answers a question.-> A2
+  B4 --> C1[planning / slices]
+  C1 <--> C2[technical skills]
+  C2 -.shapes the slices and can add new ones like a Patrol E2E verify slice.-> C1
+  C1 -.reviewed and exported to tracker.-> C3[build the slices]
+  C2 -.skills carried into the build like TDD and layered architecture.-> C3
+  C3 --> C4[justified changes]
+  C4 -.flawed decision loops back.-> B3
 ```
-<!-- A = inquiry strands, B = developing-ideas strands. Dotted = the back-and-forth. -->
+<!-- A = inquiry, B = developing-ideas, C = creating-solution strands.
+     Dotted = back-and-forth / cross-strand influence. -->
 
 Key reads from the diagrams (these justify the fluid, non-gated model):
 
@@ -79,6 +95,18 @@ Key reads from the diagrams (these justify the fluid, non-gated model):
   drawings/diagrams and creation requirements. For software, B4 is the PRD/export
   surface that can be mirrored to Linear or another issue tracker for issue
   decomposition.
+- **Criterion C: technical-skill selection IS planning, and it shapes the
+  issues.** The source C diagram shows C1 <-> C2 as a two-way arrow, then
+  C2 -> C3 -> C4. C1 (planning) and C2 (technical skills) go back and forth
+  because deciding *which* skills, tools, and methodology to use is itself part of
+  planning. Example: "I need the TDD skill, VGV's layered-architecture
+  conventions, and Patrol's E2E docs to produce the visual-validation artifact the
+  human and I need for a high confidence score." That selection then feeds back
+  into the issues — it can add a slice (e.g. a final Patrol E2E run to fully verify
+  the build). C1 + C2 are staged and adversarially reviewed in the
+  creating-solution document, exported to the tracker, then C3 builds and C4
+  records any justified departure. A flawed decision discovered mid-build loops
+  back to developing-ideas (or inquiry).
 
 ## Source Ingredients (from the real skills)
 

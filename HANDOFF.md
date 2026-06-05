@@ -120,13 +120,20 @@ Write `skills/evaluating/README.md`:
   or AFK.
 - **Criterion C breaks the A/B symmetry, but still keeps one durable local doc.**
   Real product is code + tests. The **creating-solution document** stages C1
-  (Slices) + C2 (Technical Approach: conventions/tools/methodology per slice),
-  is adversarially reviewed locally *before* the slices are exported to the
-  tracker, and **C4 Justified Changes folds into that same doc** (the agent's
-  account of departures from the PRD/Design Brief, with confidence). C3 builds
-  against the live tracker issues; **verification is slice-level only ("it builds
-  and works") — deep review/acceptance is deferred to evaluating.** A named
-  `ENGINEERING.md` is also deferred to evaluating.
+  (Slices) + C2 (Technical Approach), is adversarially reviewed locally *before*
+  the slices are exported to the tracker, and **C4 Justified Changes folds into
+  that same doc** (the agent's account of departures from the PRD/Design Brief,
+  with confidence). C3 builds against the live tracker issues; **verification is
+  slice-level only ("it builds and works") — deep review/acceptance is deferred to
+  evaluating.** A named `ENGINEERING.md` is also deferred to evaluating.
+- **C1 <-> C2 interleave: choosing the technical approach IS planning.** Deciding
+  which skills/conventions/tools/methodology a slice needs (e.g. TDD, VGV layered
+  architecture, Patrol for E2E) is itself a planning act — it is attached to each
+  issue *and can add slices* (e.g. a final Patrol E2E slice to produce the
+  visual-validation artifact needed for a high confidence signal). The
+  slice-breakdown review checks that any verification slices the approach implies
+  are present. See `SCRATCHPAD.md` "MYP Strand Structure" (the diagram now
+  includes the C strands and this C1<->C2 loop).
 - `GLOSSARY.md` is the always-on ubiquitous-language file (glossary only, no
   implementation detail). ADRs are sparse: hard-to-reverse + surprising + real
   trade-off.
