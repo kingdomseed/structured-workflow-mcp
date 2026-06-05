@@ -20,6 +20,83 @@ surface.
 - Matt's ubiquitous-language idea maps to resolving ambiguity between human,
   agent, artifacts, tests, code, and reviews.
 
+## MYP Strand Structure (grounded in the design-cycle diagrams)
+
+Verified against the Criterion A and Criterion B diagrams on the Design and
+Inquiry site (Aidan Hammond). Each criterion has four strands, and **the first
+three strands produce the fourth — and the fourth is the handoff artifact.** The
+structure is symmetric across phases:
+
+```text
+A1 need      \
+A2 research   } -> A4 Design Brief   (summarizes A1-A3)
+A3 prior art /
+
+B1 spec/criteria \
+B2 ideas+prototype } -> B4 PRD       (the requirements for creating the chosen
+B3 chosen+justified/                  solution; "planning drawings" reinterpreted
+                                      per task: API contracts, schema, test seams)
+```
+
+The dotted arrows are the intrinsic back-and-forth (research feeds every strand;
+specs and ideas interplay; a prototype can throw a question back to inquiry):
+
+```mermaid
+flowchart LR
+  A1[need] <--> A2[research]
+  A2 --> A3[prior art]
+  A3 --> A4[Design Brief]
+  A2 -.informs.-> A4
+  A4 --> B1[spec / criteria]
+  B1 <--> B2[ideas + prototype]
+  B2 --> B3[chosen + justified]
+  B3 --> B4[PRD]
+  B1 -.feeds.-> B3
+  B2 -.prototype answers a question.-> A2
+```
+<!-- A = inquiry strands, B = developing-ideas strands. Dotted = the back-and-forth. -->
+
+Key reads from the diagrams (these justify the fluid, non-gated model):
+
+- **The back-and-forth is drawn into the structure, not a caveat.** A2 (Research)
+  arrows point both ways — back to A1 and forward through A3 to A4 ("Research
+  informs the other steps of Criterion A"). B1 <-> B2 is bidirectional, with a
+  curved arrow from B1 back into B3. Nothing is final until the whole criterion
+  settles.
+- **The prototype move is native to B2.** B2 is wrapped in an "Explore ideas /
+  Test ideas / Gather feedback" box — that IS the prototype-to-answer move. It
+  lives in developing-ideas but is reachable early, even mid-inquiry: you can
+  start researching, realize you need a develop-ideas prototype to get feedback
+  on a direction *before* the questions are answered and B1 specs can be written,
+  then carry the answer back.
+- **B1-B3 are the pieces of the PRD; B4 is the synthesized whole.** Once all of B
+  is done you have a holistic PRD. The interview/grill continues into B but with
+  narrower focus and only a few decisions left — or we arrive here via a
+  prototype. Same engine, less open surface.
+
+## Orientation, Not a Hard Gate (decided)
+
+Reframed the "75% -> write the artifact" idea: it is **orientation toward a
+target artifact, not an enforced gate.** At any moment the agent knows which
+phase it is in and which artifact it is moving toward (Design Brief in inquiry,
+PRD in developing-ideas). When open questions thin out and no *blocking* question
+remains, the agent **offers** to synthesize the target artifact rather than
+grilling forever (the fix for `grill-with-docs` having no terminator). It offers;
+it does not block. No hard wall between inquiry and developing-ideas.
+
+## Durable Files Decision: `workflow-tracker.md`
+
+The always-on phase-state file is **`workflow-tracker.md`** (name locked; not
+`CYCLE.md`). It is a peer to `GLOSSARY.md` — always on, re-read at phase entry —
+and records where the work is in the cycle: current phase, likely next phase, and
+whether we are looping back. It is what makes the oscillation safe and survives
+context loss. (Lineage: planning-with-files `progress.md`, but renamed and scoped
+to phase-position only — NOT the `task_plan/progress/findings` triad.)
+
+Open: whether `workflow-tracker.md` is fully specified inside the developing-ideas
+doc or written up separately as a cross-phase concept (it spans all four phases,
+like `GLOSSARY.md`). Leaning cross-phase.
+
 ## Inquiry-Analysis (migrated)
 
 The core thesis, the Interview-as-engine framing, the interview loop, the
@@ -155,10 +232,16 @@ Nuances to respect:
   an approval gate when choosing among the 2-3 approaches, and `to-issues`
   quizzes the user on slice granularity. These are confirmations, not
   requirements interviews.
-- Design-brief vs PRD overlap risk. Brief = lightweight "what/why"
-  (understanding); PRD = heavier "solution/how." If they start to duplicate,
-  collapse the brief — or let a clearly-specified request skip the brief and
-  route straight to the PRD (the clarity gate).
+- Design-brief vs PRD overlap — **resolved via the MYP spine.** They are not
+  competitors and do not duplicate: Design Brief = MYP A4, the *summary of the
+  problem* (justified need + research + prior-art constraints) — the what/why,
+  output of inquiry. PRD = MYP B4, the *requirements for creating the chosen
+  solution* — the solution/how, output of developing-ideas. The Brief is an
+  *input* to the PRD, not a lightweight version of it. `to-prd` confirms the
+  seam: by PRD time, "do NOT interview — synthesize what you already know,"
+  because the interviewing already produced the Brief. A clearly-specified
+  request may still skip the Brief and route straight to the PRD (clarity gate),
+  but they never collapse into each other.
 
 Durable files vs handoff:
 
@@ -170,16 +253,22 @@ Durable files vs handoff:
 
 ## Open Threads (follow later, do not chase now)
 
-1. **Inquiry <-> Developing-Ideas oscillation.** MYP flows back and forth, and
-   Matt models this: a grill question you cannot answer in the abstract triggers
-   a jump to `prototype` (throwaway code that answers one question), then a
-   return with the answer (captured durably, prototype deleted). The "propose
-   2-3 approaches" step belongs to `developing-ideas`. Decision needed: how the
-   two buckets pass control back and forth without a hard wall.
+1. **Inquiry <-> Developing-Ideas oscillation — model decided, mechanics TBD.**
+   The MYP diagrams show the back-and-forth is intrinsic (see "MYP Strand
+   Structure" above): B2's "Explore / Test / Gather feedback" box is the
+   prototype-to-answer move, reachable mid-inquiry. The model: no hard wall;
+   `workflow-tracker.md` records position and loop-backs; the agent orients
+   toward the target artifact and offers to synthesize when blocking questions
+   are gone. Still to write up: the concrete prototype jump-and-return mechanics
+   (throwaway code answers one question, answer captured durably, prototype
+   deleted).
 
-2. **Gate inventory.** Gates found so far: clarity gate (entry to inquiry, skip
-   when already clear — VGV); endpoint gate (exit of inquiry — ours to define);
+2. **Gate inventory — leaning soft.** Gates found: clarity gate (entry to
+   inquiry, skip when already clear — VGV); endpoint gate (exit of inquiry);
    approval gate (choosing an approach in developing-ideas — Superpowers/VGV);
    slice-approval gate (entry to creating-solution — `to-issues`). Superpowers
-   enforces an absolute pre-implementation gate even for "simple" work. Decide
-   which gates are mandatory vs skippable.
+   enforces an absolute pre-implementation gate even for "simple" work. **Current
+   direction: no hard gate** — orientation toward the target artifact instead
+   (see "Orientation, Not a Hard Gate"). The agent offers; it does not block.
+   Still to decide: whether ANY gate stays mandatory (likely the
+   pre-implementation one at the creating-solution boundary).
