@@ -29,7 +29,10 @@ Verified against the Criterion A, B, and C diagrams on the Design and Inquiry
 site (Aidan Hammond). Each criterion has four strands. In A and B **the first
 three strands produce the fourth — and the fourth is the handoff artifact**
 (symmetric). **Criterion C breaks that symmetry:** C1 and C2 interleave into the
-plan, C3 builds it, and C4 justifies departures.
+plan, C3 builds it, and C4 justifies departures. **Criterion D returns to the
+symmetric shape and sits across all of them:** D1 + D2 produce D3 -> D4 (impact,
+the terminal summary), and the *same* evaluation engine can be pointed at the
+Design Brief, the PRD, and the issues — not only the finished build.
 
 ```text
 A1 need      \
@@ -47,6 +50,13 @@ C1 planning  <->  C2 technical skills  (choosing which skills/tools/methodology
        v
 C3 build the slices  ->  C4 justified changes  (departures from the plan, with
                                                 confidence)
+
+D1 testing plan <-> D2 evaluation/verdict  (plan, gather, analyze data; the same
+       |                                     engine also judges the Design Brief
+       | fail = no ship                      and the PRD; D1 is seeded by B4
+       v                                     testing decisions + C2 verify slices)
+D3 improvements  ->  D4 impact              (D4 is the terminal summary and opens
+                                             the next cycle, looping back to A1)
 ```
 
 The dotted arrows are the intrinsic back-and-forth (research feeds every strand;
@@ -71,9 +81,22 @@ flowchart LR
   C2 -.skills carried into the build like TDD and layered architecture.-> C3
   C3 --> C4[justified changes]
   C4 -.flawed decision loops back.-> B3
+  C4 --> D1
+  subgraph plan_gather [plan · gather · analyze data]
+    D1[testing plan] <--> D2[evaluation / verdict]
+  end
+  D2 --> D3[improvements]
+  D3 --> D4[impact]
+  B4 -.testing decisions seed the plan.-> D1
+  C2 -.verification slices seed the plan.-> D1
+  A4 -.same engine evaluates the brief.-> D2
+  B4 -.same engine evaluates the PRD.-> D2
+  D2 -.fail = no ship, loop back.-> C3
+  D4 -.impact opens the next cycle.-> A1
 ```
-<!-- A = inquiry, B = developing-ideas, C = creating-solution strands.
-     Dotted = back-and-forth / cross-strand influence. -->
+<!-- A = inquiry, B = developing-ideas, C = creating-solution,
+     D = evaluating (a cross-phase engine; its fullest use is the post-build
+     verdict). Dotted = back-and-forth / cross-strand influence. -->
 
 Key reads from the diagrams (these justify the fluid, non-gated model):
 
@@ -107,6 +130,18 @@ Key reads from the diagrams (these justify the fluid, non-gated model):
   creating-solution document, exported to the tracker, then C3 builds and C4
   records any justified departure. A flawed decision discovered mid-build loops
   back to developing-ideas (or inquiry).
+- **Criterion D: symmetric in shape, but a cross-phase engine in use.** The source
+  D diagram boxes D1 (Testing Plan) and D2 (Evaluation) together as "plan, gather,
+  analyze data" with a two-way arrow, then D2 -> D3 (Improvements) -> D4 (Impact).
+  So D1+D2 produce D3 -> D4, and D4 (impact on the client) is the terminal summary
+  — symmetric with A4/B4. Two reinterpretations for software: (1) **the testing
+  plan is not born in D** — it accrues from B4's Testing Decisions and the C2
+  verification slices, so D1 consolidates and executes a plan that has been forming
+  since developing-ideas; (2) **the same evaluation engine is reusable across the
+  cycle** — pointed at the Design Brief, the PRD, or the issues, not only the
+  finished build. D2's verdict against the original criteria + the project
+  Definition of Done is the one hard gate (fail = no ship); D3/D4 can open the next
+  cycle, looping back to A1.
 
 ## Source Ingredients (from the real skills)
 
@@ -382,8 +417,9 @@ doc. The strands:
 - **C2 Technical Skills** — selected *during* slicing: which engineering
   conventions apply (e.g. VGV Flutter/Dart, Vercel TS/React), which tools the work
   needs (e.g. Patrol for E2E), and the methodology to carry the plan forward
-  (e.g. TDD). Attached to the slices. We reference conventions; a named
-  `ENGINEERING.md` is deferred to evaluating.
+  (e.g. TDD). Attached to the slices. We reference conventions here; the standing
+  engineering criteria live in the per-project Definition-of-Done template, applied
+  by the evaluation system (see "Two levels of criteria" below — no `ENGINEERING.md`).
 - **C3 Creating the solution** — follow the published slices: mark in-progress ->
   build -> verify it builds and works at the slice level -> commit -> mark
   complete. Deep review/acceptance is deferred to evaluating.
@@ -418,6 +454,268 @@ Engine: **follow the plan, building in verifiable vertical slices** — decompos
 review locally -> publish -> build a slice end-to-end -> verify -> commit ->
 justify any deviation.
 
+## Evaluating (Criterion D) analysis (2026-06-05)
+
+Analysis only — not yet written up as `skills/evaluating/README.md`. Grounded in
+real sources read this session: ACT `act-meta-audit-work`,
+`act-workflow-refine-spec`, `act-workflow-work`; Codex Product Design `design-qa`;
+VGV `plan-technical-review`. (Earlier evaluating-source notes are in
+"Developing-Ideas Research Evidence" above.)
+
+### MYP Criterion D -> software
+
+Source order: D1 design a testing method -> D2 evaluate the solution against the
+design specification -> D3 explain how the solution could be improved -> D4
+explain the impact on the client/target audience. Reinterpreted per software task:
+
+- **D1 — Design the testing methods.** Decide *how* the solution will be proven:
+  the test/verification methods and the evidence each will produce (unit/widget,
+  integration, E2E, smoke, manual checks, screenshots/transcripts/profiles). The
+  methods are chosen to test against the *original success criteria* from the
+  Design Brief and the PRD — not invented to flatter the build.
+- **D2 — Test and evaluate against the specifications.** Run the methods, capture
+  evidence, and judge the built solution against the original criteria. This is
+  the **deep acceptance** that creating-solution deliberately deferred (C only
+  owned slice-level "it builds and works"). Output is a falsifiable verdict, not
+  a vibe.
+- **D3 — Improvements.** From the gaps D2 exposes, state concretely how the
+  solution could be improved — follow-up work, known limitations, deferred scope.
+- **D4 — Impact.** State the solution's impact on the client/audience: does it
+  solve the need the Design Brief justified, and what changed for the user.
+
+### The user's framing: the testing plan is built across all phases
+
+Key point the user made entering this phase: **D1 is not born in phase D.** The
+testing plan accretes from the start —
+
+- the PRD (B4) already carries **Testing Decisions** and the **test seams**;
+- creating-solution's C2 technical approach already **adds verification slices**
+  (e.g. a final Patrol E2E slice producing the visual-validation artifact needed
+  for a high confidence signal).
+
+So evaluating *consolidates and executes* a testing plan that has been forming
+since developing-ideas, rather than designing it cold. This fits the spine we
+already have: thinking about "how will I prove this?" is a first-class concern in
+every phase, and `evaluating` is where it pays out. Worth saying explicitly in
+the README (and possibly back-referencing from the PRD / creating-solution docs).
+
+### Reframe (user, 2026-06-05): evaluation is a cross-phase engine, not just terminal D
+
+The decisive shift: **evaluation is not only the last phase.** It is a flexible
+evaluation system the agent can **jump to from any phase** to evaluate the current
+state against its criteria:
+
+- the **Design Brief** (from inquiry-analysis),
+- the **PRD** (from developing-ideas),
+- the **issues / slice breakdown** (from creating-solution planning), and
+- the **post-completion work** (the built solution).
+
+This means the per-phase "Evaluating the X: adversarial review" sections we
+already wrote into the other three phase docs are **invocations of this one
+system** — evaluation generalized, not three separate review rituals. MYP
+Criterion D (test the built solution) is the **fullest / terminal application** of
+the same engine, not a different mechanism.
+
+Consequences:
+
+- **Evaluation is the most critical piece of the framework.** Everything else
+  produces artifacts; evaluation is what makes any of them trustworthy. The README
+  should frame it as a reusable capability, then show D1-D4 as its richest use.
+- **One evaluation document that keeps getting added to.** It is not written once
+  at the end — it **accumulates** an entry each time evaluation is invoked,
+  recording **what we tested and why** at each state. It is the running record of
+  the workflow's own scrutiny.
+- **Do not import other skills' structures.** We are not adopting other systems'
+  shapes into our framework. We add capability later, only when we can clearly see
+  how it adds value. In particular, the C2 "technical skills" become a **bundle of
+  skills the agent can additionally call** — deferred to a later phase, not baked
+  in now.
+
+### Durable shape: one accumulating evaluation document
+
+One durable file — the **evaluation document** — appended to on each invocation.
+Each entry records a single evaluation event:
+
+```text
+# Evaluation Log: <project>
+
+## Evaluation — <state> (<date>)        e.g. "Design Brief", "PRD", "issues", "built solution"
+   - Criteria          — what this state is judged against (its source-of-truth)
+   - Testing methods    — how it was tested/checked, and why those methods (D1)
+   - Evidence & verdict — findings + per-criterion verdict, honest about confidence (D2)
+   - Improvements       — gaps and follow-up (D3)   [richest at the build stage]
+   - Impact             — effect on the justified need / client (D4)  [build stage]
+```
+
+Earlier-state entries (Design Brief, PRD, issues) lean on Criteria + Methods +
+Evidence/verdict; the **built-solution** entry is the full D1-D4 application
+(testing methods -> results -> improvements -> impact). The document is the single
+place that shows, end to end, **what was tested, why, and what the verdict was**
+at every state the workflow passed through.
+
+Note on MYP symmetry: A and B are "first three strands produce the fourth handoff
+artifact"; C breaks it (product is code); **D is the engine that judges all of
+them.** The clean symmetric A4/B4-style reading still holds *within* the
+built-solution entry (D1+D2 feed D3+D4), but the phase as a whole is better
+described as the cross-phase evaluator than as a fourth parallel criterion doc.
+
+### The verdict model (the strongest borrowed pattern)
+
+ACT `act-meta-audit-work` gives a clean, honest verdict vocabulary for D2 that
+also dovetails with our **confidence signaling** principle:
+
+- per-check status: **Verified / Likely / Not Provable / Failed / Skipped**
+  (never use "Failed" for missing evidence alone);
+- overall verdict: **Pass / Pass-With-Warnings / Fail**;
+- **evidence-based, honest about confidence** — do not present likely inferences
+  as verified facts.
+
+Codex `design-qa` gives the **source-of-truth comparison** discipline for D2:
+
+- you need **both** artifacts present — the source-of-truth (here: the original
+  criteria from the Design Brief + PRD) **and** the rendered/built result. If
+  either is missing, the result is **blocked**, not "passed."
+- don't judge from memory/code alone — open/run both and compare what is actually
+  there;
+- findings by severity (P0-P3) tied to concrete evidence; final result is exactly
+  `passed` or `blocked`.
+
+Synthesis: D2's verdict is a per-criterion table (each original success criterion
+-> Verified/Likely/Not Provable/Failed, with cited evidence), rolled into an
+overall Pass / Pass-With-Warnings / Fail. Missing evidence => blocked, not passed.
+
+### Adversarial review in evaluating
+
+Two distinct things, keep them straight:
+
+1. Evaluating is *itself* an adversarial check of the solution (that is the whole
+   phase). 
+2. The **evaluation document** is still a steering artifact (it says "ship" or
+   "loop back"), so it gets the same cross-phase adversarial-review pass as the
+   Design Brief / PRD / slice breakdown — review-first, findings by severity, one
+   must-address, a real gate, ~2 passes. Prevents a flattering self-evaluation
+   from rubber-stamping a broken build.
+
+### Open thread #5 (named criteria set / ENGINEERING.md) — KILLED (user, 2026-06-05)
+
+**Decision: no `ENGINEERING.md`.** It never existed (no file in the repo — it was
+only a *proposed* artifact in HANDOFF/SCRATCHPAD) and it is **not** ADRs (those are
+the separate sparse decision-record concept). It was a holdover borrowed from VGV's
+`@vgv-review-agent` "Very Good Engineering" named-criteria idea. We do not add a doc
+for its own sake.
+
+Where the criteria live instead: **inside the evaluation system itself** — the
+lenses it applies depend on which state it is pointed at:
+
+- evaluating a **Design Brief / PRD / issues** -> document-quality criteria
+  (clarity, completeness, specificity, scope/YAGNI, alignment, language) — the same
+  criteria already written into the per-phase review sections;
+- evaluating the **built solution** -> add the engineering lenses (simplicity,
+  convention alignment, right-sizing, verifiability, traceability to PRD/Brief).
+
+These are described in the evaluating README as part of the engine, not extracted
+into a standalone principles file. (VGV `plan-technical-review` stays useful as a
+*pattern* — named reviewers in parallel, each one lens — without us copying its
+file shape; per the "no importing other skills' structures" decision.)
+
+### Two levels of criteria + per-project templates (user, 2026-06-05)
+
+This is where the "general criteria" the evaluator uses actually live — replacing
+the killed `ENGINEERING.md` cleanly, and it is **user-owned, not framework-imposed**.
+The ship gate checks criteria at **two levels**, and we capture **both**:
+
+- **General Definition of Done (project level).** Stable criteria that apply to
+  *every* design cycle in a project — e.g. "generated code is regenerated/updated",
+  "formatting is complete", "lint/analyze clean", "tests pass". The user sets these
+  once.
+- **Specific criteria (PRD / issue level).** The cycle's own success criteria,
+  inherited from the Design Brief's justified need and the PRD, decomposed to the
+  issue level. These change every cycle.
+
+A Fail at *either* level blocks ship.
+
+**Customizable per-project templates.** The framework ships starter templates; the
+user customizes them into **personal project templates** that every new design
+cycle is built from. The project-level Definition of Done lives in that template,
+so each new cycle automatically starts carrying the user's standing criteria
+("generated code updated, formatting done, …") without re-stating them. The
+cycle-specific criteria are added on top from the Brief/PRD/issues.
+
+Implications to reflect when drafting:
+
+- The evaluation document's "Criteria" for the built-solution / ship entry is the
+  **union of the project DoD (from the template) and the PRD/issue-level criteria**.
+- This generalizes the template idea: artifacts are seeded from per-project
+  templates the user owns and customizes (the DoD is the first concrete instance).
+  Likely a `workflow-management/` template surface; exact mechanics TBD, but the
+  DoD-in-template decision is firm.
+- It also tightens "what we tested and why": the evaluation log shows each criterion
+  (DoD or specific), how it was tested, and its verdict.
+
+### What "gate" means (two senses — needed to settle the gate question)
+
+The word has been doing two jobs:
+
+- **Hard gate (enforcement):** the workflow *mechanically refuses* to move on
+  until a condition passes; the agent cannot proceed. (Superpowers won't write code
+  until a design is approved, even for trivial work.)
+- **Soft gate (orientation):** the agent knows the target artifact and *offers* to
+  produce it / surfaces blockers, but never refuses; control flows and loops back.
+  This is what inquiry / developing / creating currently use.
+
+Eval emits a **verdict** — Pass / Pass-with-warnings / Fail. The gate question is
+whether a Fail **blocks** downstream or merely **informs** it. With the cross-phase
+reframe, eval is not a checkpoint bolted to a boundary — it is a **lens pointed at
+the current state on demand**. So it is "a gate" only in that its **verdict is
+authoritative**: a Fail means "this state is not trustworthy to build/ship on."
+Whether that hard-stops:
+
+**RESOLVED (user, 2026-06-05): ship is the single hard stop.** We **cannot ship
+when any stated criterion is failing** — that is a real, mechanical refusal, the
+one hard gate in the framework. Everywhere else eval stays **soft/advisory**:
+pointed at a Design Brief / PRD / issues, it surfaces the Fail + the one
+must-address item and the human decides whether to proceed or loop back. The
+ship gate is the exception because the stated criteria are the contract.
+
+### Endpoint, handoff, and loop-back
+
+- Endpoint is **orientation**, like the other phases: the agent knows it is heading
+  to a verdict and offers it when the evidence is in.
+- As the **last** core phase, evaluating's "handoff" is twofold: (a) the **verdict
+  + ship** to the human/client (D4 impact), and (b) **loop-back** — D3 improvements
+  and any Failed criteria can seed a new Inquiry cycle (recorded in
+  `workflow-tracker.md`). The cycle closes or restarts; it does not dead-end.
+
+### Resolved by the user (2026-06-05)
+
+- **One accumulating evaluation document** — confirmed (not a thinner artifact).
+- **Evaluation is a cross-phase engine** jumpable from every phase; evaluates the
+  Design Brief, PRD, issues, and built solution; it is the most critical piece and
+  keeps getting added to; it shows what we tested and why.
+- **No importing other skills' structures.** Add capability later when value is
+  clear; "technical skills" become a callable bundle, deferred — not baked in now.
+
+### Status before drafting
+
+Resolved:
+
+- **One accumulating evaluation document**; evaluation is a **cross-phase engine**
+  jumpable from every phase.
+- **`ENGINEERING.md` — KILLED.** Criteria live inside the evaluation system; the
+  *general* criteria live in the per-project Definition-of-Done template (above).
+- **Gate — ship is the single hard stop:** cannot ship while any stated criterion
+  (project DoD *or* PRD/issue level) is failing; everywhere else eval is advisory.
+- **Two criteria levels + per-project templates** carry the standing DoD into every
+  cycle.
+
+Remaining (does not block drafting):
+
+- Consistency follow-up: the three existing phase docs describe adversarial review
+  inline. Once evaluating is the named engine, add a light pointer that those are
+  invocations of evaluating (leaning: pointer, no rewrite).
+- Template mechanics (where the per-project templates live / how a cycle is seeded)
+  — sketch only; the DoD-in-template decision itself is firm.
+
 ## Adversarial Review (cross-phase concept)
 
 Every steering artifact is untrusted until an adversarial review pass clears it.
@@ -443,10 +741,15 @@ The shared shape (grounded in the real sources):
   not downstream authority until it passes.
 - **Bounded iteration** — ~2 passes, then complete or escalate.
 
-Open question: our own criteria set / "engineering principles" equivalent.
-VGV anchors on Very Good Engineering; we need our named principles (likely the
-`ENGINEERING.md` lineage) before the review agents have something to judge
-against. Park until we shape `evaluating`.
+Our criteria set — RESOLVED (2026-06-05): **no `ENGINEERING.md`** (see "Open thread
+#5 ... KILLED" below). The criteria each reviewer judges against live inside the
+**evaluation system**, which is a cross-phase engine the agent points at the
+current state (Design Brief / PRD / issues / built solution). For documents the
+lenses are document-quality (clarity, completeness, specificity, scope, alignment,
+language); for the built solution they add the **two-level criteria** — the
+per-project **Definition of Done** (from the customizable project template) plus
+the **PRD/issue-level** success criteria. **Ship is the one hard gate:** it
+refuses while any stated criterion fails. Elsewhere the review is advisory.
 
 ## Phase Artifact Flow (verified)
 

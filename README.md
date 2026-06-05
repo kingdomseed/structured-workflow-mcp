@@ -61,8 +61,8 @@ Typical outputs:
 - candidate approaches
 - decision notes
 - sketches or prototypes
-- implementation plan
-- issue breakdown
+- chosen design, justified against the success criteria
+- the PRD, ready to break into issues
 
 ### `creating-solution`
 
@@ -83,14 +83,16 @@ Typical outputs:
 
 Test the solution and decide what should happen next.
 
-Verify behavior, review quality, compare outcomes against the original criteria,
-identify follow-up work, and explain impact.
+Verify behavior, review quality, compare outcomes against the original criteria
+and the project's Definition of Done, identify follow-up work, and explain impact.
+Evaluation is also reusable across the cycle — the agent can point it at the
+Design Brief, the PRD, or the issues, not only the finished build.
 
 Typical outputs:
 
-- test results
-- review findings
-- acceptance notes
+- the evaluation document — what was tested, why, and the verdict
+- test results and review findings
+- a verdict against the success criteria and Definition of Done
 - improvement list
 - release or handoff summary
 
@@ -102,13 +104,26 @@ notes" and it will sprawl into endless side documents. A small set keeps the
 working memory coherent, and lets the agent answer — at any moment — what phase
 it is in, why it is here, and where it is going next.
 
-These files live in your project, not in this repo. Two artifacts anchor the
-work beyond the working set:
+These files live in your project, not in this repo. The working set is:
 
-- **Linear issues** are the task workspace — where work is organized and tracked
-  at the project level.
-- **`PRD.md`** is an output — the cleaned-up result of interviews and decisions,
-  ready to be reviewed and broken into issues.
+- **The phase documents** — one per phase, each the next phase's input: the
+  inquiry document (ending in the Design Brief), the developing-ideas document
+  (ending in the PRD), the creating-solution document (slices, technical approach,
+  justified changes), and the evaluation document. These documents *are* the
+  cross-phase memory.
+- **`GLOSSARY.md`** — the shared, ubiquitous language, always on.
+- **`workflow-tracker.md`** — the always-on position file: which phase the work
+  is in, why it is here, and where it is going next.
+- **Project templates** — customizable per project and reused every cycle; they
+  carry standing criteria such as the project's Definition of Done, so each new
+  cycle starts already knowing what "done" means.
+
+Two further anchors sit at the project level, beyond the working set:
+
+- **The issue tracker** (for example Linear) is the task workspace — where the
+  PRD is decomposed into issues and work is tracked.
+- **The PRD** is an output — the cleaned-up result of inquiry and developing
+  ideas, ready to be reviewed and broken into issues on the tracker.
 
 Hooks maintain continuity. They bring the current phase, prior context, and the
 next action back into the agent's attention at the right moments, so the work
@@ -164,7 +179,8 @@ point instead of a hidden risk.
 The repo is organized around three agent-facing surfaces:
 
 - `skills/` — reusable `SKILL.md` workflows, discoverable and installable by
-  skill-aware agent systems, grouped under the four phases.
+  skill-aware agent systems, grouped under the four phases plus a cross-phase
+  `workflow-management/` folder.
 - `agents/` — subagent definitions for harnesses that support specialized roles.
 - `hooks/` — guardrails and continuity hooks for harnesses that support
   execution-time checks.
@@ -186,6 +202,7 @@ skills/
   developing-ideas/
   creating-solution/
   evaluating/
+  workflow-management/
 
 agents/
   inquiry-analysis/
@@ -197,7 +214,9 @@ hooks/
 ```
 
 Each installable skill lives in its own folder with a `SKILL.md` file. The four
-phase folders are organizational boundaries, not extra phases.
+phase folders are organizational boundaries, not extra phases; `workflow-management/`
+holds the cross-phase files (the workflow tracker and project templates), not a
+phase.
 
 ## Attribution
 

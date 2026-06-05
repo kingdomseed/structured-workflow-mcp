@@ -33,10 +33,20 @@ starter template are also written. The two cross-phase principles
 "Working Together: Judgment and Confidence".
 
 What a follow-up agent should do next: (1) shape `skills/evaluating/README.md`
-(MYP Criterion D); (2) this is where the named review-criteria / `ENGINEERING.md`
-question finally gets resolved — the adversarial reviewers across all phases need
-something to judge against; (3) flesh out `workflow-tracker.md` usage and the
-prototype jump-and-return mechanics (still TBD).
+(MYP Criterion D); (2) the named review-criteria question is now **resolved — there
+is NO `ENGINEERING.md`** (killed as a holdover). The criteria the cross-phase
+reviewers judge against live **inside the evaluation system itself**, and the
+*standing* engineering criteria live in a per-project **Definition of Done**
+carried by a customizable project template; (3) flesh out `workflow-tracker.md`
+usage and the prototype jump-and-return mechanics (still TBD).
+
+**Major reframe (user, 2026-06-05): evaluation is a cross-phase engine, not just
+the terminal phase.** It is jumpable from any phase to evaluate the current state
+(Design Brief / PRD / issues / built solution). The per-phase "adversarial review"
+sections in the other three docs are *invocations of this one engine*. It owns ONE
+**accumulating evaluation document** that records what was tested and why at each
+state. See `SCRATCHPAD.md` "Evaluating (Criterion D) analysis" for the full,
+current decisions — that section supersedes anything below that conflicts.
 
 The "Research to delegate" section below is scoped for the evaluating phase. The
 earlier developing-ideas/creating-solution research is complete and its findings
@@ -64,8 +74,9 @@ Write `skills/evaluating/README.md`:
   justified changes in particular), handed off from creating-solution.
 - **Output:** the evaluation — test results, review findings, and a verdict
   against the *original* success criteria (from the Design Brief and the PRD), plus
-  follow-up work and impact. Decide the durable shape (evaluation document vs.
-  review/evidence artifact) the same way the earlier phases were decided.
+  follow-up work and impact. **Durable shape is resolved: ONE accumulating
+  evaluation document** (an entry per evaluation event, recording what was tested
+  and why + the verdict), not a thinner artifact.
 - This phase follows MYP Criterion D order: D1 design the testing methods -> D2
   test the solution and evaluate it against the design specifications -> D3
   explain how the solution could be improved -> D4 explain the solution's impact
@@ -73,11 +84,12 @@ Write `skills/evaluating/README.md`:
 - Mirror the existing phase docs' sections: what it's for, the engine / how it
   runs, what it works out, the durable output, **adversarial review**,
   endpoint/orientation, produces/refuses, handoff stub.
-- **This is where the named review-criteria question gets resolved.** The
-  adversarial reviewers in every phase judge against an explicit criteria set;
-  evaluating is where we likely define our own `ENGINEERING.md` (the
-  `@vgv-review-agent` "Very Good Engineering" equivalent). See open thread #5 and
-  SCRATCHPAD "Adversarial Review".
+- **Named review-criteria — RESOLVED: no `ENGINEERING.md`.** The reviewers judge
+  against criteria that live inside the evaluation system: document-quality lenses
+  for the Brief/PRD/issues, plus, for the built solution, the **two-level criteria**
+  — the per-project **Definition of Done** (from the project template) and the
+  **PRD/issue-level** success criteria. See SCRATCHPAD "Two levels of criteria +
+  per-project templates" and "Open thread #5 ... KILLED".
 
 ## Locked decisions (do not relitigate)
 
@@ -134,6 +146,23 @@ Write `skills/evaluating/README.md`:
   slice-breakdown review checks that any verification slices the approach implies
   are present. See `SCRATCHPAD.md` "MYP Strand Structure" (the diagram now
   includes the C strands and this C1<->C2 loop).
+- **Evaluation is a cross-phase engine (Criterion D is its fullest use).** The
+  agent jumps to it from any phase to judge the current state against its criteria;
+  the per-phase adversarial-review sections are invocations of it. It owns ONE
+  **accumulating evaluation document** that shows what was tested and why at each
+  state. It is the most critical piece of the framework.
+- **No `ENGINEERING.md`.** Criteria live inside the evaluation system. The standing
+  engineering criteria are a per-project **Definition of Done** carried by a
+  customizable project template; cycle-specific criteria come from the Brief/PRD/
+  issues. We capture **both** levels.
+- **Ship is the one hard gate.** The framework cannot ship while any stated
+  criterion (project DoD *or* PRD/issue level) is failing — a real, mechanical
+  refusal. Everywhere else evaluation is advisory: it surfaces the Fail + the one
+  must-address item and the human decides (orientation, consistent with the other
+  phases).
+- **Per-project templates** are user-owned and customizable; every new design cycle
+  is seeded from them, so the standing Definition of Done rides along automatically.
+  Exact template mechanics are TBD; the DoD-in-template decision is firm.
 - `GLOSSARY.md` is the always-on ubiquitous-language file (glossary only, no
   implementation detail). ADRs are sparse: hard-to-reverse + surprising + real
   trade-off.
@@ -198,26 +227,30 @@ Write `skills/evaluating/README.md`:
    `prototype` jump-and-return (throwaway code answers one question, answer
    captured durably, prototype deleted). Mechanisms: Matt `handoff` + VGV
    clear-context handoff.
-2. **Gate inventory — leaning soft.** Current direction is NO hard gate
-   (orientation, not enforcement). All three written phases use orientation, not
-   enforcement; creating-solution's "review before issues are published" is the
-   closest thing to a gate and is still soft. Still to decide: whether ANY gate
-   stays mandatory — likely only the pre-implementation one at the
-   creating-solution boundary (Superpowers enforces an absolute pre-implementation
-   gate even for "simple" work).
+2. **Gate inventory — RESOLVED.** Exactly one hard gate: **ship**. The framework
+   cannot ship while any stated criterion (project DoD or PRD/issue level) is
+   failing. Every other boundary stays soft (orientation, not enforcement),
+   including creating-solution's "review before issues are published." Do not
+   relitigate.
 3. **Design-Brief vs PRD overlap — RESOLVED.** See Locked decisions. (Kept here
    only as a pointer; do not relitigate.)
 4. **`workflow-tracker.md` scope — RESOLVED.** It is cross-phase, peer to
    `GLOSSARY.md`. Starter template at `workflow-management/workflow-tracker.md`.
    Still TBD: flesh out its usage narrative and the prototype jump-and-return
    mechanics (see thread #1).
-5. **Our own review criteria — DUE NOW.** The adversarial reviewers in every
-   phase need a named Structured-Workflow "engineering principles" set to judge
-   against (the `@vgv-review-agent` "Very Good Engineering" equivalent). Likely an
-   `ENGINEERING.md`, probably in `workflow-management/`. This was parked until
-   `evaluating` — that is the phase you are now shaping, so resolve it here.
+5. **Our own review criteria — RESOLVED (no `ENGINEERING.md`).** The criteria live
+   inside the evaluation system; the standing engineering criteria are a per-project
+   **Definition of Done** in a customizable project template, joined by the
+   PRD/issue-level criteria. Do not create a separate principles file. See
+   SCRATCHPAD "Two levels of criteria + per-project templates".
 
 ## Research to delegate (read-only sub-agent tasks)
+
+**Status: largely DONE this session.** The evaluating sources were read directly
+(ACT `act-meta-audit-work` + `act-workflow-refine-spec` + `act-workflow-work`,
+Codex `design-qa`, VGV `plan-technical-review`); findings are synthesized in
+SCRATCHPAD "Evaluating (Criterion D) analysis". The tasks below remain as the
+record of what was covered.
 
 These are scoped so a cheaper agent can run them WITHOUT making product
 decisions. Each returns a tight summary back to the user-facing agent, which does
@@ -248,11 +281,14 @@ Source locations are in "Method and tools that actually work here" above.
 ## Done when
 
 `skills/evaluating/README.md` exists, mirrors the existing phase docs' voice and
-structure, defines the evaluating phase around MYP Criterion D (D1 testing
-methods -> D2 test + evaluate against the design specifications -> D3
-improvements -> D4 impact), evaluates the built solution against the *original*
-success criteria from the Design Brief and PRD, includes the cross-phase
-adversarial-review treatment, resolves the named review-criteria / `ENGINEERING.md`
-question (open thread #5), treats the boundary as orientation (not a hard gate)
-backed by `workflow-tracker.md`, and `SCRATCHPAD.md` stays the source of working
-notes.
+structure, and defines evaluating as a **cross-phase engine** (jumpable from any
+phase to judge the Design Brief / PRD / issues / built solution) whose fullest use
+is MYP Criterion D (D1 testing methods -> D2 test + evaluate against the design
+specifications -> D3 improvements -> D4 impact). It evaluates against the *original*
+success criteria from the Design Brief and PRD plus the project **Definition of
+Done**, owns ONE **accumulating evaluation document** (what was tested and why +
+verdict per state), carries the cross-phase adversarial-review treatment, makes
+**ship the one hard gate** (no shipping while any stated criterion fails) while
+keeping every other boundary soft (orientation, backed by `workflow-tracker.md`),
+and **introduces no `ENGINEERING.md`** (criteria live in the engine + the
+per-project DoD template). `SCRATCHPAD.md` stays the source of working notes.
