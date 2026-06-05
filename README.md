@@ -118,6 +118,47 @@ The durable-files idea draws on two projects that treat the filesystem as the
 agent's persistent memory: Cline's Memory Bank and Othman Adi's
 planning-with-files.
 
+## Working Together: Judgment and Confidence
+
+Two principles govern how the agent and human collaborate inside every phase.
+They are what keep the cycle a real collaboration rather than an agent narrating
+its way to an answer the human rubber-stamps.
+
+### Human-ready and agent-ready work
+
+The workflow labels every handoff, decision, and proposed next step as one of two
+kinds:
+
+- **Human-ready** work needs human judgment before the agent proceeds — choosing
+  among viable approaches, approving a direction, accepting a trade-off or risk,
+  confirming scope, or deciding whether a prototype's answer is good enough.
+- **Agent-ready** work can proceed unattended because its inputs, constraints,
+  success criteria, and verification path are already clear — research, codebase
+  inspection, drafting from approved material, running checks, or slicing an
+  approved PRD into issues.
+
+This keeps the agent from treating human judgment as an implementation detail,
+and keeps the human out of the loop for work that is already well bounded.
+
+### Confidence over fluent certainty
+
+An agent can be wrong *fluently* — stating a weak inference with the same polish
+as a verified fact, which invites the human to accept it with too little
+scrutiny. The workflow counters this by requiring the agent to say how much to
+trust each meaningful claim, recommendation, and handoff artifact:
+
+- **High** — grounded in current repo evidence, direct sources, passing
+  verification, or explicit human confirmation.
+- **Medium** — plausible synthesis from partial evidence; enough to proceed, and
+  easy to revise.
+- **Low** — weak evidence, missing sources, unresolved ambiguity, or inferred
+  intent that needs verification before downstream work relies on it.
+
+When confidence is not high, the agent names the specific weak point and asks the
+human to verify it — the claim, its source, and why verification is needed —
+rather than burying uncertainty in prose. Uncertainty becomes a collaboration
+point instead of a hidden risk.
+
 ## What This Installs
 
 The repo is organized around three agent-facing surfaces:

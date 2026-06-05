@@ -16,18 +16,25 @@ inquiry-analysis doc's structure and voice.
 
 ## Current situation (read second)
 
-`skills/developing-ideas/README.md` is **NOT written yet.** The last working
-session did NOT draft it — it sharpened the conceptual model instead, and those
-decisions are now captured in `SCRATCHPAD.md` (the new sections: "MYP Strand
-Structure", "Orientation, Not a Hard Gate", "Durable Files Decision:
-`workflow-tracker.md`"). Several open threads closed; see "Locked decisions" and
-"Open threads" below for what changed.
+`skills/developing-ideas/README.md` is **WRITTEN** (drafted 2026-06-05, mirroring
+the inquiry-analysis doc). The cross-phase position file has a starter template at
+`workflow-management/workflow-tracker.md`. The conceptual decisions behind both
+are captured in `SCRATCHPAD.md` ("MYP Strand Structure", "Orientation, Not a Hard
+Gate", "Durable Files Decision", "Corrected developing-ideas model", and the
+"Developing-Ideas Research Evidence" pass). The research-delegation step is done.
 
-**The user is delegating research to other (cheaper) agents to conserve cost.**
-So this doc now doubles as a research-handoff brief: scoped, read-only research
-tasks live in "Research to delegate" near the bottom. The synthesis / drafting of
-the README stays with the user-facing agent; the sub-agents only gather and
-summarize source material.
+What a follow-up agent should do next: (1) sanity-review the developing-ideas doc
+against the inquiry-analysis voice/structure; (2) flesh out `workflow-tracker.md`
+usage and the prototype jump-and-return mechanics; (3) then move to
+`creating-solution`.
+
+DONE this session: the two cross-phase principles (human-ready/agent-ready and
+confidence signaling) graduated from PROVISIONAL into the core README as "Working
+Together: Judgment and Confidence". The developing-ideas doc now references them
+instead of marking them under review.
+
+The "Research to delegate" section below is retained for reference but its tasks
+are complete.
 
 ## Read these, in order
 
@@ -46,13 +53,16 @@ summarize source material.
 Write `skills/developing-ideas/README.md`:
 
 - **Input:** the Design Brief handed off from inquiry-analysis.
-- **Output:** a **PRD** — interview-free synthesis (the interviewing already
-  happened in inquiry-analysis).
-- This phase is the home of the **"propose 2-3 approaches" -> compare -> choose**
-  move and the **prototype-to-answer** move.
+- **Output:** one durable **developing-ideas document**. Its B4 section contains
+  PRD/export content that can be written to Linear or another issue tracker for
+  decomposition.
+- This phase follows MYP Criterion B order: B1 design specifications -> B2
+  feasible ideas / exploration / testing / feedback -> B3 chosen design and
+  justification -> B4 planning requirements / PRD export.
 - Mirror the inquiry-analysis README sections: what it's for, the engine / how it
-  runs, what it works out, the single output doc + its shape, **adversarial review
-  of the PRD**, endpoint gate, produces/refuses, handoff stub.
+  runs, what it works out, the single output doc + its B1-B4 shape,
+  **adversarial review of B4/PRD content**, endpoint/orientation, produces/refuses,
+  handoff stub.
 
 ## Locked decisions (do not relitigate)
 
@@ -60,33 +70,39 @@ Write `skills/developing-ideas/README.md`:
 - **MYP strands are symmetric (verified against the design-cycle diagrams).**
   Each criterion's first three strands produce the fourth, which is the handoff
   artifact: A1 need + A2 research + A3 prior art -> **A4 Design Brief**; B1 spec +
-  B2 ideas/prototype + B3 chosen/justified -> **B4 PRD**. The back-and-forth is
-  intrinsic to the structure (research feeds every strand; spec<->ideas
-  interplay; a prototype can throw a question back to inquiry), not a caveat. See
-  `SCRATCHPAD.md` "MYP Strand Structure" for the diagram.
-- **Design Brief vs PRD — resolved, not competitors.** Design Brief = MYP A4, the
-  *summary of the problem* (need + research + prior-art constraints), the
-  what/why. PRD = MYP B4, the *requirements for creating the chosen solution*,
-  the solution/how. The Brief is an **input** to the PRD, never a lite version of
-  it. A clearly-specified request may skip the Brief straight to the PRD, but
-  they never collapse together.
+  B2 ideas/prototype + B3 chosen/justified -> **B4 planning requirements / PRD
+  export**. The back-and-forth is intrinsic to the structure (research feeds
+  every strand; spec<->ideas interplay; a prototype can throw a question back to
+  inquiry), not a caveat. See `SCRATCHPAD.md` "MYP Strand Structure" for the
+  diagram.
+- **Developing-ideas is one phase document, not a bundle of separate skills.**
+  Outside skill/plugin groups are source evidence only. The phase doc owns B1-B4.
+- **Design Brief vs developing-ideas — resolved, not competitors.** Design Brief
+  = MYP A4, the *summary of the problem* (need + research + prior-art
+  constraints), the what/why. Developing-Ideas = MYP B1-B4, the work of turning
+  the brief into specifications, feasible ideas, a chosen design, and creation
+  requirements. The PRD is the B4/export shape, not the whole phase document.
 - **No hard gate — orientation instead.** The agent always knows which phase it
   is in and which artifact it is heading toward; when no *blocking* question
   remains it **offers** to synthesize that artifact rather than grilling forever.
   It offers; it does not block. (This replaces the earlier "endpoint gate"
   framing.)
 - **`workflow-tracker.md`** is the always-on phase-state file (peer to
-  `GLOSSARY.md`): current phase, likely next phase, looping-back flag. It makes
-  the oscillation safe. NOT the `task_plan/progress/findings` triad.
-- **Artifact spine (verified):** Design Brief -> PRD -> issues -> review. Each
-  phase ends with ONE durable doc that is the next phase's input. **The documents
-  ARE the cross-session memory;** the `handoff` skill is just glue.
-- **PRD is interview-free.** Shape (Matt `to-prd`): Problem / Solution / User
-  Stories / Implementation Decisions / Testing Decisions / Out of Scope / Notes.
-  B1-B3 produce the *pieces*; B4 is the synthesized whole ("planning drawings"
-  reinterpreted per task: API contracts, schema, test seams).
-- `creating-solution` starts by decomposing the PRD into tracer-bullet vertical
-  slices (Matt `to-issues`), each marked HITL or AFK.
+  `GLOSSARY.md`): current phase, current phase document, current criterion,
+  likely next phase, looping-back flag, and linked artifacts. It makes the
+  oscillation safe. NOT the `task_plan/progress/findings` triad.
+- **Artifact spine (verified):** inquiry document -> developing-ideas document
+  -> issue-tracker PRD/export -> issues -> review. Each phase owns ONE durable
+  doc that is the next phase's input. **The documents ARE the cross-session
+  memory;** the `handoff` skill is just glue.
+- **B4/PRD synthesis is interview-free.** Shape (Matt `to-prd`): Problem /
+  Solution / User Stories / Implementation Decisions / Testing Decisions / Out
+  of Scope / Notes. B1-B3 produce the pieces; B4 is the synthesized creation
+  requirements/export surface ("planning drawings" reinterpreted per task: API
+  contracts, schema, test seams).
+- `creating-solution` starts by decomposing the issue-tracker PRD/export or B4
+  content into tracer-bullet vertical slices (Matt `to-issues`), each marked HITL
+  or AFK.
 - `GLOSSARY.md` is the always-on ubiquitous-language file (glossary only, no
   implementation detail). ADRs are sparse: hard-to-reverse + surprising + real
   trade-off.
@@ -118,9 +134,12 @@ Write `skills/developing-ideas/README.md`:
   - Superpowers: `https://raw.githubusercontent.com/obra/superpowers/main/skills/<name>/SKILL.md`
   - VGV Wingspan: `https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-wingspan/main/skills/<name>/SKILL.md`
 - **For developing-ideas specifically, read these sources** (the "develop the
-  idea / shape the plan" analogs): VGV `plan` + `plan-technical-review`,
-  Superpowers `writing-plans`, Matt `to-prd` + `prototype`, ACT `act-workflow-plan`
-  + `act-workflow-refine-spec`.
+  idea / shape the plan" analogs): VGV `brainstorm` / `refine-approach` /
+  `plan-technical-review`, Superpowers `brainstorming`, Matt `to-prd` +
+  `prototype`, ACT `act-workflow-spec` + `act-workflow-refine-spec`, and Codex
+  Product Design `get-context` / `research` / `ideate` / `prototype` / `audit`.
+  Use these as evidence for what the one phase doc tells the agent, not as
+  separate product-facing skills.
 - Subagent caveat: `run_subagent` selects a *profile*, not a model (you cannot pin
   a specific model like SWE-1.6). Read-only research = `subagent_explore`. Note
   subagents got sandbox-blocked reading `~/` paths and fell back to `r-and-d/`, so
@@ -189,8 +208,9 @@ Source locations are in "Method and tools that actually work here" above.
 ## Done when
 
 `skills/developing-ideas/README.md` exists, mirrors the inquiry-analysis doc's
-voice and structure, defines the PRD as an interview-free output anchored on the
-`to-prd` shape, places the 2-3-approaches and prototype moves, treats the
-inquiry<->developing-ideas boundary as orientation (not a hard gate) backed by
-`workflow-tracker.md`, includes PRD adversarial review, and `SCRATCHPAD.md` stays
-the source of working notes (already updated this session).
+voice and structure, defines one developing-ideas phase document organized by
+B1-B4, treats B4 as the interview-free PRD/export content, places exploration,
+testing, feedback, selected-design justification, and prototype-to-answer inside
+that one phase doc, treats the inquiry<->developing-ideas boundary as
+orientation (not a hard gate) backed by `workflow-tracker.md`, includes adversarial
+review of B4/PRD content, and `SCRATCHPAD.md` stays the source of working notes.
