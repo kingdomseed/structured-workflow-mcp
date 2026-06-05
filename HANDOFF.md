@@ -1,6 +1,6 @@
-# Handoff — Next Phase: Developing-Ideas
+# Handoff — Next Phase: Evaluating
 
-Transient doc. Delete once `skills/developing-ideas/README.md` exists and this
+Transient doc. Delete once `skills/evaluating/README.md` exists and this
 context is absorbed. (Same disposability as `SCRATCHPAD.md`.)
 
 ## Orientation (read this first)
@@ -10,38 +10,46 @@ coding agent the MYP design cycle — **inquiry-analysis -> developing-ideas ->
 creating-solution -> evaluating** — backed by durable file memory and continuity
 hooks. We are shaping it **one phase at a time, docs first**.
 
-`inquiry-analysis` is DONE: `skills/inquiry-analysis/README.md`. **Your job: shape
-`developing-ideas` the same way** — a self-contained phase README that mirrors the
-inquiry-analysis doc's structure and voice.
+`inquiry-analysis`, `developing-ideas`, and `creating-solution` are DONE:
+`skills/{inquiry-analysis,developing-ideas,creating-solution}/README.md`. **Your
+job: shape `evaluating` the same way** — a self-contained phase README that
+mirrors the existing phase docs' structure and voice.
 
 ## Current situation (read second)
 
-`skills/developing-ideas/README.md` is **WRITTEN** (drafted 2026-06-05, mirroring
-the inquiry-analysis doc). The cross-phase position file has a starter template at
-`workflow-management/workflow-tracker.md`. The conceptual decisions behind both
-are captured in `SCRATCHPAD.md` ("MYP Strand Structure", "Orientation, Not a Hard
-Gate", "Durable Files Decision", "Corrected developing-ideas model", and the
-"Developing-Ideas Research Evidence" pass). The research-delegation step is done.
+`skills/creating-solution/README.md` is **WRITTEN** (drafted 2026-06-05). Its
+decisions are captured in `SCRATCHPAD.md` "Creating-Solution (Criterion C)
+decisions". Key points: Criterion C breaks the A/B symmetry (real product is code
++ tests), but it still keeps **one durable local doc — the creating-solution
+document** — which stages the C1 slices + C2 technical approach, is adversarially
+reviewed locally *before* the slices are exported to the tracker as HITL/AFK
+issues, and into which **C4 justified changes fold**. C3 builds against the live
+tracker issues; verification at slice level only ("it builds and works"), with
+deep review deferred to evaluating.
 
-What a follow-up agent should do next: (1) sanity-review the developing-ideas doc
-against the inquiry-analysis voice/structure; (2) flesh out `workflow-tracker.md`
-usage and the prototype jump-and-return mechanics; (3) then move to
-`creating-solution`.
+`skills/developing-ideas/README.md` and the `workflow-management/workflow-tracker.md`
+starter template are also written. The two cross-phase principles
+(human-ready/agent-ready and confidence signaling) live in the core README as
+"Working Together: Judgment and Confidence".
 
-DONE this session: the two cross-phase principles (human-ready/agent-ready and
-confidence signaling) graduated from PROVISIONAL into the core README as "Working
-Together: Judgment and Confidence". The developing-ideas doc now references them
-instead of marking them under review.
+What a follow-up agent should do next: (1) shape `skills/evaluating/README.md`
+(MYP Criterion D); (2) this is where the named review-criteria / `ENGINEERING.md`
+question finally gets resolved — the adversarial reviewers across all phases need
+something to judge against; (3) flesh out `workflow-tracker.md` usage and the
+prototype jump-and-return mechanics (still TBD).
 
-The "Research to delegate" section below is retained for reference but its tasks
-are complete.
+The "Research to delegate" section below is scoped for the evaluating phase. The
+earlier developing-ideas/creating-solution research is complete and its findings
+live in `SCRATCHPAD.md`.
 
 ## Read these, in order
 
 1. `README.md` — product framing. The core idea: one system, two aspects — the
    MYP cycle (the framework) and durable files (how an LLM keeps its place).
-2. `skills/inquiry-analysis/README.md` — the finished phase doc. **Mirror its
-   shape and voice.**
+2. `skills/inquiry-analysis/README.md` — the finished template phase doc.
+   **Mirror its shape and voice.** Also read `skills/developing-ideas/README.md`
+   and `skills/creating-solution/README.md` (the two newer siblings) so the
+   evaluating doc stays consistent with all three.
 3. `SCRATCHPAD.md` — working notes: source-ingredient research, the verified
    cross-phase artifact flow, the adversarial-review concept, and open threads.
 
@@ -50,19 +58,26 @@ are complete.
 
 ## Your task
 
-Write `skills/developing-ideas/README.md`:
+Write `skills/evaluating/README.md`:
 
-- **Input:** the Design Brief handed off from inquiry-analysis.
-- **Output:** one durable **developing-ideas document**. Its B4 section contains
-  PRD/export content that can be written to Linear or another issue tracker for
-  decomposition.
-- This phase follows MYP Criterion B order: B1 design specifications -> B2
-  feasible ideas / exploration / testing / feedback -> B3 chosen design and
-  justification -> B4 planning requirements / PRD export.
-- Mirror the inquiry-analysis README sections: what it's for, the engine / how it
-  runs, what it works out, the single output doc + its B1-B4 shape,
-  **adversarial review of B4/PRD content**, endpoint/orientation, produces/refuses,
-  handoff stub.
+- **Input:** the working solution plus the creating-solution document (its
+  justified changes in particular), handed off from creating-solution.
+- **Output:** the evaluation — test results, review findings, and a verdict
+  against the *original* success criteria (from the Design Brief and the PRD), plus
+  follow-up work and impact. Decide the durable shape (evaluation document vs.
+  review/evidence artifact) the same way the earlier phases were decided.
+- This phase follows MYP Criterion D order: D1 design the testing methods -> D2
+  test the solution and evaluate it against the design specifications -> D3
+  explain how the solution could be improved -> D4 explain the solution's impact
+  on the client/audience. Reinterpret per software task.
+- Mirror the existing phase docs' sections: what it's for, the engine / how it
+  runs, what it works out, the durable output, **adversarial review**,
+  endpoint/orientation, produces/refuses, handoff stub.
+- **This is where the named review-criteria question gets resolved.** The
+  adversarial reviewers in every phase judge against an explicit criteria set;
+  evaluating is where we likely define our own `ENGINEERING.md` (the
+  `@vgv-review-agent` "Very Good Engineering" equivalent). See open thread #5 and
+  SCRATCHPAD "Adversarial Review".
 
 ## Locked decisions (do not relitigate)
 
@@ -103,6 +118,15 @@ Write `skills/developing-ideas/README.md`:
 - `creating-solution` starts by decomposing the issue-tracker PRD/export or B4
   content into tracer-bullet vertical slices (Matt `to-issues`), each marked HITL
   or AFK.
+- **Criterion C breaks the A/B symmetry, but still keeps one durable local doc.**
+  Real product is code + tests. The **creating-solution document** stages C1
+  (Slices) + C2 (Technical Approach: conventions/tools/methodology per slice),
+  is adversarially reviewed locally *before* the slices are exported to the
+  tracker, and **C4 Justified Changes folds into that same doc** (the agent's
+  account of departures from the PRD/Design Brief, with confidence). C3 builds
+  against the live tracker issues; **verification is slice-level only ("it builds
+  and works") — deep review/acceptance is deferred to evaluating.** A named
+  `ENGINEERING.md` is also deferred to evaluating.
 - `GLOSSARY.md` is the always-on ubiquitous-language file (glossary only, no
   implementation detail). ADRs are sparse: hard-to-reverse + surprising + real
   trade-off.
@@ -133,13 +157,17 @@ Write `skills/developing-ideas/README.md`:
   - ACT (local): `~/.agentic-coding-toolkit/skills/{act-workflow-spec,act-workflow-refine-spec,act-workflow-plan}/SKILL.md`
   - Superpowers: `https://raw.githubusercontent.com/obra/superpowers/main/skills/<name>/SKILL.md`
   - VGV Wingspan: `https://raw.githubusercontent.com/VeryGoodOpenSource/vgv-wingspan/main/skills/<name>/SKILL.md`
-- **For developing-ideas specifically, read these sources** (the "develop the
-  idea / shape the plan" analogs): VGV `brainstorm` / `refine-approach` /
-  `plan-technical-review`, Superpowers `brainstorming`, Matt `to-prd` +
-  `prototype`, ACT `act-workflow-spec` + `act-workflow-refine-spec`, and Codex
-  Product Design `get-context` / `research` / `ideate` / `prototype` / `audit`.
-  Use these as evidence for what the one phase doc tells the agent, not as
-  separate product-facing skills.
+- **For evaluating specifically, read these sources** (the "test / verify /
+  review / judge" analogs): Cursor Team Kit `verify-this` + `control-cli` +
+  `control-ui` (falsifiable verdicts, evidence harness), `run-smoke-tests`,
+  `review-and-ship`, `thermo-nuclear-code-quality-review`; Codex Product Design
+  `design-qa` + `audit` (compare built result to the source-of-truth, mark
+  passed/blocked, tie findings to evidence); VGV `plan-technical-review` (parallel
+  named reviewers) for the adversarial-review criteria set; ACT
+  `act-workflow-refine-spec` for the review discipline. Use these as evidence for
+  what the one phase doc tells the agent, not as separate product-facing skills.
+  (The earlier developing-ideas/creating-solution source research lives in
+  `SCRATCHPAD.md` "Developing-Ideas Research Evidence".)
 - Subagent caveat: `run_subagent` selects a *profile*, not a model (you cannot pin
   a specific model like SWE-1.6). Read-only research = `subagent_explore`. Note
   subagents got sandbox-blocked reading `~/` paths and fell back to `r-and-d/`, so
@@ -164,19 +192,23 @@ Write `skills/developing-ideas/README.md`:
    captured durably, prototype deleted). Mechanisms: Matt `handoff` + VGV
    clear-context handoff.
 2. **Gate inventory — leaning soft.** Current direction is NO hard gate
-   (orientation, not enforcement). Still to decide: whether ANY gate stays
-   mandatory — likely only the pre-implementation one at the creating-solution
-   boundary (Superpowers enforces an absolute pre-implementation gate even for
-   "simple" work).
+   (orientation, not enforcement). All three written phases use orientation, not
+   enforcement; creating-solution's "review before issues are published" is the
+   closest thing to a gate and is still soft. Still to decide: whether ANY gate
+   stays mandatory — likely only the pre-implementation one at the
+   creating-solution boundary (Superpowers enforces an absolute pre-implementation
+   gate even for "simple" work).
 3. **Design-Brief vs PRD overlap — RESOLVED.** See Locked decisions. (Kept here
    only as a pointer; do not relitigate.)
-4. **`workflow-tracker.md` scope — open.** Specify it inside the developing-ideas
-   doc, or write it up separately as a cross-phase concept (it spans all four
-   phases, like `GLOSSARY.md`)? Leaning cross-phase.
-5. **Our own review criteria.** The adversarial reviewers need a named
-   Structured-Workflow "engineering principles" set to judge against (the
-   `@vgv-review-agent` equivalent). Likely an `ENGINEERING.md`. Park until
-   `evaluating`.
+4. **`workflow-tracker.md` scope — RESOLVED.** It is cross-phase, peer to
+   `GLOSSARY.md`. Starter template at `workflow-management/workflow-tracker.md`.
+   Still TBD: flesh out its usage narrative and the prototype jump-and-return
+   mechanics (see thread #1).
+5. **Our own review criteria — DUE NOW.** The adversarial reviewers in every
+   phase need a named Structured-Workflow "engineering principles" set to judge
+   against (the `@vgv-review-agent` "Very Good Engineering" equivalent). Likely an
+   `ENGINEERING.md`, probably in `workflow-management/`. This was parked until
+   `evaluating` — that is the phase you are now shaping, so resolve it here.
 
 ## Research to delegate (read-only sub-agent tasks)
 
@@ -186,31 +218,34 @@ the synthesis. Remind every sub-agent: **read real sources, do not lean on
 `r-and-d/`, do not draft the README, do not expose source-system names** in any
 proposed product text.
 
-1. **The 2-3-approaches move.** Read VGV `plan` + `refine-approach`, Superpowers
-   `brainstorming` (the "propose 2-3 approaches" + per-section approval steps).
-   Return: how each generates/compares approaches, leads with a recommendation,
-   and gates the choice. Map onto MYP B2 (ideas) -> B3 (chosen + justified).
-2. **The prototype jump.** Read Matt `prototype` (local) + Superpowers
-   `writing-plans`. Return: when a prototype is triggered, what it produces, how
-   the answer is captured durably, and how the throwaway code is discarded. Tie
-   to MYP B2's "Explore / Test / Gather feedback".
-3. **PRD shape + B4 reinterpretation.** Re-read Matt `to-prd` (local). Return: the
-   exact template, plus how "planning drawings / requirements for creation" (MYP
-   B4) translates to software (API contracts, schema, test seams) — pull seam
-   language from `to-prd` step 2.
-4. **PRD adversarial review.** Read VGV `plan-technical-review` + ACT
-   `act-workflow-refine-spec`. Return: reviewer lenses, the explicit criteria
-   set, severity/must-address handling, and the bounded-iteration count — so the
-   developing-ideas review section mirrors the inquiry-analysis one.
+1. **The verification harness.** Read Cursor Team Kit `verify-this` +
+   `control-cli` + `control-ui` + `run-smoke-tests`. Return: how each drives the
+   built solution, captures evidence (transcripts/screenshots/profiles), and
+   produces a falsifiable verdict. Tie to MYP D1 (design the testing methods) and
+   D2 (test the solution).
+2. **Source-of-truth comparison.** Read Codex Product Design `design-qa` +
+   `audit`. Return: how the built result is compared to the original
+   criteria/visual truth, how findings tie to evidence, and the passed/blocked
+   gate. Map onto D2 (evaluate against the design specifications).
+3. **The named review-criteria set (`ENGINEERING.md`).** Read VGV
+   `plan-technical-review` + the `@vgv-review-agent` "Very Good Engineering"
+   notion + ACT `act-workflow-refine-spec`. Return: the explicit criteria each
+   reviewer judges against, so we can draft our own named principles set the
+   cross-phase adversarial reviewers reference (open thread #5).
+4. **Improvement + impact framing.** Read VGV `review-and-ship` / shipping skills
+   and any retro/impact patterns. Return: how solutions are judged for follow-up
+   work and client/audience impact. Map onto D3 (improvements) and D4 (impact).
 
 Source locations are in "Method and tools that actually work here" above.
 
 ## Done when
 
-`skills/developing-ideas/README.md` exists, mirrors the inquiry-analysis doc's
-voice and structure, defines one developing-ideas phase document organized by
-B1-B4, treats B4 as the interview-free PRD/export content, places exploration,
-testing, feedback, selected-design justification, and prototype-to-answer inside
-that one phase doc, treats the inquiry<->developing-ideas boundary as
-orientation (not a hard gate) backed by `workflow-tracker.md`, includes adversarial
-review of B4/PRD content, and `SCRATCHPAD.md` stays the source of working notes.
+`skills/evaluating/README.md` exists, mirrors the existing phase docs' voice and
+structure, defines the evaluating phase around MYP Criterion D (D1 testing
+methods -> D2 test + evaluate against the design specifications -> D3
+improvements -> D4 impact), evaluates the built solution against the *original*
+success criteria from the Design Brief and PRD, includes the cross-phase
+adversarial-review treatment, resolves the named review-criteria / `ENGINEERING.md`
+question (open thread #5), treats the boundary as orientation (not a hard gate)
+backed by `workflow-tracker.md`, and `SCRATCHPAD.md` stays the source of working
+notes.

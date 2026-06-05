@@ -74,10 +74,12 @@ agent can open when it needs the "why." The **Design Brief is the only section
 handed to the next phase**; the rest does not need to be loaded into context by
 default.
 
-Two things update alongside the document:
+These update alongside the document:
 
 - **`GLOSSARY.md`** — the shared vocabulary, updated inline the moment a term
   resolves. It is glossary-only: no implementation detail, no planning notes.
+- **`workflow-tracker.md`** — the always-on position file, updated as the inquiry
+  proceeds and whenever control loops back from a later phase.
 - **Decision records** — created sparingly, only for choices that are hard to
   reverse, surprising without context, and the result of a real trade-off.
 
@@ -118,6 +120,13 @@ The phase ends when:
 - no blocking question remains,
 - the Design Brief is review-ready and has passed adversarial review, and
 - the shared language is settled in the glossary.
+
+This is **orientation, not a hard gate**. The agent always knows it is heading
+toward the Design Brief, and when the blocking questions thin out it *offers* to
+synthesise the brief rather than interviewing forever. It offers; it does not
+block. Control can still flow forward and loop back later when a downstream phase
+exposes a missing branch of the problem — that loop-back is recorded in
+`workflow-tracker.md`, not treated as failure.
 
 It does not end "when it feels done," and unresolved questions are never parked
 as a forgotten open-questions list — they are blockers that keep the interview

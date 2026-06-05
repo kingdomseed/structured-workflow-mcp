@@ -96,12 +96,14 @@ Implementation Decisions, Testing Decisions (including the test seams), Out of
 Scope, and Notes. When the project uses an issue tracker, the PRD can be exported
 there so it can be decomposed into issues.
 
-Two things update alongside the document:
+These update alongside the document:
 
 - **`GLOSSARY.md`** — the shared vocabulary, kept current as solution terms
   resolve. Glossary-only: no implementation detail.
 - **`workflow-tracker.md`** — the always-on position file, updated as the work
   moves through the strands and whenever control loops back to Inquiry.
+- **Decision records** — created sparingly, only for choices that are hard to
+  reverse, surprising without context, and the result of a real trade-off.
 
 ## Evaluating the PRD: adversarial review
 

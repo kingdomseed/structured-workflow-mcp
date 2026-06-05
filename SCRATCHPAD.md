@@ -3,83 +3,13 @@
 Temporary planning notes. Delete this file after the README and final project
 docs have absorbed the useful context.
 
-Inquiry-Analysis and Developing-Ideas are now written up as self-contained phase
-docs: `skills/inquiry-analysis/README.md` and `skills/developing-ideas/README.md`.
+Inquiry-Analysis, Developing-Ideas, and Creating-Solution are now written up as
+self-contained phase docs: `skills/inquiry-analysis/README.md`,
+`skills/developing-ideas/README.md`, and `skills/creating-solution/README.md`.
 The cross-phase position file has a starter template at
 `workflow-management/workflow-tracker.md`. This scratchpad keeps the source
 research, the cross-phase artifact flow, the adversarial-review concept, and the
 remaining open threads.
-
-Developing-Ideas decisions baked into its README: the engine is "generate options,
-then choose against criteria" (solution-space questions, NOT a narrowed problem
-interview); document follows MYP Criterion B (Design Specifications / Feasible
-Ideas / Chosen Design / PRD), with the PRD as the interview-free synthesis and
-handoff; prototype-to-answer jump; adversarial review of the PRD; orientation not
-a hard gate. Human-ready/agent-ready and confidence signaling are included but
-explicitly marked PROVISIONAL (under review), per decision.
-
-## Cross-Phase Collaboration Principles
-
-DONE: both principles are now in the core README as "Working Together: Judgment
-and Confidence" (no longer provisional). The developing-ideas doc references them
-rather than redefining them. Notes below kept as the source rationale.
-
-### Human-ready vs agent-ready work
-
-Borrow the HITL/AFK distinction from Matt Pocock's issue-slicing workflow, but
-make it a general Structured Workflow concept:
-
-- **Human-ready** work needs human judgment before the agent proceeds. Examples:
-  choosing among viable approaches, approving a design direction, resolving a
-  value trade-off, confirming scope, accepting a risk, or deciding whether a
-  prototype answer is good enough.
-- **Agent-ready** work can be done while the human is AFK because the success
-  criteria, inputs, constraints, and verification path are clear enough. Examples:
-  source research, codebase inspection, drafting from already-approved material,
-  running checks, generating an evidence summary, or slicing an approved PRD into
-  implementation issues.
-
-The workflow should label work this way whenever it hands off, creates issues,
-or proposes next steps. This prevents the agent from treating human judgment as
-implementation detail, and prevents the human from staying unnecessarily in the
-loop for work that is already well bounded.
-
-### Confidence scoring as anti-surrender design
-
-Source: `COGNATIVE_SURRENDER.md`.
-
-The key risk is not just that agents can be wrong; it is that they can be wrong
-fluently and authoritatively, causing humans to accept the output with too little
-critical evaluation. The workflow should counter this by requiring the agent to
-state confidence and evidence quality plainly.
-
-Every meaningful claim, recommendation, handoff artifact, and review finding
-should carry a practical confidence signal:
-
-- **High confidence** — grounded in current repo evidence, direct source
-  material, passing verification, or explicit human confirmation.
-- **Medium confidence** — plausible synthesis from partial evidence; enough to
-  proceed, but should stay easy to revise.
-- **Low confidence** — weak evidence, missing source access, unresolved
-  ambiguity, inferred intent, or a claim that needs human or external
-  verification before downstream work relies on it.
-
-The agent should say why it chose that confidence level and what would raise it.
-This keeps the human in the reasoning loop, reduces confidence inflation, and
-makes it normal to challenge the agent instead of treating fluent output as
-settled truth.
-
-When confidence is not high, the agent should explicitly ask the human to verify
-the specific weak point:
-
-```text
-Please verify: <claim/assumption/decision>.
-My source: <file/source/link/evidence>.
-Why verification is needed: <missing evidence, inference, or risk>.
-```
-
-This turns uncertainty into a collaboration point instead of burying it in
-polished prose.
 
 ## Naming Decisions To Preserve
 
@@ -149,40 +79,6 @@ Key reads from the diagrams (these justify the fluid, non-gated model):
   drawings/diagrams and creation requirements. For software, B4 is the PRD/export
   surface that can be mirrored to Linear or another issue tracker for issue
   decomposition.
-
-## Orientation, Not a Hard Gate (decided)
-
-Reframed the "75% -> write the artifact" idea: it is **orientation toward a
-target artifact, not an enforced gate.** At any moment the agent knows which
-phase it is in and which phase document/criterion it is moving toward (Design
-Brief in inquiry, B4/PRD content inside developing-ideas). When open questions
-thin out and no *blocking* question remains, the agent **offers** to synthesize
-the target artifact rather than grilling forever (the fix for `grill-with-docs`
-having no terminator). It offers; it does not block. No hard wall between
-inquiry and developing-ideas.
-
-## Durable Files Decision: `workflow-tracker.md`
-
-The always-on phase-state file is **`workflow-tracker.md`**. It is a peer to
-`GLOSSARY.md` — always on, re-read at phase entry — and records where the work is
-in the design cycle: current phase, current phase document, current criterion,
-linked upstream/downstream artifacts, likely next phase, and whether we are
-looping back. It is what makes the oscillation safe and survives context loss.
-(Lineage: planning-with-files `progress.md`, but renamed and scoped to
-design-cycle position only — NOT the `task_plan/progress/findings` triad.)
-
-Decided: `workflow-tracker.md` is cross-phase. A short template now lives at
-`workflow-management/workflow-tracker.md` (folder name locked: `workflow-management/`,
-distinct from the `skills/` phase docs; it holds the files that manage the
-workflow — tracker now, glossary/engineering principles later). The
-developing-ideas doc references it but does not fully define it.
-
-## Inquiry-Analysis (migrated)
-
-The core thesis, the Interview-as-engine framing, the interview loop, the
-endpoint gate, the inquiry document shape, and the Design Brief review now live
-in `skills/inquiry-analysis/README.md`. The source research that fed them is
-kept below.
 
 ## Source Ingredients (from the real skills)
 
@@ -448,45 +344,51 @@ B2/B3/B4.
 - Product Design `share`: post-build handoff/publishing, outside current
   buckets.
 
-### Corrected developing-ideas model (single phase document)
+## Creating-Solution (Criterion C) decisions (2026-06-05)
 
-Do **not** split developing-ideas into a bundle of separate product-facing
-skills. The repo should have one `developing-ideas` phase skill/doc, parallel to
-the single `inquiry-analysis` phase skill/doc. The phase document owns everything
-the agent does while it is in this phase. Outside skills/plugins are source
-evidence only: they tell us useful moves to include, not separate modules to
-stitch into a new workflow.
+Written up in `skills/creating-solution/README.md`. Criterion C **breaks the A/B
+symmetry**: its real product is working code + tests, not a fourth-strand handoff
+doc. The strands:
 
-The `developing-ideas` document should follow MYP Criterion B ordering:
+- **C1 Planning** — decompose the PRD into tracer-bullet vertical slices.
+- **C2 Technical Skills** — selected *during* slicing: which engineering
+  conventions apply (e.g. VGV Flutter/Dart, Vercel TS/React), which tools the work
+  needs (e.g. Patrol for E2E), and the methodology to carry the plan forward
+  (e.g. TDD). Attached to the slices. We reference conventions; a named
+  `ENGINEERING.md` is deferred to evaluating.
+- **C3 Creating the solution** — follow the published slices: mark in-progress ->
+  build -> verify it builds and works at the slice level -> commit -> mark
+  complete. Deep review/acceptance is deferred to evaluating.
+- **C4 Justifying changes** — the agent's account of departures from the
+  PRD/Design Brief: what changed, why (the wall/barrier + evidence), how, and a
+  confidence signal. Written only when implementation forces a deviation.
 
-```text
-B1 Design Specifications
-  Define success criteria for the solution from the Design Brief and research.
+**Key structural decision (user, 2026-06-05): phase C keeps the one-durable-doc
+symmetry after all.** To adversarially review the slice breakdown *before* it
+becomes trackable work, the breakdown must exist as a local draft. So there is a
+**creating-solution document** that stages C1 (Slices) + C2 (Technical Approach),
+is adversarially reviewed locally while cheap to change, then **exported to the
+tracker** (Matt `to-issues`) as HITL/AFK-labeled issues — exactly how the PRD
+exports. **C4 (Justified Changes) folds into that same document** instead of being
+a separate file. The live tracker issues are what C3 executes against.
 
-B2 Develop Ideas
-  Develop a range of feasible ideas. Explore, test, annotate, prototype where
-  useful, and gather feedback so others can understand the options.
+Locked answers from the user this session:
 
-B3 Present Chosen Design
-  Select one design/direction and justify it fully against the design
-  specifications.
+- C1 turns the PRD into issues on the tracker (Matt Pocock style); the tracker is
+  the live plan, the doc is the local staging/refinement surface.
+- Verification boundary: **C owns slice-level "it builds and works"; deep review
+  is in evaluating.**
+- C2 technical skills = select conventions/tools/methodology now; defer named
+  principles to evaluating.
+- Adversarial review happens **before issues are published** (on the draft slices
+  in the doc). Criteria: coverage, verticality, granularity, sequencing,
+  HITL/AFK labels, technical approach.
+- Only one local markdown artifact in phase C: the creating-solution document
+  (justified-changes folded in). No separate implementation-evidence note.
 
-B4 Planning Requirements / PRD
-  Develop the accurate planning drawings/diagrams and creation requirements for
-  the chosen solution. For software this is the PRD-shaped content: solution,
-  user stories, implementation decisions, test seams, constraints, and out of
-  scope.
-```
-
-The PRD is not a separate roaming scratch document. The PRD content is
-encapsulated in B4 of the `developing-ideas` document. When the project uses
-Linear or another issue tracker, the B4 content can be written/exported there as
-the PRD so it can be decomposed into issues.
-
-The `workflow-tracker.md` links the inquiry document, the developing-ideas
-document, the issue-tracker PRD/export, and later issue slices. It is updated as
-sessions progress so the next agent knows where the work is in the design cycle
-and which phase document is authoritative.
+Engine: **follow the plan, building in verifiable vertical slices** — decompose ->
+review locally -> publish -> build a slice end-to-end -> verify -> commit ->
+justify any deviation.
 
 ## Adversarial Review (cross-phase concept)
 
@@ -529,8 +431,11 @@ inquiry-analysis   -> inquiry document (full findings step by step; its final
 developing-ideas   -> developing-ideas document
                                       (B1 specifications, B2 ideas/feedback,
                                        B3 chosen design, B4 PRD/export content)
-creating-solution  -> code + tests   (entered by slicing the issue-tracker PRD
-                                       or B4 export into issues)
+creating-solution  -> creating-solution document + code + tests
+                                      (C1 slices + C2 technical approach staged in
+                                       the doc, reviewed, exported to the tracker;
+                                       C3 builds; C4 justified changes fold into
+                                       the doc; code + tests are the real product)
 evaluating         -> review/evidence
 ```
 
@@ -583,7 +488,7 @@ Durable files vs handoff:
    approval gate (choosing an approach in developing-ideas — Superpowers/VGV);
    slice-approval gate (entry to creating-solution — `to-issues`). Superpowers
    enforces an absolute pre-implementation gate even for "simple" work. **Current
-   direction: no hard gate** — orientation toward the target artifact instead
-   (see "Orientation, Not a Hard Gate"). The agent offers; it does not block.
+   direction: no hard gate** — orientation toward the target artifact instead, now
+   baked into all three written phase docs. The agent offers; it does not block.
    Still to decide: whether ANY gate stays mandatory (likely the
    pre-implementation one at the creating-solution boundary).
