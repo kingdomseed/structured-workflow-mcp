@@ -1,7 +1,7 @@
 # Structured Workflow Scratchpad
 
-Temporary planning notes. Delete this file once the source provenance below has
-migrated to `NOTICE.md` and the remaining open threads are resolved.
+Temporary planning notes. Delete this file once the source bucket synthesis and
+remaining open threads are resolved.
 
 **All four core phase docs are written:** `skills/inquiry-analysis/README.md`,
 `skills/developing-ideas/README.md`, `skills/creating-solution/README.md`, and
@@ -9,11 +9,16 @@ migrated to `NOTICE.md` and the remaining open threads are resolved.
 at `skills/workflow-management/workflow-tracker.md`.
 
 What this scratchpad still holds (everything else has been absorbed into the phase
-docs and core README and removed): the **source-ingredient research / provenance**
-(destined for `NOTICE.md`, which does not exist yet), the **MYP strand diagram**
-(not duplicated in any product doc), the **naming map**, and the **open threads**.
-The Criterion C/D decision notes, the Phase Artifact Flow, and the cross-phase
-Adversarial Review writeup were baked into the phase docs and have been trimmed.
+docs and core README and removed): the **source-ingredient research**, the **MYP
+strand diagram** (not duplicated in any product doc), the **naming map**, and the
+**open threads**. The Criterion C/D decision notes, the Phase Artifact Flow, and
+the cross-phase Adversarial Review writeup were baked into the phase docs and have
+been trimmed.
+
+**Current task decision:** do not create, plan, or migrate anything into
+`NOTICE.md` now. Source-lineage packaging is deferred until the repo contents are
+finalized and the user decides what is being kept. Current source work is bucket
+audit and synthesis only, using the five `TEMP-*-skill-audit.md` docs.
 
 ## Naming Decisions To Preserve
 
@@ -416,14 +421,16 @@ B2/B3/B4.
 The four core phase docs are written and their decisions are baked in. What is
 left:
 
-1. **Root README — further work.** The user's next focus. (Durable-files section,
-   evaluating outputs, repo shape, and developing-ideas outputs were reconciled
-   this session; more polish to come.)
-2. **`NOTICE.md` does not exist yet.** The core README promises "source lineage
-   lives in `NOTICE.md`." The provenance now sitting in this scratchpad ("Source
-   Ingredients", "Developing-Ideas Research Evidence", "Naming Decisions To
-   Preserve") is the raw material — migrate it into `NOTICE.md`, then those
-   sections can be deleted here.
+1. **Source skill bucket synthesis.** Use the five root temp docs
+   (`TEMP-inquiry-analysis-skill-audit.md`,
+   `TEMP-developing-ideas-skill-audit.md`,
+   `TEMP-creating-solution-skill-audit.md`,
+   `TEMP-evaluating-skill-audit.md`, and
+   `TEMP-workflow-management-skill-audit.md`) to decide which source skills and
+   favorite skill groups belong in each Structured Workflow bucket, with
+   justification grounded in the current phase READMEs. Old bucket assignments are
+   stale and should not be used as authority.
+2. **Root README — further work.** Polish when needed.
 3. **Inquiry <-> Developing-Ideas oscillation — mechanics TBD.** Model is decided
    (no hard wall; `workflow-tracker.md` records position + loop-backs; orient
    toward the target artifact). Still to write up: the concrete `prototype`

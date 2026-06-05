@@ -218,15 +218,6 @@ phase folders are organizational boundaries, not extra phases; `workflow-managem
 holds the cross-phase files (the workflow tracker and project templates), not a
 phase.
 
-## Attribution
-
-Retained source lineage lives in `NOTICE.md`. Each entry identifies:
-
-- the source project or author
-- the retained file or idea
-- the license or permission basis
-- the Structured Workflow skill, agent, or hook that uses it
-
 ## References
 
 - [IB: Design in the MYP](https://www.ibo.org/programmes/middle-years-programme/curriculum/design/)

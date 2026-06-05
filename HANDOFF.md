@@ -1,7 +1,7 @@
 # Handoff — Structured Workflow
 
-Transient brief. Delete once the remaining work below is done and `SCRATCHPAD.md`'s
-provenance has migrated to `NOTICE.md`. (Same disposability as `SCRATCHPAD.md`.)
+Transient brief. Delete once the remaining work below is done and `SCRATCHPAD.md`
+has been reconciled. (Same disposability as `SCRATCHPAD.md`.)
 
 ## Orientation
 
@@ -23,15 +23,17 @@ Also written and reconciled: the core `README.md`, and the starter template
 `skills/workflow-management/workflow-tracker.md`. The two cross-phase principles
 (human-ready/agent-ready and confidence signaling) live in the core README under
 "Working Together: Judgment and Confidence". Working notes — the MYP strand
-diagram, source provenance, and open threads — live in `SCRATCHPAD.md`.
+diagram, source research, source-bucket audit context, and open threads — live in
+`SCRATCHPAD.md`.
 
 ## What's next (remaining work)
 
 See `SCRATCHPAD.md` "Open Threads" for detail. In short:
 
-1. **Root README** — further polish (the user's next focus).
-2. **`NOTICE.md`** — does not exist yet; the core README promises it. Migrate the
-   source provenance out of `SCRATCHPAD.md` into it.
+1. **Source skill bucket synthesis** — use the five `TEMP-*-skill-audit.md` docs to
+   decide which source skills/favorite skill groups belong in each Structured
+   Workflow bucket. Do not use stale bucket placements.
+2. **Root README** — further polish when needed.
 3. **Inquiry <-> Developing-Ideas oscillation** — write up the concrete `prototype`
    jump-and-return mechanics (model decided; mechanics TBD).
 4. **`workflow-tracker.md` usage narrative** — how it is read/updated across phases.
@@ -89,9 +91,12 @@ See `SCRATCHPAD.md` "Open Threads" for detail. In short:
   Implementation Decisions / Testing Decisions / Out of Scope / Notes), and
   `creating-solution` starts by decomposing it into tracer-bullet vertical slices,
   each marked HITL or AFK.
+- **Do not create or plan `NOTICE.md` now.** Source-lineage packaging is explicitly
+  deferred until the repo contents are finalized and the user decides what is being
+  kept. Current source work is bucket audit and synthesis only.
 - **Terminology:** use OUR names in product docs (Interview, GLOSSARY.md, Design
   Brief, PRD). Do NOT expose source-system names (Matt / VGV / Superpowers / ACT /
-  Codex) in the doc body — attribution belongs in `NOTICE.md`.
+  Codex) in the doc body.
 
 ## Traps that burned prior agents
 
@@ -102,6 +107,7 @@ See `SCRATCHPAD.md` "Open Threads" for detail. In short:
   "Findings" live as the *body* of a phase doc, not a separate file.
 - **No internal/process/cleanup talk in product docs.** Public-facing clarity.
 - **Ground in REAL sources**, not memory or the R&D distillation.
+- **Do not bring up `NOTICE.md` as remaining work.** It is intentionally deferred.
 
 ## Collaboration style the user expects
 
