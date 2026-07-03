@@ -1,0 +1,10 @@
+{
+  "hook_event_name": "PermissionRequest",
+  "session_id": "codex-session-1",
+  "tool_name": "Bash",
+  "tool_input": {
+    "command": "dart test",
+    "description": "Run Dart tests"
+  },
+  "cwd": "."
+}

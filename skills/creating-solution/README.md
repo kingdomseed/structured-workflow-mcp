@@ -1,18 +1,18 @@
 # Creating-Solution
 
 The third phase of the Structured Workflow design cycle. Creating-Solution turns
-the PRD into a working solution — sliced into tracer-bullet issues, built
+the Spec into a working solution — sliced into tracer-bullet issues, built
 deliberately, and verified at the slice level — without re-opening the problem,
 re-choosing the solution, or silently drifting from the plan.
 
 ## What this phase is for
 
 The goal is to **build the chosen solution while preserving traceability**: take
-the PRD handed over from Developing-Ideas, decompose it into a plan the agent can
-follow, and create code that functions as intended.
+the completed Spec handed over from Developing-Ideas, slice it into issues the
+agent can follow, and create code that functions as intended.
 
 This phase does **not** re-run the problem interview or re-choose the design —
-those decisions are settled in the Design Brief and the PRD. It also does **not**
+those decisions are settled in the Design Brief and the Spec. It also does **not**
 do deep evaluation or acceptance against the original criteria — that is the next
 phase, Evaluating. Creating-Solution owns the build and the slice-level proof that
 each piece works; the deeper verdict comes later.
@@ -26,14 +26,16 @@ becomes trackable work, and where any departure from the plan is later justified
 
 Inquiry-Analysis runs on a problem interview; Developing-Ideas generates options
 and chooses among them. Creating-Solution runs on a third engine — **decompose
-the PRD into vertical slices and build them one at a time, verifying each** —
+the Spec into vertical slices and build them one at a time, verifying each** —
 because it answers yet another kind of question: not *what is wrong* or *what
 should we build*, but *how do we build it, in what order, and did each piece
 actually work*.
 
 Core moves of the engine:
 
-- **Slice vertically, not horizontally.** Each slice is a tracer bullet that cuts
+- **Start by slicing the Spec into issues.** Creating-Solution opens by turning
+  the completed Spec into trackable work.
+- **Slice vertically, not horizontally.** Each issue is a tracer bullet that cuts
   through all layers and is demoable on its own — never a horizontal layer that
   only matters once everything else exists.
 - **Choose the technical approach as part of planning.** Deciding which skills,
@@ -59,23 +61,21 @@ Core moves of the engine:
 The engine drives the four strands of MYP Criterion C. The first strands are
 worked out in the creating-solution document; the build itself produces the code.
 
-- **C1 — The plan.** Decompose the PRD into tracer-bullet vertical slices, drafted
+- **C1 — The plan.** Decompose the Spec into tracer-bullet vertical slices, drafted
   in the document so they can be refined and reviewed before becoming issues.
 - **C2 — The technical approach.** Choosing the technical approach *is part of the
   planning*, not a separate step after it — C1 and C2 go back and forth. While
-  slicing, the agent decides which engineering conventions apply (for example
-  VGV's Flutter/Dart practices, or Vercel's TypeScript/React conventions), which
-  tools the work needs (for example Patrol for end-to-end testing), and the
-  methodology that carries the plan forward (for example TDD). That choice feeds
+  slicing, the agent decides which engineering conventions, tools, verification
+  methods, and implementation methodology each issue needs. That choice feeds
   back into the slices: it is attached to each issue so it says how it should be
-  built, and it can **add slices** — for example, knowing the build needs a
-  visual-validation artifact for a high confidence signal adds a final
-  Patrol end-to-end slice to fully verify the result. We reference existing
-  conventions here; a named principles document is deferred to Evaluating.
+  built, and it can **add slices** — for example, knowing the build needs an
+  end-to-end verification artifact for a high confidence signal adds a final
+  verification slice. We reference existing conventions here; a named principles
+  document is deferred to Evaluating.
 - **C3 — The build.** Follow the published slices: mark each issue in-progress,
   build it, verify it builds and functions at the slice level, commit, and mark it
   complete.
-- **C4 — The justified changes.** When implementation departs from the PRD or
+- **C4 — The justified changes.** When implementation departs from the Spec or
   Design Brief, record what changed and why — the agent's account of what it
   accomplished, how, and why it had to deviate.
 
@@ -91,16 +91,15 @@ the strands of MYP Criterion C.
 ## Slices             — the tracer-bullet vertical slices (C1), each demoable alone,
                         each labeled HITL or AFK
 ## Technical Approach  — conventions, tools, and methodology per slice (C2)
-## Justified Changes   — departures from the PRD/Design Brief and why (C4),
+## Justified Changes   — departures from the Spec/Design Brief and why (C4),
                         filled in as the build proceeds
 ```
 
 The **Slices** and **Technical Approach** sections are drafted and adversarially
 reviewed here while they are still cheap to change, then **exported to the issue
-tracker** (Matt Pocock `to-issues` style) as trackable, HITL/AFK-labeled work —
-exactly how the PRD exports to the tracker. The live tracker issues are what the
-build executes against. Granularity, dependencies, and ordering are settled in the
-document, with the thinnest end-to-end slice first.
+tracker** as trackable, HITL/AFK-labeled work. The live tracker issues are what
+the build executes against. Granularity, dependencies, and ordering are settled in
+the document, with the thinnest end-to-end slice first.
 
 The **Justified Changes** section stays in the document and is filled as the build
 proceeds — only when implementation uncovers something unexpected. If the build
@@ -121,7 +120,7 @@ Two things update alongside the build:
 ## Evaluating the plan: adversarial review
 
 Before the slice breakdown becomes trackable work, it is reviewed
-**adversarially** — the same discipline applied to the Design Brief and the PRD,
+**adversarially** — the same discipline applied to the Design Brief and the Spec,
 moved to the moment it costs the least. It is reviewed while it is still a draft
 in the document, before it is exported to the tracker, because a draft is far
 cheaper to change than a board full of tickets.
@@ -140,7 +139,7 @@ How the review runs:
 
 Criteria the breakdown is judged against:
 
-- **Coverage** — every PRD requirement maps to a slice; nothing is dropped.
+- **Coverage** — every Spec requirement maps to a slice; nothing is dropped.
 - **Verticality** — each slice is a tracer bullet through all layers, demoable on
   its own, not a horizontal layer.
 - **Granularity** — slices are right-sized: small enough to build and verify,
@@ -156,7 +155,7 @@ Criteria the breakdown is judged against:
 
 The phase ends when:
 
-- every PRD requirement is built into a slice that builds and functions as
+- every Spec requirement is built into a slice that builds and functions as
   intended at the slice level,
 - each slice is committed and marked complete on the tracker, and
 - every departure from the plan is captured and justified in the document.

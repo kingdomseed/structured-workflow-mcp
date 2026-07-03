@@ -1,0 +1,12 @@
+{
+  "hook_event_name": "PostToolUse",
+  "session_id": "codex-session-1",
+  "tool_name": "apply_patch",
+  "tool_input": {
+    "command": "apply_patch <<'PATCH'\n*** Begin Patch\n*** Update File: lib/main.dart\n@@\n-void main(){}\n+void main() { }\n*** Move to: lib/moved.dart\n*** Delete File: lib/deleted.dart\n*** End Patch\nPATCH"
+  },
+  "tool_response": {
+    "stdout": "very long raw response should not be logged"
+  },
+  "cwd": "."
+}

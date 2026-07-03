@@ -1,0 +1,10 @@
+{
+  "type": "message.updated",
+  "properties": {
+    "info": {
+      "id": "message-1",
+      "sessionID": "opencode-session-1",
+      "role": "user"
+    }
+  }
+}

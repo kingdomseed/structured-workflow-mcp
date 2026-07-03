@@ -16,10 +16,11 @@ belongs to the next phase, Creating-Solution. Developing-Ideas occupies the spac
 between: it is where options are generated, compared, and resolved into a single
 direction with enough definition that implementation can proceed.
 
-The proof that the phase is finished is the **PRD** — the requirements for the
-chosen solution, synthesised from the decisions made here. Whether developing the
-ideas takes one pass or several rounds of prototyping, the phase is finished when
-that PRD is trustworthy.
+The proof that the phase is finished is the completed **Spec** — the Design Brief
+carried forward and expanded with the specifications, selected direction,
+planning documents, and prototype evidence needed to create the chosen solution.
+Whether developing the ideas takes one pass or several rounds of prototyping, the
+phase is finished when that Spec is trustworthy.
 
 ## The engine: generate options, then choose against criteria
 
@@ -74,27 +75,31 @@ in the core README ("Working Together: Judgment and Confidence").
 ## The developing-ideas document
 
 Developing-Ideas produces **one durable file**: the developing-ideas document. It
-follows the four strands of MYP Criterion B, and its final strand is the PRD.
+follows the four strands of MYP Criterion B, starts from the Design Brief, and
+completes the Spec.
 
 ```text
 # Developing Ideas: <solution>
 
+## Design Brief           — the inquiry handoff that starts the Spec
 ## Design Specifications  — the success criteria a solution must meet
-## Feasible Ideas         — the 2-3 candidate approaches, trade-offs, prototypes
+## Feasible Ideas         — candidate approaches, trade-offs, prototypes
 ## Chosen Design          — the selected direction, justified against the criteria
-## PRD                    — the requirements for creating the chosen solution
+## Planning Documents     — diagrams, contracts, models, or prototype files as needed
+## Spec                   — the completed requirements for creating the chosen solution
 ```
 
-The first three sections are the body — the reasoning a later agent can open when
-it needs the "why" behind the choice. The **PRD is the section handed to the next
-phase**; the rest does not need to be loaded into context by default.
+The middle sections are the body — the reasoning a later agent can open when it
+needs the "why" behind the choice. The **completed Spec is the section handed to
+the next phase**; the supporting material does not need to be loaded into context
+by default unless the build needs it.
 
-The PRD is **interview-free synthesis**: by the time it is written the decisions
-already exist, so it is composed from what is known, not gathered by re-asking.
-It carries the solution-defining content — Problem, Solution, User Stories,
-Implementation Decisions, Testing Decisions (including the test seams), Out of
-Scope, and Notes. When the project uses an issue tracker, the PRD can be exported
-there so it can be decomposed into issues.
+The final Spec section is **interview-free synthesis**: by the time it is written
+the decisions already exist, so it is composed from what is known, not gathered by
+re-asking. It carries the solution-defining content — Problem, Solution, User
+Stories, Implementation Decisions, Testing Decisions (including the test seams),
+Out of Scope, and Notes. Creating-Solution begins by decomposing the completed
+Spec into issues; Developing-Ideas does not write tracker issues.
 
 These update alongside the document:
 
@@ -105,25 +110,25 @@ These update alongside the document:
 - **Decision records** — created sparingly, only for choices that are hard to
   reverse, surprising without context, and the result of a real trade-off.
 
-## Evaluating the PRD: adversarial review
+## Evaluating the Spec: adversarial review
 
-Before the PRD is trusted downstream, it is reviewed **adversarially** — the same
+Before the Spec is trusted downstream, it is reviewed **adversarially** — the same
 discipline applied to the Design Brief, brought forward so problems are caught
 before any code is written.
 
 How the review runs:
 
-- **Spawn focused reviewers in parallel**, each judging the PRD through one lens
+- **Spawn focused reviewers in parallel**, each judging the Spec through one lens
   against explicit criteria.
 - **Review first, edit never (silently).** The review pass produces findings; it
-  does not quietly rewrite the PRD.
+  does not quietly rewrite the Spec.
 - **Findings by severity**, with one prominent **must-address** item.
 - **A gate, not a rubber stamp.** Blocking findings send the work back into the
-  engine; the PRD is not downstream authority until it passes.
+  engine; the Spec is not downstream authority until it passes.
 - **Bounded iteration** — after about two passes, diminishing returns; complete
   or escalate rather than loop forever.
 
-Criteria the PRD is judged against:
+Criteria the Spec is judged against:
 
 - **Clarity** — the chosen solution is stated concretely, no vague hedging.
 - **Completeness** — criteria, chosen design, implementation and testing
@@ -143,12 +148,12 @@ Criteria the PRD is judged against:
 The phase ends when:
 
 - one design is chosen and justified against the success criteria,
-- the PRD is review-ready and has passed adversarial review, and
+- the Spec is review-ready and has passed adversarial review, and
 - no blocking decision remains.
 
 This is **orientation, not a hard gate**. The agent always knows it is heading
-toward the PRD, and when the open decisions thin out it *offers* to synthesise
-the PRD rather than generating options forever. It offers; it does not block.
+toward the Spec, and when the open decisions thin out it *offers* to synthesise
+the Spec rather than generating options forever. It offers; it does not block.
 Control can still flow back to Inquiry-Analysis when developing the ideas exposes
 a missing branch of the problem — that loop-back is recorded in
 `workflow-tracker.md`, not treated as failure.
@@ -156,7 +161,7 @@ a missing branch of the problem — that loop-back is recorded in
 ## What it produces and refuses
 
 **Produces:** the developing-ideas document (specifications, feasible ideas,
-chosen design, and the PRD), `GLOSSARY.md` and `workflow-tracker.md` updates, and
+chosen design, and the Spec), `GLOSSARY.md` and `workflow-tracker.md` updates, and
 sparse decision records.
 
 **Refuses:** re-running the requirements interview, writing the solution, slicing
@@ -165,7 +170,7 @@ building from a Design Brief with no chosen direction.
 
 ## Handoff
 
-The **PRD** is the handoff to Creating-Solution, which begins by decomposing it
+The **Spec** is the handoff to Creating-Solution, which begins by decomposing it
 into tracer-bullet vertical slices. The detailed mechanics of moving between
 phases — including the prototype jump and looping back to Inquiry — are described
 separately.

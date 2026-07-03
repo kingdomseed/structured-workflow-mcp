@@ -1,0 +1,11 @@
+{
+  "type": "message.updated",
+  "properties": {
+    "info": {
+      "id": "user-message-1",
+      "sessionID": "opencode-session-1",
+      "role": "user",
+      "prompt": "<objective>\nProvide Flutter-style progressive help:\n\n- `/act-help` -> short navigator + routing table\n- `/act-help [name]` -> detailed help for one command, agent, skill, or topic\n\nKeep output concise and actionable.\n</objective>"
+    }
+  }
+}

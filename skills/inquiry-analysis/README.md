@@ -58,7 +58,8 @@ its own procedure — they are all worked out through the same loop above.
 ## The inquiry document
 
 Inquiry-Analysis produces **one durable file**: the inquiry document. It records
-the inquiry step by step and ends with the Design Brief.
+the inquiry step by step and ends with the Design Brief, which is the beginning
+of the Spec that Developing-Ideas completes.
 
 ```text
 # Inquiry: <problem>
@@ -71,8 +72,8 @@ the inquiry step by step and ends with the Design Brief.
 
 The findings live as the **body** of the document — full traceability the next
 agent can open when it needs the "why." The **Design Brief is the only section
-handed to the next phase**; the rest does not need to be loaded into context by
-default.
+handed to the next phase by default**; Developing-Ideas carries it forward as the
+starting section of the Spec.
 
 These update alongside the document:
 
@@ -142,6 +143,6 @@ endless brainstorm log, or an open-questions graveyard.
 
 ## Handoff
 
-The **Design Brief** is the handoff to Developing-Ideas. The detailed mechanics of
-moving between phases — including looping back when a later phase exposes a
-missing branch — are described separately.
+The **Design Brief** is the handoff to Developing-Ideas and the first part of the
+Spec. The detailed mechanics of moving between phases — including looping back
+when a later phase exposes a missing branch — are described separately.

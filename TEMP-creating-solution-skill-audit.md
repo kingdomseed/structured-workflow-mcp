@@ -1,697 +1,836 @@
 # Creating-Solution Skill Audit
 
+Re-verified 2026-07-03 against fresh staged sources under `TEMP-sources/` (see
+`TEMP-sources/INVENTORY.md` for pins). Every entry in the Skills, Hooks, and
+Subagents sections was re-read in full from its staged file. Long-tail packs
+were not re-verified this pass; their prior entries are preserved at the end.
+
 ## Bucket Definition
 
-Creating-Solution owns the build phase after Developing-Ideas has produced a trusted PRD. A skill belongs here when it helps the agent decompose the PRD into tracer-bullet vertical slices, choose the per-slice technical approach, execute implementation, verify slices at build time, commit and publish work, keep the issue tracker reconciled, or record justified deviations from the PRD/Design Brief. It does not own problem inquiry, choosing the solution, deep acceptance evaluation, or broad post-build quality verdicts except where a check is needed to make a slice build and function before moving on.
+Creating-Solution owns the build phase after Developing-Ideas has produced a trusted Spec. A skill belongs here when it helps the agent decompose the completed Spec into tracer-bullet vertical slices, choose the per-slice technical approach, execute implementation, verify slices at build time, commit and publish work, keep the issue tracker reconciled, or record justified deviations from the Spec/Design Brief. It does not own problem inquiry, choosing the solution, deep acceptance evaluation, or broad post-build quality verdicts except where a check is needed to make a slice build and function before moving on.
 
-## Included Skills
+Note on the slicing boundary: the act of decomposing the Spec into slices/issues is owned here (the old workflow-management audit also claimed `to-issues`; this bucket is the primary home for the slicing act itself). Tracker-coordination mechanics — state models, position tracking, cross-phase reconciliation — belong to workflow-management.
 
-| Source Pack | Skill | Source | Recommendation | Confidence |
+## Skills
+
+| Source Pack | Skill | Source (TEMP-sources path + pin) | Recommendation | Confidence |
 | --- | --- | --- | --- | --- |
-| Matt Pocock skills | to-issues | /Users/jholt/.agents/skills/to-issues/SKILL.md; https://github.com/mattpocock/skills/tree/main/skills/to-issues | copy | high |
-| Matt Pocock skills | tdd | /Users/jholt/.agents/skills/tdd/SKILL.md; https://github.com/mattpocock/skills/tree/main/skills/tdd | adapt | high |
-| Matt Pocock skills | diagnose | /Users/jholt/.agents/skills/diagnose/SKILL.md; https://github.com/mattpocock/skills/tree/main/skills/diagnose | reference | medium |
-| Matt Pocock skills | triage | /Users/jholt/.agents/skills/triage/SKILL.md; https://github.com/mattpocock/skills/tree/main/skills/triage | reference | medium |
-| ACT | act-workflow-plan | /Users/jholt/.agentic-coding-toolkit/skills/act-workflow-plan/SKILL.md | adapt | high |
-| ACT | act-workflow-work | /Users/jholt/.agentic-coding-toolkit/skills/act-workflow-work/SKILL.md | adapt | high |
-| ACT | act-flutter-development | /Users/jholt/.agentic-coding-toolkit/skills/act-flutter-development/SKILL.md | reference | high |
-| ACT | act-flutter-tdd | /Users/jholt/.agentic-coding-toolkit/skills/act-flutter-tdd/SKILL.md | reference | high |
-| ACT | act-flutter-robot-testing | /Users/jholt/.agentic-coding-toolkit/skills/act-flutter-robot-testing/SKILL.md | reference | high |
-| ACT | act-flutter-screenshot | /Users/jholt/.agentic-coding-toolkit/skills/act-flutter-screenshot/SKILL.md | reference | high |
-| ACT | act-git-commit | /Users/jholt/.agentic-coding-toolkit/skills/act-git-commit/SKILL.md | reference | high |
-| ACT | act-git-push-make-pr | /Users/jholt/.agentic-coding-toolkit/skills/act-git-push-make-pr/SKILL.md | reference | medium |
-| Codex Product Design | image-to-code | /Users/jholt/.codex/plugins/cache/openai-curated-remote/product-design/0.1.43/skills/image-to-code/SKILL.md | adapt | high |
-| Codex Product Design | url-to-code | /Users/jholt/.codex/plugins/cache/openai-curated-remote/product-design/0.1.43/skills/url-to-code/SKILL.md | adapt | high |
-| Codex Product Design | design-qa | /Users/jholt/.codex/plugins/cache/openai-curated-remote/product-design/0.1.43/skills/design-qa/SKILL.md | reference | medium |
-| VGV Wingspan | build | https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/build | adapt | high |
-| VGV Wingspan | plan | https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/plan | adapt | high |
-| VGV Wingspan | plan-technical-review | https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/plan-technical-review | adapt | high |
-| VGV Wingspan | create-branch | https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/create-branch | reference | medium |
-| VGV Wingspan | create-commit | https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/create-commit | adapt | high |
-| VGV Wingspan | create-pr | https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/create-pr | adapt | high |
-| VGV Wingspan | hotfix | https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/hotfix | reference | medium |
-| VGV AI Flutter Plugin | vgv-layered-architecture | https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/tree/main/skills/layered-architecture | reference | high |
-| VGV AI Flutter Plugin | vgv-bloc | https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/tree/main/skills/bloc | reference | high |
-| VGV AI Flutter Plugin | vgv-testing | https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/tree/main/skills/testing | reference | high |
-| VGV AI Flutter Plugin | vgv-create-project | https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/tree/main/skills/create-project | reference | medium |
-| VGV AI Flutter Plugin | vgv-navigation | https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/tree/main/skills/navigation | reference | high |
-| VGV AI Flutter Plugin | vgv-ui-package | https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/tree/main/skills/ui-package | reference | high |
-| Superpowers | writing-plans | https://github.com/obra/superpowers/tree/main/skills/writing-plans | adapt | high |
-| Superpowers | executing-plans | https://github.com/obra/superpowers/tree/main/skills/executing-plans | adapt | high |
-| Superpowers | subagent-driven-development | https://github.com/obra/superpowers/tree/main/skills/subagent-driven-development | adapt | high |
-| Superpowers | test-driven-development | https://github.com/obra/superpowers/tree/main/skills/test-driven-development | adapt | high |
-| Superpowers | systematic-debugging | https://github.com/obra/superpowers/tree/main/skills/systematic-debugging | reference | medium |
-| Superpowers | verification-before-completion | https://github.com/obra/superpowers/tree/main/skills/verification-before-completion | adapt | high |
-| Superpowers | requesting-code-review | https://github.com/obra/superpowers/tree/main/skills/requesting-code-review | reference | medium |
-| Superpowers | receiving-code-review | https://github.com/obra/superpowers/tree/main/skills/receiving-code-review | reference | medium |
-| Superpowers | finishing-a-development-branch | https://github.com/obra/superpowers/tree/main/skills/finishing-a-development-branch | adapt | high |
-| Superpowers | using-git-worktrees | https://github.com/obra/superpowers/tree/main/skills/using-git-worktrees | reference | medium |
-| Cursor Team Kit | check-compiler-errors | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/check-compiler-errors | reference | high |
-| Cursor Team Kit | control-cli | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/control-cli | reference | high |
-| Cursor Team Kit | control-ui | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/control-ui | reference | high |
-| Cursor Team Kit | fix-ci | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/fix-ci | reference | medium |
-| Cursor Team Kit | fix-merge-conflicts | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/fix-merge-conflicts | reference | medium |
-| Cursor Team Kit | loop-on-ci | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/loop-on-ci | reference | medium |
-| Cursor Team Kit | new-branch-and-pr | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/new-branch-and-pr | adapt | high |
-| Cursor Team Kit | review-and-ship | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/review-and-ship | adapt | medium |
-| Cursor Team Kit | run-smoke-tests | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/run-smoke-tests | reference | high |
-| Cursor Team Kit | verify-this | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/verify-this | adapt | high |
-| Factory/Droid borrowed | agent-browser | /Users/jholt/development/structured-workflow-mcp/r-and-d/borrowed-factory-skills/builtin/agent-browser/SKILL.md | reference | high |
-| Factory/Droid borrowed | qa | /Users/jholt/development/structured-workflow-mcp/r-and-d/borrowed-factory-skills/builtin/qa/SKILL.md | reference | medium |
-| Factory/Droid borrowed | simplify | /Users/jholt/development/structured-workflow-mcp/r-and-d/borrowed-factory-skills/builtin/simplify/SKILL.md | reference | medium |
-| Flutter official skills | flutter-apply-architecture-best-practices | https://github.com/flutter/skills/tree/main/skills/flutter-apply-architecture-best-practices | reference | high |
-| Flutter official skills | flutter-add-widget-test | https://github.com/flutter/skills/tree/main/skills/flutter-add-widget-test | reference | high |
-| Flutter official skills | flutter-add-integration-test | https://github.com/flutter/skills/tree/main/skills/flutter-add-integration-test | reference | high |
-| Flutter official skills | flutter-build-responsive-layout | https://github.com/flutter/skills/tree/main/skills/flutter-build-responsive-layout | reference | high |
-| Flutter official skills | flutter-fix-layout-issues | https://github.com/flutter/skills/tree/main/skills/flutter-fix-layout-issues | reference | high |
-| Flutter official skills | flutter-implement-json-serialization | https://github.com/flutter/skills/tree/main/skills/flutter-implement-json-serialization | reference | high |
-| Flutter official skills | flutter-setup-declarative-routing | https://github.com/flutter/skills/tree/main/skills/flutter-setup-declarative-routing | reference | high |
-| Flutter official skills | flutter-use-http-package | https://github.com/flutter/skills/tree/main/skills/flutter-use-http-package | reference | high |
-| Dart official skills | dart-add-unit-test | https://github.com/dart-lang/skills/tree/main/skills/dart-add-unit-test | reference | high |
-| Dart official skills | dart-build-cli-app | https://github.com/dart-lang/skills/tree/main/skills/dart-build-cli-app | reference | high |
-| Dart official skills | dart-fix-runtime-errors | https://github.com/dart-lang/skills/tree/main/skills/dart-fix-runtime-errors | reference | high |
-| Dart official skills | dart-run-static-analysis | https://github.com/dart-lang/skills/tree/main/skills/dart-run-static-analysis | reference | high |
-| Dart official skills | dart-generate-test-mocks | https://github.com/dart-lang/skills/tree/main/skills/dart-generate-test-mocks | reference | high |
-| Dart official skills | dart-resolve-package-conflicts | https://github.com/dart-lang/skills/tree/main/skills/dart-resolve-package-conflicts | reference | medium |
-| Bug Hunter | bug-hunter | https://github.com/codexstar69/bug-hunter/blob/main/SKILL.md | reference | medium |
-| Bug Hunter | fixer | https://github.com/codexstar69/bug-hunter/tree/main/skills/fixer | reference | medium |
-| planning-with-files | planning-with-files | https://github.com/OthmanAdi/planning-with-files/tree/master/.codex/skills/planning-with-files | reference | medium |
-| vgv-pr-roundtrip | vgv-pr-roundtrip | /Users/jholt/development/structured-workflow-mcp/r-and-d/cleanup-2026-06-04/saved/vgv-pr-roundtrip/SKILL.md | adapt | high |
-| Linear curated | linear | /Users/jholt/.codex/plugins/cache/openai-curated/linear/e2d08a2e/skills/linear/SKILL.md | adapt | high |
-| Sentry curated | sentry | /Users/jholt/.codex/plugins/cache/openai-curated/sentry/e2d08a2e/skills/sentry/SKILL.md | reference | medium |
-
-## Justifications
+| Matt Pocock skills | to-issues | `TEMP-sources/mattpocock-skills/skills/engineering/to-issues/SKILL.md` @ `272f99b` | copy | high |
+| Matt Pocock skills | implement | `TEMP-sources/mattpocock-skills/skills/engineering/implement/SKILL.md` @ `272f99b` | adapt | high |
+| Matt Pocock skills | tdd | `TEMP-sources/mattpocock-skills/skills/engineering/tdd/SKILL.md` @ `272f99b` | adapt | high |
+| Matt Pocock skills | diagnosing-bugs | `TEMP-sources/mattpocock-skills/skills/engineering/diagnosing-bugs/SKILL.md` @ `272f99b` | reference | medium |
+| Matt Pocock skills | triage | `TEMP-sources/mattpocock-skills/skills/engineering/triage/SKILL.md` @ `272f99b` | reference | medium |
+| ACT | act-create-issues | `TEMP-sources/act/skills/act-create-issues/SKILL.md` @ 1.0.0 | adapt | high |
+| ACT | act-create-issues-flutter | `TEMP-sources/act/skills/act-create-issues-flutter/SKILL.md` @ 1.0.0 | reference | high |
+| ACT | act-implement | `TEMP-sources/act/skills/act-implement/SKILL.md` @ 1.0.0 | adapt | high |
+| ACT | act-implement-flutter | `TEMP-sources/act/skills/act-implement-flutter/SKILL.md` @ 1.0.0 | reference | high |
+| ACT | act-workflow-work (deprecated) | `TEMP-sources/act/skills/act-workflow-work/SKILL.md` @ 1.0.0 | reference | medium |
+| ACT | act-flutter-development | `TEMP-sources/act/skills/act-flutter-development/SKILL.md` @ 1.0.0 | reference | high |
+| ACT | act-flutter-tdd | `TEMP-sources/act/skills/act-flutter-tdd/SKILL.md` @ 1.0.0 | reference | high |
+| ACT | act-flutter-robot-testing | `TEMP-sources/act/skills/act-flutter-robot-testing/SKILL.md` @ 1.0.0 | reference | high |
+| ACT | act-flutter-screenshot | `TEMP-sources/act/skills/act-flutter-screenshot/SKILL.md` @ 1.0.0 | reference | high |
+| ACT | act-git-commit | `TEMP-sources/act/skills/act-git-commit/SKILL.md` @ 1.0.0 | reference | high |
+| ACT | act-git-push-make-pr | `TEMP-sources/act/skills/act-git-push-make-pr/SKILL.md` @ 1.0.0 | reference | medium |
+| Codex Product Design | image-to-code | `TEMP-sources/product-design-0.1.47/skills/image-to-code/SKILL.md` @ 0.1.47 | adapt | high |
+| Codex Product Design | url-to-code | `TEMP-sources/product-design-0.1.47/skills/url-to-code/SKILL.md` @ 0.1.47 | adapt | high |
+| Codex Product Design | design-qa | `TEMP-sources/product-design-0.1.47/skills/design-qa/SKILL.md` @ 0.1.47 | reference | medium |
+| VGV Wingspan | build | `TEMP-sources/vgv-wingspan/skills/build/SKILL.md` @ `7691c77` | adapt | high |
+| VGV Wingspan | plan | `TEMP-sources/vgv-wingspan/skills/plan/SKILL.md` @ `7691c77` | adapt | high |
+| VGV Wingspan | plan-technical-review | `TEMP-sources/vgv-wingspan/skills/plan-technical-review/SKILL.md` @ `7691c77` | reference | high |
+| VGV Wingspan | create-pr | `TEMP-sources/vgv-wingspan/skills/create-pr/SKILL.md` @ `7691c77` | adapt | high |
+| VGV Wingspan | rebase | `TEMP-sources/vgv-wingspan/skills/rebase/SKILL.md` @ `7691c77` | reference | medium |
+| VGV Wingspan | create | `TEMP-sources/vgv-wingspan/skills/create/SKILL.md` @ `7691c77` | reference | medium |
+| VGV Wingspan | hotfix | `TEMP-sources/vgv-wingspan/skills/hotfix/SKILL.md` @ `7691c77` | reference | medium |
+| VGV AI Flutter Plugin | green-gate | `TEMP-sources/vgv-ai-flutter-plugin/skills/green-gate/SKILL.md` @ `d513aac` | adapt | high |
+| VGV AI Flutter Plugin | layered-architecture | `TEMP-sources/vgv-ai-flutter-plugin/skills/layered-architecture/SKILL.md` @ `d513aac` | reference | high |
+| VGV AI Flutter Plugin | bloc | `TEMP-sources/vgv-ai-flutter-plugin/skills/bloc/SKILL.md` @ `d513aac` | reference | high |
+| VGV AI Flutter Plugin | testing | `TEMP-sources/vgv-ai-flutter-plugin/skills/testing/SKILL.md` @ `d513aac` | reference | high |
+| VGV AI Flutter Plugin | create-project | `TEMP-sources/vgv-ai-flutter-plugin/skills/create-project/SKILL.md` @ `d513aac` | reference | medium |
+| VGV AI Flutter Plugin | navigation | `TEMP-sources/vgv-ai-flutter-plugin/skills/navigation/SKILL.md` @ `d513aac` | reference | high |
+| VGV AI Flutter Plugin | ui-package | `TEMP-sources/vgv-ai-flutter-plugin/skills/ui-package/SKILL.md` @ `d513aac` | reference | high |
+| Superpowers | writing-plans | `TEMP-sources/superpowers/skills/writing-plans/SKILL.md` @ v6.1.1 `d884ae0` | adapt | high |
+| Superpowers | executing-plans | `TEMP-sources/superpowers/skills/executing-plans/SKILL.md` @ v6.1.1 `d884ae0` | adapt | high |
+| Superpowers | subagent-driven-development | `TEMP-sources/superpowers/skills/subagent-driven-development/SKILL.md` @ v6.1.1 `d884ae0` | adapt | high |
+| Superpowers | test-driven-development | `TEMP-sources/superpowers/skills/test-driven-development/SKILL.md` @ v6.1.1 `d884ae0` | adapt | high |
+| Superpowers | verification-before-completion | `TEMP-sources/superpowers/skills/verification-before-completion/SKILL.md` @ v6.1.1 `d884ae0` | reference | high |
+| Superpowers | finishing-a-development-branch | `TEMP-sources/superpowers/skills/finishing-a-development-branch/SKILL.md` @ v6.1.1 `d884ae0` | adapt | high |
+| Superpowers | systematic-debugging | `TEMP-sources/superpowers/skills/systematic-debugging/SKILL.md` @ v6.1.1 `d884ae0` | reference | medium |
+| Superpowers | requesting-code-review | `TEMP-sources/superpowers/skills/requesting-code-review/SKILL.md` @ v6.1.1 `d884ae0` | reference | medium |
+| Superpowers | receiving-code-review | `TEMP-sources/superpowers/skills/receiving-code-review/SKILL.md` @ v6.1.1 `d884ae0` | reference | medium |
+| Superpowers | using-git-worktrees | `TEMP-sources/superpowers/skills/using-git-worktrees/SKILL.md` @ v6.1.1 `d884ae0` | reference | medium |
 
 ### Matt Pocock skills / to-issues
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.agents/skills/to-issues/SKILL.md; https://github.com/mattpocock/skills/tree/main/skills/to-issues
+- Source: `TEMP-sources/mattpocock-skills/skills/engineering/to-issues/SKILL.md` @ `272f99b`
 - Recommendation: copy
-- Why it belongs here: It is the closest source match for C1: converting a PRD or plan into independently grabbable tracer-bullet issues, each vertical, demoable, and marked HITL/AFK. This directly matches the Creating-Solution document's Slices section and tracker export step.
+- Why it belongs here: The fresh file is still the closest source match for C1. It breaks "a plan, spec, or PRD into independently-grabbable issues" as explicit tracer-bullet vertical slices ("a thin vertical slice that cuts through ALL integration layers end-to-end, NOT a horizontal slice of one layer"; "demoable or verifiable on its own"), quizzes the user on granularity/dependencies before publishing (our refine-locally-then-publish move), publishes in dependency order, and labels issues "ready for AFK agents" via a triage label — mapping directly to our HITL/AFK labels. Its issue body template (What to build / Acceptance criteria / Blocked by) is a ready-made slice export shape. This bucket owns the slicing act; the tracker/label vocabulary it depends on (configured via `setup-matt-pocock-skills`) is workflow-management's coordination concern.
+- Confidence: high
+
+### Matt Pocock skills / implement
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/mattpocock-skills/skills/engineering/implement/SKILL.md` @ `272f99b`
+- Recommendation: adapt
+- Why it belongs here: New in this generation. It is a deliberately thin C3 executor: implement the work described by a PRD or issues, use `/tdd` at pre-agreed seams, run typechecking and single test files regularly with the full suite once at the end, run `/code-review` when done, and commit to the current branch. That is our build-verify-commit loop in five lines. Adapt to take a published slice as input, keep slice-level verification here, and route the closing review to Evaluating rather than Matt's `code-review`.
 - Confidence: high
 
 ### Matt Pocock skills / tdd
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.agents/skills/tdd/SKILL.md; https://github.com/mattpocock/skills/tree/main/skills/tdd
+- Source: `TEMP-sources/mattpocock-skills/skills/engineering/tdd/SKILL.md` @ `272f99b`
 - Recommendation: adapt
-- Why it belongs here: Its red-green-refactor loop and explicit rejection of horizontal slicing map well to C3 slice implementation and slice-level proof. Adapt the language so tests belong to each tracer-bullet slice rather than becoming an independent phase.
+- Why it belongs here: The fresh version is substantially revised: it centers **seams** ("Test only at pre-agreed seams," confirmed with the user before any test is written), names anti-patterns (implementation-coupled, tautological, horizontal slicing), and keeps the red-green loop as "one seam, one test, one minimal implementation per cycle" with each test "a tracer bullet." It explicitly rejects horizontal slicing, matching our verticality criterion. Notable change: "Refactoring is not part of the loop" — it defers refactoring to the review stage (`code-review`), which in our terms lands in Evaluating. Adapt so tests belong to each slice and seam agreement happens during C2.
 - Confidence: high
 
-### Matt Pocock skills / diagnose
+### Matt Pocock skills / diagnosing-bugs
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.agents/skills/diagnose/SKILL.md; https://github.com/mattpocock/skills/tree/main/skills/diagnose
+- Source: `TEMP-sources/mattpocock-skills/skills/engineering/diagnosing-bugs/SKILL.md` @ `272f99b`
 - Recommendation: reference
-- Why it belongs here: Useful when a slice fails to build or behaves incorrectly: reproduce, minimize, hypothesize, instrument, fix, and regression-test. It is not the primary C3 engine, but it is strong build-loop support.
+- Why it belongs here: The renamed successor to `diagnose`, heavily rewritten around "Phase 1 — Build a feedback loop" ("This is the skill. Everything else is mechanical."), with a tight red-capable loop as the completion criterion, then reproduce+minimise, 3-5 ranked falsifiable hypotheses, tagged instrumentation (`[DEBUG-a4f2]`), regression test at a correct seam, and cleanup/post-mortem. It is the strongest build-loop repair discipline in any source pack when a slice misbehaves during C3. It is not the Spec-to-slices engine, so it stays a reference.
 - Confidence: medium
-- Please verify: Confirm whether bug-fix diagnosis should live here as a C3 repair loop or under Evaluating as evidence-gathering.
+- Please verify: Confirm whether hard-bug diagnosis is C3 repair support (here) or evidence-gathering for Evaluating; the fresh skill's hypothesis/evidence framing overlaps both.
 
 ### Matt Pocock skills / triage
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.agents/skills/triage/SKILL.md; https://github.com/mattpocock/skills/tree/main/skills/triage
+- Source: `TEMP-sources/mattpocock-skills/skills/engineering/triage/SKILL.md` @ `272f99b`
 - Recommendation: reference
-- Why it belongs here: Creating-Solution needs tracker state flow for exported slices and ready-for-agent/ready-for-human labels. Triage should not replace the phase's slicing model, but it provides useful issue-state vocabulary.
+- Why it belongs here: The fresh version is now a full triage state machine (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`) that also covers external PRs and agent briefs. Its `ready-for-agent`/`ready-for-human` states are the closest external vocabulary to our HITL/AFK labels, so it remains useful when exported slices need tracker state flow. It does not slice a Spec, and its intake/verification/grilling machinery serves inbound requests, not the build.
 - Confidence: medium
-- Please verify: Confirm the target tracker states before borrowing labels; current Structured Workflow uses HITL/AFK and human-ready/agent-ready language.
+- Please verify: Its primary home may be workflow-management (tracker state coordination) rather than here; keep only the state vocabulary in Creating-Solution either way.
 
-### ACT / act-workflow-plan
-
-- Belongs in: creating-solution
-- Source: /Users/jholt/.agentic-coding-toolkit/skills/act-workflow-plan/SKILL.md
-- Recommendation: adapt
-- Why it belongs here: It turns a spec into implementation phases with validation criteria and codebase research. Adapt it to start from the Developing-Ideas PRD and output Creating-Solution vertical slices plus technical approach.
-- Confidence: high
-
-### ACT / act-workflow-work
+### ACT / act-create-issues
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.agentic-coding-toolkit/skills/act-workflow-work/SKILL.md
+- Source: `TEMP-sources/act/skills/act-create-issues/SKILL.md` @ 1.0.0
 - Recommendation: adapt
-- Why it belongs here: It executes implementation plans phase by phase, reconciles plan state, validates, commits, and can create PRs. That is directly aligned with C3 build, verify, commit, and tracker reconciliation.
+- Why it belongs here: The 1.0.0 successor to the deprecated `act-workflow-plan` (per `TEMP-sources/act/CHANGELOG.md`, the new core workflow is Interview → Create Spec → Refine Spec → Create Work Items → Implement). It turns an approved Spec into "standalone Work Items" that "can execute independently when prerequisites are satisfied," stops on `## Blocking Questions`, requires explicit user approval of the numbered proposal (granularity, combine/split, dependency checks — our adversarial review of the breakdown), enforces coverage traceability back to the Spec and Interview Ledger, and writes a Work Item body (What to build / Required context / Acceptance criteria / Covers / Blocked by). Adapt to draft in the creating-solution document first, add HITL/AFK labels, and export via our tracker step.
 - Confidence: high
+
+### ACT / act-create-issues-flutter
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/act/skills/act-create-issues-flutter/SKILL.md` @ 1.0.0
+- Recommendation: reference
+- Why it belongs here: A thin wrapper that runs `act-create-issues` with Flutter guidance: "Prefer vertical Flutter slices through UI, state, services/data, and tests. Avoid horizontal slices such as all models, then all providers, then all screens," carry testing expectations (unit/widget/robot split, stable selectors, deterministic seams) into each Work Item, and avoid separate test-infrastructure Work Items unless independently valuable. Excellent per-technology slicing guidance for C1/C2 when the Spec is Flutter work; the core adapt happens on the base skill.
+- Confidence: high
+
+### ACT / act-implement
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/act/skills/act-implement/SKILL.md` @ 1.0.0
+- Recommendation: adapt
+- Why it belongs here: The 1.0.0 successor to the deprecated `act-workflow-work`. It is now a terse contract: implement the Work Item or Spec; stop if blockers or blocking decisions are unresolved; TDD at agreed seams when feasible; static analysis and focused tests during work, full suite once before finishing; mark all acceptance criteria completed; commit only intended files unless `--do-not-commit`. That is C3's build-verify-commit-mark loop in compressed form. Adapt to add the tracker reconciliation ("mark the issue complete") and C4 deviation capture our phase requires.
+- Confidence: high
+
+### ACT / act-implement-flutter
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/act/skills/act-implement-flutter/SKILL.md` @ 1.0.0
+- Recommendation: reference
+- Why it belongs here: Wrapper that runs `act-implement` with Flutter defaults: load only needed support skills (`act-flutter-development`, `act-flutter-tdd`, `act-flutter-robot-testing`), "Implement exact upstream contracts. Do not generalize specified UI text, routes, commands...," default verification to `flutter analyze`/`flutter test` (or `dart` equivalents), and a pre-finish checklist (disposal, persistence cleanup, state derivation, entry-point parity). C2/C3 technology guidance for Flutter slices.
+- Confidence: high
+
+### ACT / act-workflow-work (deprecated)
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/act/skills/act-workflow-work/SKILL.md` @ 1.0.0 (frontmatter: "Deprecated legacy workflow skill. Prefer act-implement.")
+- Recommendation: reference
+- Why it belongs here: Even deprecated, its "Hard Contract" and staged invariants are the most explicit tracker-reconciliation discipline in any source: "`work` is not complete until the plan file has been reconciled with the work performed," mandatory `reconcile_plan` after every phase, blocked items must stay unchecked with a documented blocker, completed phase work must not be left uncommitted, and pitfalls naming "batching tests" and "80% done syndrome." Mine these invariants when designing our build-verify-commit-mark loop; cite `act-implement` as the living surface.
+- Confidence: medium
 
 ### ACT / act-flutter-development
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.agentic-coding-toolkit/skills/act-flutter-development/SKILL.md
+- Source: `TEMP-sources/act/skills/act-flutter-development/SKILL.md` @ 1.0.0
 - Recommendation: reference
-- Why it belongs here: It is technical-approach guidance for Flutter/Dart slices: conventions, patterns, error visibility, consistency, and YAGNI. It should be referenced from C2 when a slice touches Flutter.
+- Why it belongs here: C2 technical-approach knowledge for Flutter/Dart slices: YAGNI/KISS, "make it work, make it right, make it fast," consistency, visible errors, state derivation over synchronization, plus routed reference files (patterns, principles, breaking changes, official rules) loadable at lite/full/official depth. Attach per slice when the Spec names Flutter.
 - Confidence: high
 
 ### ACT / act-flutter-tdd
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.agentic-coding-toolkit/skills/act-flutter-tdd/SKILL.md
+- Source: `TEMP-sources/act/skills/act-flutter-tdd/SKILL.md` @ 1.0.0
 - Recommendation: reference
-- Why it belongs here: It provides Flutter-specific vertical-slice TDD and testability guidance for C3 implementation and slice verification.
+- Why it belongs here: Vertical-slice TDD discipline for Flutter: strict one-test-at-a-time red-green-refactor, explicit diagnosis of the LLM horizontal-slicing failure mode, planning-for-testability references, and the guardrail that "each red-green-refactor cycle produces a committable unit" — which matches our per-slice commit rhythm. C3 implementation discipline for Flutter slices.
 - Confidence: high
 
 ### ACT / act-flutter-robot-testing
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.agentic-coding-toolkit/skills/act-flutter-robot-testing/SKILL.md
+- Source: `TEMP-sources/act/skills/act-flutter-robot-testing/SKILL.md` @ 1.0.0
 - Recommendation: reference
-- Why it belongs here: It supports user-journey widget verification with stable selectors and explicit risk reporting, making it a good C2/C3 verification choice for Flutter UI slices.
+- Why it belongs here: Robot-driven widget journey tests with stable key-first selectors, deterministic Test Seams (DI/fakes/async control), and a consistent residual-risk report format. Good C2 verification choice for user-facing Flutter slices; the risk-reporting format also feeds the confidence signals our documents want.
 - Confidence: high
 
 ### ACT / act-flutter-screenshot
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.agentic-coding-toolkit/skills/act-flutter-screenshot/SKILL.md
+- Source: `TEMP-sources/act/skills/act-flutter-screenshot/SKILL.md` @ 1.0.0
 - Recommendation: reference
-- Why it belongs here: It gives a concrete visual verification loop for UI slices before handoff to deeper Evaluating.
+- Why it belongs here: A concrete visual verification loop for UI slices: make change → prompt user to hot reload (never `flutter attach`) → capture via the ACT-owned script → read and verify against expectations → iterate. Slice-level proof for visual work before Evaluating's deeper review.
 - Confidence: high
 
 ### ACT / act-git-commit
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.agentic-coding-toolkit/skills/act-git-commit/SKILL.md
+- Source: `TEMP-sources/act/skills/act-git-commit/SKILL.md` @ 1.0.0
 - Recommendation: reference
-- Why it belongs here: Creating-Solution explicitly ends each built slice with commit discipline. This skill gives deterministic conventional-commit mechanics for staged slice work.
+- Why it belongs here: Deterministic conventional-commit mechanics for staged slice work with a minimal allowed-command workflow (`git diff --cached --name-status`, `--shortstat`, optional `git log --oneline -5`, then commit) and explicit forbidden commands. Creating-Solution ends each built slice with a commit; this supplies the mechanics without context waste.
 - Confidence: high
 
 ### ACT / act-git-push-make-pr
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.agentic-coding-toolkit/skills/act-git-push-make-pr/SKILL.md
+- Source: `TEMP-sources/act/skills/act-git-push-make-pr/SKILL.md` @ 1.0.0
 - Recommendation: reference
-- Why it belongs here: It supports PR publication after slice or branch completion. It is downstream of C3 and overlaps with final handoff/review, so use selectively rather than as the core build loop.
+- Why it belongs here: Publication side of C3: checks for uncommitted changes, collects branch evidence (`git diff <base>...HEAD`, `git log`), treats git history as the source of truth and workflow artifacts (Work Item/Spec) only as validated enrichment, enforces a strict PR title policy, and aborts if generated content does not match the branch diff. Updated in 1.0.0 to support workflow files and confirmation flows.
 - Confidence: medium
-- Please verify: Decide whether PR creation belongs inside Creating-Solution or only after Evaluating's ship gate.
+- Please verify: Decide whether PR creation happens inside Creating-Solution or only after Evaluating's ship gate.
 
 ### Codex Product Design / image-to-code
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.codex/plugins/cache/openai-curated-remote/product-design/0.1.43/skills/image-to-code/SKILL.md
+- Source: `TEMP-sources/product-design-0.1.47/skills/image-to-code/SKILL.md` @ 0.1.47
 - Recommendation: adapt
-- Why it belongs here: It implements a selected visual target as working frontend code. Once Developing-Ideas has chosen the design, this is C3 execution for design-to-code slices.
+- Why it belongs here: Unchanged at 0.1.47. Implements a selected visual target as a faithful, interactive frontend — explicitly gated on a confirmed design brief from `get-context` (our upstream phases), with asset generation rules, measured layout, and a blocking `design-qa` loop until `final result: passed`. Once Developing-Ideas has chosen the design, this is C3 execution for design-to-code slices, with the QA gate serving as slice-level proof.
 - Confidence: high
 
 ### Codex Product Design / url-to-code
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.codex/plugins/cache/openai-curated-remote/product-design/0.1.43/skills/url-to-code/SKILL.md
+- Source: `TEMP-sources/product-design-0.1.47/skills/url-to-code/SKILL.md` @ 0.1.47
 - Recommendation: adapt
-- Why it belongs here: It turns a confirmed source URL into a runnable frontend implementation. In Structured Workflow terms, it belongs only after the target is already chosen and scoped.
+- Why it belongs here: Unchanged at 0.1.47. Clones a confirmed source URL into a runnable local frontend with hard evidence rules ("Capture source evidence first... Do not build from memory") and the same blocking design-qa gate. Belongs only after the target is chosen and scoped; the evidence-before-build discipline transfers well to our verify-as-you-go stance.
 - Confidence: high
 
 ### Codex Product Design / design-qa
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.codex/plugins/cache/openai-curated-remote/product-design/0.1.43/skills/design-qa/SKILL.md
+- Source: `TEMP-sources/product-design-0.1.47/skills/design-qa/SKILL.md` @ 0.1.47
 - Recommendation: reference
-- Why it belongs here: It checks a rendered implementation against a source visual target before handoff, which fits slice-level proof for UI work. It should not replace Evaluating's deeper verdict.
+- Why it belongs here: An internal, blocking build gate comparing source visual target against rendered implementation (same viewport/state, combined comparison input, required fidelity surfaces, P0-P3 severities, `passed`/`blocked` verdict written to `design-qa.md`). Its own frontmatter routes "broad UX critique, design critique, product audits" to `audit` — i.e., it is deliberately slice-level verification, not deep acceptance. That fits here; Evaluating owns the wider verdict.
 - Confidence: medium
-- Please verify: Confirm whether design QA should be C3 slice verification or an Evaluating invocation at the issue-breakdown/build boundary.
 
 ### VGV Wingspan / build
 
 - Belongs in: creating-solution
-- Source: https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/build
+- Source: `TEMP-sources/vgv-wingspan/skills/build/SKILL.md` @ `7691c77`
 - Recommendation: adapt
-- Why it belongs here: It executes an implementation plan, writes code and tests, validates each task, runs review agents, and ships a PR. This is a strong C3 model, but should be adapted to Structured Workflow's PRD-to-slice document and issue tracker.
+- Why it belongs here: Executes an implementation plan task by task: implement in dependency order, "tests are non-negotiable" per unit, validate after each task, checkpoint progress, then a new **surgical-diff gate** (diff the branch against merge-base, remove untraceable churn before review), five parallel review agents, final validation, cleanup, conventional commit, and ship via `/create-pr skip-checks`. This is the strongest full C3 model in the sources. Adapt to our slice/tracker flow; the five-agent quality review phase overlaps Evaluating and should be scoped or handed over (see Subagents).
 - Confidence: high
 
 ### VGV Wingspan / plan
 
 - Belongs in: creating-solution
-- Source: https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/plan
+- Source: `TEMP-sources/vgv-wingspan/skills/plan/SKILL.md` @ `7691c77`
 - Recommendation: adapt
-- Why it belongs here: It creates actionable implementation plans from a feature or bug description. For Structured Workflow, adapt it to use the PRD as input and produce C1/C2 slices rather than a standalone plan phase.
+- Why it belongs here: Turns a brainstorm/feature description into an actionable plan with targeted local research, a conditional external-research decision matrix, user-flow analysis, and — new in this generation — a **Success Criteria Gate**: every criterion must be machine-checkable with `verify: <command>` (or `verify: manual <steps>`), and vacuous criteria are rejected and rewritten with the user's approval. That gate is exactly the shape our slice acceptance criteria and verification slices need. Adapt to take our Spec as input and emit C1/C2 slices rather than a standalone plan phase.
 - Confidence: high
 
 ### VGV Wingspan / plan-technical-review
 
-- Belongs in: creating-solution
-- Source: https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/plan-technical-review
-- Recommendation: adapt
-- Why it belongs here: It reviews implementation plans for simplicity, VGV practice, and split size. This maps closely to the Creating-Solution adversarial review of the slice breakdown before issue export.
-- Confidence: high
-
-### VGV Wingspan / create-branch
-
-- Belongs in: creating-solution
-- Source: https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/create-branch
+- Belongs in: evaluating (referenced by creating-solution)
+- Source: `TEMP-sources/vgv-wingspan/skills/plan-technical-review/SKILL.md` @ `7691c77`
 - Recommendation: reference
-- Why it belongs here: Branch/workspace setup supports implementation traceability and isolated slice work. It is operational support, not a core phase artifact.
-- Confidence: medium
-- Please verify: Confirm branch/worktree policy for Structured Workflow before copying workflow-specific branch naming.
-
-### VGV Wingspan / create-commit
-
-- Belongs in: creating-solution
-- Source: https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/create-commit
-- Recommendation: adapt
-- Why it belongs here: It creates conventional commits after work is staged. Creating-Solution explicitly says build, verify, commit, mark; this supplies the commit mechanics.
+- Why it belongs here: Runs three agents in parallel over a plan (`code-simplicity-review-agent`, `vgv-review-agent`, `plan-splitting-agent`) and, if a split is recommended, generates standalone part-plans with dependency notes after user approval. This is the closest source implementation of an adversarial review of the slice breakdown before issue export, including the granularity criterion (via plan splitting). Under the locked rule that adversarial reviews are invocations of the Evaluating engine, Evaluating is the single adapt owner; Creating-Solution references it as the pre-export review it calls on its own slice plan.
 - Confidence: high
 
 ### VGV Wingspan / create-pr
 
 - Belongs in: creating-solution
-- Source: https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/create-pr
+- Source: `TEMP-sources/vgv-wingspan/skills/create-pr/SKILL.md` @ `7691c77`
 - Recommendation: adapt
-- Why it belongs here: It stages, commits, pushes, validates, and opens a PR. Useful for the publication side of C3, with user confirmation and Evaluating's ship gate preserved.
+- Why it belongs here: Now the single publication skill (with `create-commit` removed this generation, it owns stage → conventional commit → push → local CI checks → open PR, with secret-file guards, user confirmation before commit and before PR creation, and template-aware PR bodies). Supplies the commit-and-publish mechanics at the end of C3 while keeping external side effects behind explicit confirmation.
 - Confidence: high
+
+### VGV Wingspan / rebase
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/vgv-wingspan/skills/rebase/SKILL.md` @ `7691c77`
+- Recommendation: reference
+- Why it belongs here: New skill: safely rebases the feature branch onto the detected base branch (precondition checks, stash handling, abort-on-conflict with restore, force-push warning). Operational support that keeps a slice branch mergeable during a long build; not a phase artifact.
+- Confidence: medium
+
+### VGV Wingspan / create
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/vgv-wingspan/skills/create/SKILL.md` @ `7691c77`
+- Recommendation: reference
+- Why it belongs here: New skill, but **not** a successor to the removed `create-branch` — it is a thin project-scaffolding router that matches the request against companion-plugin recommendation files and delegates to that plugin's create skill. Relevant only when a slice's technical approach requires scaffolding a new project/package; the routing pattern is also a nice model for per-technology C2 delegation.
+- Confidence: medium
 
 ### VGV Wingspan / hotfix
 
 - Belongs in: creating-solution
-- Source: https://github.com/VeryGoodOpenSource/vgv-wingspan/tree/main/skills/hotfix
+- Source: `TEMP-sources/vgv-wingspan/skills/hotfix/SKILL.md` @ `7691c77`
 - Recommendation: reference
-- Why it belongs here: It implements minimal targeted fixes with regression tests and validation. It is a useful exception path when the "PRD" is a narrow bug report, but it bypasses the full phase sequence.
+- Why it belongs here: Emergency path that skips brainstorm/plan but keeps tests and review non-negotiable: triage → locate (via `codebase-review-agent`) → `hotfix/` branch → blast-radius check (>5 files or multiple layers escalates to `/plan`) → minimal fix with a bug-reproducing test → reduced two-agent review → cherry-pick-friendly commit and PR. A useful exception path when the "Spec" is a narrow bug report, but it bypasses the full phase sequence.
 - Confidence: medium
 - Please verify: Decide whether emergency hotfixes are a Creating-Solution shortcut or their own cross-phase exception.
 
-### VGV AI Flutter Plugin / vgv-layered-architecture
+### VGV AI Flutter Plugin / green-gate
 
 - Belongs in: creating-solution
-- Source: https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/tree/main/skills/layered-architecture
-- Recommendation: reference
-- Why it belongs here: It supplies C2 technical approach for Flutter monorepo slices that span data, repository, business logic, and presentation layers.
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/skills/green-gate/SKILL.md` @ `d513aac`
+- Recommendation: adapt
+- Why it belongs here: New this generation and a near-perfect model of slice/branch-level build verification: an autonomous verify-fix-rerun loop across four gates (analyze → format → test → coverage) that "exits only when a single final iteration proves all four pass with observed numbers," never caches green, never weakens a gate, tracks failure fingerprints to detect no-progress/oscillation, and escalates on genuine product decisions. "Exit only on observed numbers" is our evidence-backed slice proof stated as an algorithm. Adapt by generalizing the four gates to the project's own toolchain (the staged version is bound to Dart/Flutter MCP tools); the loop-state/escalation design transfers as-is.
 - Confidence: high
 
-### VGV AI Flutter Plugin / vgv-bloc
+### VGV AI Flutter Plugin / layered-architecture
 
 - Belongs in: creating-solution
-- Source: https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/tree/main/skills/bloc
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/skills/layered-architecture/SKILL.md` @ `d513aac`
 - Recommendation: reference
-- Why it belongs here: It gives implementation and test conventions for Bloc/Cubit slices, useful when a chosen technical approach names Bloc.
+- Why it belongs here: C2 technical approach for Flutter monorepo slices: four layers as packages with strict unidirectional dependencies, worked patterns, anti-pattern table, and step-by-step workflows for adding data sources/repositories/features. Attach per slice; note that a tracer-bullet slice cuts through all four layers.
 - Confidence: high
 
-### VGV AI Flutter Plugin / vgv-testing
+### VGV AI Flutter Plugin / bloc
 
 - Belongs in: creating-solution
-- Source: https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/tree/main/skills/testing
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/skills/bloc/SKILL.md` @ `d513aac`
 - Recommendation: reference
-- Why it belongs here: It defines Dart/Flutter unit, widget, and golden test conventions for slice-level verification.
+- Why it belongs here: Implementation and test conventions for Bloc/Cubit slices (blocTest, mocktail, Page/View separation, sealed events, Equatable states), used when the chosen technical approach names Bloc.
 - Confidence: high
 
-### VGV AI Flutter Plugin / vgv-create-project
+### VGV AI Flutter Plugin / testing
 
 - Belongs in: creating-solution
-- Source: https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/tree/main/skills/create-project
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/skills/testing/SKILL.md` @ `d513aac`
 - Recommendation: reference
-- Why it belongs here: It scaffolds Dart/Flutter projects and packages with Very Good CLI templates. This belongs when a slice's technical approach requires creating a new package/app.
+- Why it belongs here: Dart/Flutter unit, widget, and golden test conventions (structure that reads as sentences, private mocks, isolation rules, pumpApp helper, behavior-over-properties) for slice-level verification of Flutter work.
+- Confidence: high
+
+### VGV AI Flutter Plugin / create-project
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/skills/create-project/SKILL.md` @ `d513aac`
+- Recommendation: reference
+- Why it belongs here: Scaffolds Dart/Flutter projects and packages from Very Good CLI templates via the MCP server, inferring the template from context. Belongs when a slice's technical approach requires creating a new package/app (e.g., `dart_package` for data/repository layers).
 - Confidence: medium
-- Please verify: Use only for slices that explicitly require scaffolding; otherwise it can create scope expansion.
+- Please verify: Use only for slices that explicitly require scaffolding; otherwise it invites scope expansion.
 
-### VGV AI Flutter Plugin / vgv-navigation
+### VGV AI Flutter Plugin / navigation
 
 - Belongs in: creating-solution
-- Source: https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/tree/main/skills/navigation
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/skills/navigation/SKILL.md` @ `d513aac`
 - Recommendation: reference
-- Why it belongs here: It provides GoRouter conventions for implementation slices involving routes, redirects, or deep links.
+- Why it belongs here: GoRouter conventions (typed routes, hierarchical structure, no `extra`, context extensions) for implementation slices involving routes, redirects, or deep links.
 - Confidence: high
 
-### VGV AI Flutter Plugin / vgv-ui-package
+### VGV AI Flutter Plugin / ui-package
 
 - Belongs in: creating-solution
-- Source: https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin/tree/main/skills/ui-package
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/skills/ui-package/SKILL.md` @ `d513aac`
 - Recommendation: reference
-- Why it belongs here: It is a C2/C3 reference for building reusable Flutter UI packages with tests, theming, and package structure.
+- Why it belongs here: C2/C3 reference for building reusable Flutter UI packages on Material (ThemeExtension tokens, one widget per file, barrel API, widget tests for every widget).
 - Confidence: high
 
 ### Superpowers / writing-plans
 
 - Belongs in: creating-solution
-- Source: https://github.com/obra/superpowers/tree/main/skills/writing-plans
+- Source: `TEMP-sources/superpowers/skills/writing-plans/SKILL.md` @ v6.1.1 `d884ae0`
 - Recommendation: adapt
-- Why it belongs here: It writes implementation plans with file ownership, bite-sized tasks, tests, and frequent commits. Adapt the output into the Creating-Solution document's Slices and Technical Approach sections.
+- Why it belongs here: v6 verified: writes implementation plans for an engineer with zero context — exact file paths, complete code in every step, bite-sized 2-5 minute steps, TDD, frequent commits. New in this generation: a **Task Right-Sizing** rule (a task is "the smallest unit that carries its own test cycle and is worth a fresh reviewer's gate"), a mandatory plan header with **Global Constraints** copied verbatim from the spec, an Interfaces block per task (consumes/produces), a "No Placeholders" failure list, and a structured self-review (spec coverage, placeholder scan, type consistency). Adapt the output into our document's Slices and Technical Approach sections; the right-sizing rule maps directly to our granularity criterion.
 - Confidence: high
 
 ### Superpowers / executing-plans
 
 - Belongs in: creating-solution
-- Source: https://github.com/obra/superpowers/tree/main/skills/executing-plans
+- Source: `TEMP-sources/superpowers/skills/executing-plans/SKILL.md` @ v6.1.1 `d884ae0`
 - Recommendation: adapt
-- Why it belongs here: It loads a written implementation plan, executes tasks, runs verifications, and finishes the development branch. This is a strong C3 execution loop.
+- Why it belongs here: v6 verified: simplified to load-plan → review critically → execute tasks exactly with verifications → hand off to `finishing-a-development-branch`, with explicit stop-and-ask triggers and "never start implementation on main/master without explicit user consent." It now openly recommends `subagent-driven-development` when subagents are available; keep this as the inline C3 execution loop for harnesses without subagent support.
 - Confidence: high
 
 ### Superpowers / subagent-driven-development
 
 - Belongs in: creating-solution
-- Source: https://github.com/obra/superpowers/tree/main/skills/subagent-driven-development
+- Source: `TEMP-sources/superpowers/skills/subagent-driven-development/SKILL.md` @ v6.1.1 `d884ae0`
 - Recommendation: adapt
-- Why it belongs here: It executes implementation plan tasks through fresh subagents with per-task spec and quality review. This supports the current docs' "spawn focused reviewers in parallel" and "build slices one at a time" model.
+- Why it belongs here: Heavily expanded in v6: fresh implementer subagent per task, a two-verdict task review (spec compliance + code quality) after each, and one broad whole-branch review at the end; pre-flight plan conflict scan; explicit model selection per role; file-based handoffs (`scripts/task-brief`, `scripts/review-package`) so briefs/diffs/reports never pollute the controller's context; and a **durable progress ledger** (`.superpowers/sdd/progress.md`) that survives compaction. This matches our "build slices one at a time" plus "spawn focused reviewers" model, and the ledger idea reinforces our durable-document stance (the always-on position file itself is workflow-management's `workflow-tracker.md`).
 - Confidence: high
 
 ### Superpowers / test-driven-development
 
 - Belongs in: creating-solution
-- Source: https://github.com/obra/superpowers/tree/main/skills/test-driven-development
+- Source: `TEMP-sources/superpowers/skills/test-driven-development/SKILL.md` @ v6.1.1 `d884ae0`
 - Recommendation: adapt
-- Why it belongs here: It enforces failing-test-first development for features and bug fixes, which fits slice-level C3 implementation.
+- Why it belongs here: v6 verified; the Iron Law ("NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST"), red-green-refactor with mandatory watch-it-fail/watch-it-pass steps, rationalization tables, and a completion checklist. Enforces failing-test-first inside slice implementation. Adapt to defer seam choice to C2 and keep the loop per-slice.
+- Confidence: high
+
+### Superpowers / verification-before-completion
+
+- Belongs in: evaluating (referenced by creating-solution)
+- Source: `TEMP-sources/superpowers/skills/verification-before-completion/SKILL.md` @ v6.1.1 `d884ae0`
+- Recommendation: reference
+- Why it belongs here: v6 verified: "NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE," a five-step gate function before any success claim, and claim-to-evidence tables (tests, build, bug fixed, agent completed). This is the discipline behind "verify each slice as it goes" and honest tracker marking, but Evaluating is the single copy owner for the cross-phase evidence rule. Creating-Solution references it for slice-level completion claims inside the build loop.
+- Confidence: high
+- Collision resolved 2026-07-03: Evaluating is the single copy owner.
+
+### Superpowers / finishing-a-development-branch
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/superpowers/skills/finishing-a-development-branch/SKILL.md` @ v6.1.1 `d884ae0`
+- Recommendation: adapt
+- Why it belongs here: v6 verified and extended: verify tests first, then **detect environment** (normal repo vs linked worktree vs detached HEAD via `git-dir`/`git-common-dir`), present exactly 4 (or 3) structured options (merge / PR / keep / discard), typed confirmation for discard, and provenance-based worktree cleanup (only remove worktrees under `.worktrees/`). Fits the end of a Creating-Solution build branch, with shipping still gated by Evaluating.
 - Confidence: high
 
 ### Superpowers / systematic-debugging
 
 - Belongs in: creating-solution
-- Source: https://github.com/obra/superpowers/tree/main/skills/systematic-debugging
+- Source: `TEMP-sources/superpowers/skills/systematic-debugging/SKILL.md` @ v6.1.1 `d884ae0`
 - Recommendation: reference
-- Why it belongs here: It is the repair discipline when a slice encounters bugs, test failures, or unexpected behavior. It supports C3 but is not the main PRD-to-slices engine.
+- Why it belongs here: v6 verified: four mandatory phases (root cause → pattern analysis → hypothesis → implementation), the 3-failed-fixes-means-question-the-architecture rule, and rationalization tables. Repair discipline when a slice hits bugs or failing tests during C3; not the main build engine. Overlaps Matt's `diagnosing-bugs`; pick one as the canonical repair loop during synthesis.
 - Confidence: medium
-- Please verify: Decide whether to route all bug-fix slices through this or keep it as optional support.
-
-### Superpowers / verification-before-completion
-
-- Belongs in: creating-solution
-- Source: https://github.com/obra/superpowers/tree/main/skills/verification-before-completion
-- Recommendation: adapt
-- Why it belongs here: It requires fresh evidence before completion claims, commits, or PRs. This matches "verify each slice as it goes."
-- Confidence: high
 
 ### Superpowers / requesting-code-review
 
 - Belongs in: creating-solution
-- Source: https://github.com/obra/superpowers/tree/main/skills/requesting-code-review
+- Source: `TEMP-sources/superpowers/skills/requesting-code-review/SKILL.md` @ v6.1.1 `d884ae0`
 - Recommendation: reference
-- Why it belongs here: Per-task code review can strengthen the Creating-Solution adversarial review and slice checkpointing, but deep quality verdicts belong more naturally to Evaluating.
+- Why it belongs here: v6 verified: dispatch a reviewer subagent with precisely crafted context (SHAs, description, requirements — never session history), act on Critical/Important findings before proceeding. Useful as per-slice reviewer dispatch inside the build loop; deep quality verdicts and the final review engine belong to Evaluating.
 - Confidence: medium
-- Please verify: Keep this as C3 reviewer dispatch only if it does not duplicate Evaluating's final verdict.
 
 ### Superpowers / receiving-code-review
 
 - Belongs in: creating-solution
-- Source: https://github.com/obra/superpowers/tree/main/skills/receiving-code-review
+- Source: `TEMP-sources/superpowers/skills/receiving-code-review/SKILL.md` @ v6.1.1 `d884ae0`
 - Recommendation: reference
-- Why it belongs here: It guides implementation of review feedback one item at a time with verification, useful after PR or local review comments during the build loop.
+- Why it belongs here: v6 verified: verify-before-implementing feedback discipline (no performative agreement, clarify all unclear items before implementing any, one item at a time with tests, technical pushback rules, YAGNI check). Governs how the builder responds to review findings during the build loop; the review verdicts themselves are Evaluating's.
 - Confidence: medium
-- Please verify: Confirm how PR review feedback should interact with Evaluating and tracker state.
-
-### Superpowers / finishing-a-development-branch
-
-- Belongs in: creating-solution
-- Source: https://github.com/obra/superpowers/tree/main/skills/finishing-a-development-branch
-- Recommendation: adapt
-- Why it belongs here: It verifies tests, detects branch/worktree state, and offers merge/PR/keep/discard choices. It fits the end of a Creating-Solution build branch, with shipping still gated by Evaluating.
-- Confidence: high
 
 ### Superpowers / using-git-worktrees
 
 - Belongs in: creating-solution
-- Source: https://github.com/obra/superpowers/tree/main/skills/using-git-worktrees
+- Source: `TEMP-sources/superpowers/skills/using-git-worktrees/SKILL.md` @ v6.1.1 `d884ae0`
 - Recommendation: reference
-- Why it belongs here: Isolated workspaces are useful for safe implementation of slices and parallel work. It is supporting operational guidance, not a phase artifact.
+- Why it belongs here: v6 revised: detect existing isolation first (with a submodule guard), prefer the harness's native worktree tools, git-worktree fallback with ignore verification and a clean test baseline. Operational workspace support for isolated slice work, not a phase artifact.
 - Confidence: medium
-- Please verify: Confirm whether Structured Workflow wants built-in worktree policy or leaves this to harness-specific setup.
+- Please verify: Confirm whether Structured Workflow wants built-in worktree policy or leaves it to harness-specific setup.
 
-### Cursor Team Kit / check-compiler-errors
+## Hooks
 
-- Belongs in: creating-solution
-- Source: https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/check-compiler-errors
-- Recommendation: reference
-- Why it belongs here: Compile/type-check failures are blocking C3 validation; this gives a focused loop to fix and rerun checks.
-- Confidence: high
+| Source Pack | Hook | Source (TEMP-sources path + pin) | Recommendation | Confidence |
+| --- | --- | --- | --- | --- |
+| ACT | Dart format on edit (PostToolUse) | `TEMP-sources/act/hooks/hooks.json` + `hooks/claude/act-claude-dart-format.js` + `hooks/core/act-dart-formatter.js` @ 1.0.0 | adapt | high |
+| ACT | Session logging (all lifecycle events) | `TEMP-sources/act/hooks/hooks.json` + `hooks/claude/act-claude-log-session.js` + `hooks/core/act-logger.js` @ 1.0.0 | reference | medium |
+| ACT | Statusline | `TEMP-sources/act/hooks/hooks.json` + `hooks/claude/act-claude-statusline.js` @ 1.0.0 | reference | low |
+| VGV AI Flutter Plugin | analyze.sh (PostToolUse Edit\|Write, blocking) | `TEMP-sources/vgv-ai-flutter-plugin/hooks/hooks.json` + `hooks/scripts/analyze.sh` @ `d513aac` | adapt | high |
+| VGV AI Flutter Plugin | format.sh (PostToolUse Edit\|Write, non-blocking) | `TEMP-sources/vgv-ai-flutter-plugin/hooks/hooks.json` + `hooks/scripts/format.sh` @ `d513aac` | adapt | high |
+| VGV AI Flutter Plugin | block-cli-workarounds.sh (PreToolUse Bash, blocking) | `TEMP-sources/vgv-ai-flutter-plugin/hooks/hooks.json` + `hooks/scripts/block-cli-workarounds.sh` @ `d513aac` | reference | medium |
+| VGV AI Flutter Plugin | check-vgv-cli.sh (PreToolUse MCP matcher) | `TEMP-sources/vgv-ai-flutter-plugin/hooks/hooks.json` + `hooks/scripts/check-vgv-cli.sh` @ `d513aac` | reference | medium |
+| VGV AI Flutter Plugin | warn-missing-mcp.sh (SessionStart) | `TEMP-sources/vgv-ai-flutter-plugin/hooks/hooks.json` + `hooks/scripts/warn-missing-mcp.sh` @ `d513aac` | reference | medium |
+| VGV AI Flutter Plugin | allow-readonly-git.sh (agent-scoped PreToolUse Bash) | `TEMP-sources/vgv-ai-flutter-plugin/hooks/scripts/allow-readonly-git.sh` (declared in `agents/flutter-reviewer.md`) @ `d513aac` | reference | medium |
+| VGV Wingspan | recommend-plugins.sh (PreToolUse Read\|Glob\|Grep) | `TEMP-sources/vgv-wingspan/hooks/hooks.json` + `hooks/recommend-plugins.sh` @ `7691c77` | reference | medium |
+| Superpowers | session-start (SessionStart bootstrap) | `TEMP-sources/superpowers/hooks/hooks.json` + `hooks/session-start` @ v6.1.1 `d884ae0` | reference | high |
 
-### Cursor Team Kit / control-cli
-
-- Belongs in: creating-solution
-- Source: https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/control-cli
-- Recommendation: reference
-- Why it belongs here: It provides repeatable local harnesses for CLI/TUI slice verification, including transcripts and deterministic interactions.
-- Confidence: high
-
-### Cursor Team Kit / control-ui
-
-- Belongs in: creating-solution
-- Source: https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/control-ui
-- Recommendation: reference
-- Why it belongs here: It provides browser/CDP harnesses for local UI slice verification, screenshots, accessibility snapshots, and traces.
-- Confidence: high
-
-### Cursor Team Kit / fix-ci
+### ACT / Dart format on edit
 
 - Belongs in: creating-solution
-- Source: https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/fix-ci
-- Recommendation: reference
-- Why it belongs here: It iterates failing PR checks to green with minimal fixes. This supports PR-readiness after implementation.
-- Confidence: medium
-- Please verify: CI-to-green may be a Creating-Solution responsibility for a branch, but final ship gate remains Evaluating.
-
-### Cursor Team Kit / fix-merge-conflicts
-
-- Belongs in: creating-solution
-- Source: https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/fix-merge-conflicts
-- Recommendation: reference
-- Why it belongs here: Conflict resolution keeps a slice branch buildable without broad refactors, which is implementation coordination work.
-- Confidence: medium
-- Please verify: Treat as operational support, not part of normal C1-C4 flow.
-
-### Cursor Team Kit / loop-on-ci
-
-- Belongs in: creating-solution
-- Source: https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/loop-on-ci
-- Recommendation: reference
-- Why it belongs here: It monitors PR-attached checks and fixes failures until green. It is useful after commits/PRs, but overlaps with Evaluating's final evidence gate.
-- Confidence: medium
-- Please verify: Confirm if the Creating-Solution phase should wait on CI or leave CI verdict to Evaluating.
-
-### Cursor Team Kit / new-branch-and-pr
-
-- Belongs in: creating-solution
-- Source: https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/new-branch-and-pr
+- Source: `TEMP-sources/act/hooks/hooks.json` (PostToolUse, matcher `Edit|Write`) + `TEMP-sources/act/hooks/claude/act-claude-dart-format.js` + `TEMP-sources/act/hooks/core/act-dart-formatter.js` @ 1.0.0
 - Recommendation: adapt
-- Why it belongs here: It packages branch creation, implementation, tests, commit, push, and PR with verification notes. This is a compact build-to-PR loop.
+- Why it belongs here: Trigger and behavior verified in source: after every Edit/Write, `act-dart-formatter.js` normalizes candidate paths, keeps only existing `.dart` files (explicitly skipping generated `.g.dart`), and runs `dart format` per file, surfacing the first error (including "dart executable not found"). This is build-time hygiene at edit granularity — keeping every slice commit formatted without spending model turns on it. Adapt the pattern to the project's formatter, not just Dart.
 - Confidence: high
 
-### Cursor Team Kit / review-and-ship
+### ACT / Session logging
 
 - Belongs in: creating-solution
-- Source: https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/review-and-ship
+- Source: `TEMP-sources/act/hooks/hooks.json` (SessionStart, UserPromptSubmit, PreToolUse, PostToolUse on AskUserQuestion, PostToolUseFailure, PermissionRequest, SubagentStart/Stop, PreCompact, SessionEnd) + `TEMP-sources/act/hooks/core/act-logger.js` @ 1.0.0
+- Recommendation: reference
+- Why it belongs here: `act-logger.js` appends timestamped event lines to a per-session file under `ai_logs/` (auto-gitignored). During the build this yields an audit trail of what the agent actually did per slice — useful evidence for C4 justified changes and honest tracker marking. It is cross-phase infrastructure though, so the primary home may be workflow-management; keep here only as the build-time evidence use case.
+- Confidence: medium
+- Please verify: Confirm final ownership (workflow-management vs here) for session logging.
+
+### ACT / Statusline
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/act/hooks/hooks.json` (`statusLine` command) + `TEMP-sources/act/hooks/claude/act-claude-statusline.js` @ 1.0.0
+- Recommendation: reference
+- Why it belongs here: Displays context usage, model, directory, branch, and task in the harness statusline. Ambient situational awareness while building; harness-specific nicety, not a workflow behavior we need to port.
+- Confidence: low
+
+### VGV AI Flutter Plugin / analyze.sh
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/hooks/hooks.json` (PostToolUse, matcher `Edit|Write`) + `TEMP-sources/vgv-ai-flutter-plugin/hooks/scripts/analyze.sh` @ `d513aac`
 - Recommendation: adapt
-- Why it belongs here: It gathers diffs, runs targeted tests, reviews, fixes critical issues, commits, pushes, and opens or updates a PR. It is useful but close to Evaluating.
-- Confidence: medium
-- Please verify: Keep "review" portions scoped to slice readiness so it does not absorb Evaluating.
-
-### Cursor Team Kit / run-smoke-tests
-
-- Belongs in: creating-solution
-- Source: https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/run-smoke-tests
-- Recommendation: reference
-- Why it belongs here: Smoke verification is a clear slice-level or branch-level proof that the changed path still functions before handoff.
+- Why it belongs here: Runs `dart analyze` on each modified `.dart` file and **exits 2 on failure (blocking)** — per the plugin's own docs, "Claude must fix the issue" before proceeding. This is the tightest possible slice-level verification loop: an edit cannot land broken. The green-gate skill explicitly treats these rejections as in-round analyze-gate feedback. Adapt the block-on-analyzer-error pattern to the project's linter.
 - Confidence: high
 
-### Cursor Team Kit / verify-this
+### VGV AI Flutter Plugin / format.sh
 
 - Belongs in: creating-solution
-- Source: https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/verify-this
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/hooks/hooks.json` (PostToolUse, matcher `Edit|Write`) + `TEMP-sources/vgv-ai-flutter-plugin/hooks/scripts/format.sh` @ `d513aac`
 - Recommendation: adapt
-- Why it belongs here: It turns a slice claim into a falsifiable local verification with baseline/treatment evidence and a verdict. This is excellent C3 slice proof.
+- Why it belongs here: Runs `dart format` on each modified `.dart` file, always exiting 0 (non-blocking). Pairs with analyze.sh as edit-time build hygiene; same adaptation note as ACT's formatter (they are alternative implementations of one pattern — pick one during synthesis).
 - Confidence: high
 
-### Factory/Droid borrowed / agent-browser
+### VGV AI Flutter Plugin / block-cli-workarounds.sh
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/development/structured-workflow-mcp/r-and-d/borrowed-factory-skills/builtin/agent-browser/SKILL.md
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/hooks/hooks.json` (PreToolUse, matcher `Bash`) + `TEMP-sources/vgv-ai-flutter-plugin/hooks/scripts/block-cli-workarounds.sh` @ `d513aac`
 - Recommendation: reference
-- Why it belongs here: It provides browser automation, screenshots, and interaction loops for verifying UI/web slices as they are built.
-- Confidence: high
-
-### Factory/Droid borrowed / qa
-
-- Belongs in: creating-solution
-- Source: /Users/jholt/development/structured-workflow-mcp/r-and-d/borrowed-factory-skills/builtin/qa/SKILL.md
-- Recommendation: reference
-- Why it belongs here: Diff-targeted functional QA can prove branch or slice behavior with real user flows. It should be scoped to slice verification, not general release evaluation.
+- Why it belongs here: Blocks Bash invocations that bypass the sanctioned VGV CLI MCP tools (exits 2). The general idea — force verification through the sanctioned toolchain so results are trustworthy — supports slice-level proof, but the mechanism is tightly coupled to the VGV MCP setup.
 - Confidence: medium
-- Please verify: The Factory QA config assumptions may not transfer; adapt only the diff-targeted testing idea.
 
-### Factory/Droid borrowed / simplify
+### VGV AI Flutter Plugin / check-vgv-cli.sh
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/development/structured-workflow-mcp/r-and-d/borrowed-factory-skills/builtin/simplify/SKILL.md
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/hooks/hooks.json` (PreToolUse, matcher `mcp__.*very-good-cli__.*`) + `TEMP-sources/vgv-ai-flutter-plugin/hooks/scripts/check-vgv-cli.sh` @ `d513aac`
 - Recommendation: reference
-- Why it belongs here: It reviews changed code for reuse, quality, and efficiency and fixes issues. Useful as a local cleanup pass after a slice, but it can drift into Evaluating if unbounded.
+- Why it belongs here: Auto-approves Very Good CLI MCP tool calls when the CLI is installed and >= 1.3.0; denies with an install/upgrade message otherwise. Toolchain-precondition enforcement for the build environment; VGV-specific.
 - Confidence: medium
-- Please verify: Use only after a concrete slice diff exists and keep edits within the slice scope.
 
-### Flutter official skills / flutter-apply-architecture-best-practices
-
-- Belongs in: creating-solution
-- Source: https://github.com/flutter/skills/tree/main/skills/flutter-apply-architecture-best-practices
-- Recommendation: reference
-- Why it belongs here: It provides a sequential workflow for implementing Flutter features across domain, services, repositories, ViewModels, UI, dependency injection, and tests.
-- Confidence: high
-
-### Flutter official skills / flutter-add-widget-test
+### VGV AI Flutter Plugin / warn-missing-mcp.sh
 
 - Belongs in: creating-solution
-- Source: https://github.com/flutter/skills/tree/main/skills/flutter-add-widget-test
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/hooks/hooks.json` (SessionStart) + `TEMP-sources/vgv-ai-flutter-plugin/hooks/scripts/warn-missing-mcp.sh` @ `d513aac`
 - Recommendation: reference
-- Why it belongs here: It gives a concrete widget-test implementation workflow for verifying UI rendering and interactions in a slice.
-- Confidence: high
-
-### Flutter official skills / flutter-add-integration-test
-
-- Belongs in: creating-solution
-- Source: https://github.com/flutter/skills/tree/main/skills/flutter-add-integration-test
-- Recommendation: reference
-- Why it belongs here: It sets up end-to-end Flutter integration tests and converts exploratory app interactions into permanent verification.
-- Confidence: high
-
-### Flutter official skills / flutter-build-responsive-layout
-
-- Belongs in: creating-solution
-- Source: https://github.com/flutter/skills/tree/main/skills/flutter-build-responsive-layout
-- Recommendation: reference
-- Why it belongs here: It is implementation guidance for responsive UI slices, including a validation feedback loop.
-- Confidence: high
-
-### Flutter official skills / flutter-fix-layout-issues
-
-- Belongs in: creating-solution
-- Source: https://github.com/flutter/skills/tree/main/skills/flutter-fix-layout-issues
-- Recommendation: reference
-- Why it belongs here: It provides a targeted C3 repair loop for Flutter layout errors discovered during implementation.
-- Confidence: high
-
-### Flutter official skills / flutter-implement-json-serialization
-
-- Belongs in: creating-solution
-- Source: https://github.com/flutter/skills/tree/main/skills/flutter-implement-json-serialization
-- Recommendation: reference
-- Why it belongs here: It is concrete implementation guidance for data-model serialization slices with tests and validation.
-- Confidence: high
-
-### Flutter official skills / flutter-setup-declarative-routing
-
-- Belongs in: creating-solution
-- Source: https://github.com/flutter/skills/tree/main/skills/flutter-setup-declarative-routing
-- Recommendation: reference
-- Why it belongs here: It implements routing/deep-linking slices and bootstraps `MaterialApp.router` with `go_router`.
-- Confidence: high
-
-### Flutter official skills / flutter-use-http-package
-
-- Belongs in: creating-solution
-- Source: https://github.com/flutter/skills/tree/main/skills/flutter-use-http-package
-- Recommendation: reference
-- Why it belongs here: It gives implementation and validation guidance for REST/networking slices.
-- Confidence: high
-
-### Dart official skills / dart-add-unit-test
-
-- Belongs in: creating-solution
-- Source: https://github.com/dart-lang/skills/tree/main/skills/dart-add-unit-test
-- Recommendation: reference
-- Why it belongs here: It is direct slice-level test creation guidance for Dart functions, classes, and bug fixes.
-- Confidence: high
-
-### Dart official skills / dart-build-cli-app
-
-- Belongs in: creating-solution
-- Source: https://github.com/dart-lang/skills/tree/main/skills/dart-build-cli-app
-- Recommendation: reference
-- Why it belongs here: It provides implementation, testing, and distribution guidance for CLI slices.
-- Confidence: high
-
-### Dart official skills / dart-fix-runtime-errors
-
-- Belongs in: creating-solution
-- Source: https://github.com/dart-lang/skills/tree/main/skills/dart-fix-runtime-errors
-- Recommendation: reference
-- Why it belongs here: It fetches active runtime errors, locates failing code, applies fixes, and verifies via reload/static checks, which is C3 repair work.
-- Confidence: high
-
-### Dart official skills / dart-run-static-analysis
-
-- Belongs in: creating-solution
-- Source: https://github.com/dart-lang/skills/tree/main/skills/dart-run-static-analysis
-- Recommendation: reference
-- Why it belongs here: It is a concrete static-analysis and automated-fix workflow for build-time verification before committing a slice.
-- Confidence: high
-
-### Dart official skills / dart-generate-test-mocks
-
-- Belongs in: creating-solution
-- Source: https://github.com/dart-lang/skills/tree/main/skills/dart-generate-test-mocks
-- Recommendation: reference
-- Why it belongs here: It supports implementation of tests for dependency-heavy slices by generating mocks and rerunning tests until passing.
-- Confidence: high
-
-### Dart official skills / dart-resolve-package-conflicts
-
-- Belongs in: creating-solution
-- Source: https://github.com/dart-lang/skills/tree/main/skills/dart-resolve-package-conflicts
-- Recommendation: reference
-- Why it belongs here: Dependency resolution can be required to make a slice build, especially during package or SDK work. Use narrowly because dependency maintenance can easily become a separate task.
+- Why it belongs here: Non-blocking session-start warning when the Very Good CLI is missing or outdated. Surfacing missing build-tooling before work starts is a useful pattern for C2 (the technical approach names tools; this verifies they exist).
 - Confidence: medium
-- Please verify: Include only for slices whose PRD or technical approach explicitly involves dependency changes.
 
-### Bug Hunter / bug-hunter
+### VGV AI Flutter Plugin / allow-readonly-git.sh
 
 - Belongs in: creating-solution
-- Source: https://github.com/codexstar69/bug-hunter/blob/main/SKILL.md
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/hooks/scripts/allow-readonly-git.sh`, declared as an agent-scoped PreToolUse hook in `TEMP-sources/vgv-ai-flutter-plugin/agents/flutter-reviewer.md` @ `d513aac`
 - Recommendation: reference
-- Why it belongs here: Its default pipeline finds, verifies, fixes, and re-verifies runtime bugs. It can support bug-fix slices, but its broad scan/fix loop and `.bug-hunter` artifacts are heavier than Structured Workflow's core C3 loop.
+- Why it belongs here: Restricts the `flutter-reviewer` agent's Bash to `git diff`/`git status` only (exits 2 on anything else, including compound-command bypass), enforcing the reviewer's read-only contract at the hook layer instead of trusting the prompt. Travels with wherever the reviewer subagent lands (see Subagents); the enforce-review-contracts-with-hooks pattern is worth copying for any reviewer we build.
 - Confidence: medium
-- Please verify: Decide whether to reference only the bug-fix pipeline or exclude the full autonomous scan model as too broad.
 
-### Bug Hunter / fixer
+### VGV Wingspan / recommend-plugins.sh
 
 - Belongs in: creating-solution
-- Source: https://github.com/codexstar69/bug-hunter/tree/main/skills/fixer
+- Source: `TEMP-sources/vgv-wingspan/hooks/hooks.json` (PreToolUse, matcher `Read|Glob|Grep`, timeout 10) + `TEMP-sources/vgv-wingspan/hooks/recommend-plugins.sh` @ `7691c77`
 - Recommendation: reference
-- Why it belongs here: It implements minimal, surgical fixes for verified bugs and preserves scope, matching C3's smallest durable change rule.
+- Why it belongs here: On the first matched tool call per session, scans declarative JSON files in `hooks/recommendations/` (detect file/glob + grep pattern → plugin + marketplace), collects every match for plugins not yet installed, and emits them once as `additionalContext` (with a `/tmp` marker suppressing repeats). This is C2 support: detecting the project's technology and suggesting the right companion tooling while the technical approach is being chosen. Data-driven and easily generalized.
 - Confidence: medium
-- Please verify: Use only when a verified bug list exists; it should not perform its own inquiry or broad hunt inside Creating-Solution.
 
-### planning-with-files / planning-with-files
+### Superpowers / session-start
 
-- Belongs in: creating-solution
-- Source: https://github.com/OthmanAdi/planning-with-files/tree/master/.codex/skills/planning-with-files
+- Belongs in: workflow-management (listed here for completeness)
+- Source: `TEMP-sources/superpowers/hooks/hooks.json` (SessionStart, matcher `startup|clear|compact`) + `TEMP-sources/superpowers/hooks/session-start` @ v6.1.1 `d884ae0`
 - Recommendation: reference
-- Why it belongs here: Its persistent `task_plan.md`, `progress.md`, completion checks, and session recovery are useful patterns for durable build progress. However, Structured Workflow already defines its own phase documents and `workflow-tracker.md`, so copy only mechanics, not document shape.
-- Confidence: medium
-- Please verify: Confirm this remains a cross-phase workflow-management reference rather than an installable Creating-Solution skill.
+- Why it does not belong here: The script reads `skills/using-superpowers/SKILL.md` in full and injects it as session context (JSON-escaped, per-platform output format) so skills auto-trigger from the first message. That is skill-routing bootstrap — always-on workflow infrastructure, not a build-phase behavior. Workflow-management owns it; Creating-Solution just benefits (its skills get triggered at the right moments).
+- Confidence: high
 
-### vgv-pr-roundtrip / vgv-pr-roundtrip
+## Subagents (custom droids)
+
+| Source Pack | Agent | Source (TEMP-sources path + pin) | Recommendation | Confidence |
+| --- | --- | --- | --- | --- |
+| ACT | codebase-researcher | `TEMP-sources/act/agents/act/codebase-researcher.md` @ 1.0.0 | adapt | high |
+| ACT | flutter-docs-researcher | `TEMP-sources/act/agents/act/flutter-docs-researcher.md` @ 1.0.0 | reference | high |
+| ACT | flutter-patterns-researcher | `TEMP-sources/act/agents/act/flutter-patterns-researcher.md` @ 1.0.0 | reference | medium |
+| VGV Wingspan | research/official-docs-research-agent | `TEMP-sources/vgv-wingspan/agents/research/official-docs-research-agent.md` @ `7691c77` | adapt | high |
+| VGV Wingspan | research/best-practices-research-agent | `TEMP-sources/vgv-wingspan/agents/research/best-practices-research-agent.md` @ `7691c77` | adapt | medium |
+| VGV Wingspan | analysis/plan-splitting-agent | `TEMP-sources/vgv-wingspan/agents/analysis/plan-splitting-agent.md` @ `7691c77` | adapt | high |
+| VGV Wingspan | analysis/user-flow-analysis-agent | `TEMP-sources/vgv-wingspan/agents/analysis/user-flow-analysis-agent.md` @ `7691c77` | reference | medium |
+| VGV Wingspan | quality-review/pr-readiness-review-agent | `TEMP-sources/vgv-wingspan/agents/quality-review/pr-readiness-review-agent.md` @ `7691c77` | reference | high |
+| VGV Wingspan | codebase-review/codebase-review-agent | `TEMP-sources/vgv-wingspan/agents/codebase-review/codebase-review-agent.md` @ `7691c77` | reference | medium |
+| VGV Wingspan | codebase-review/vgv-review-agent | `TEMP-sources/vgv-wingspan/agents/codebase-review/vgv-review-agent.md` @ `7691c77` | reference | medium |
+| VGV Wingspan | codebase-review/code-simplicity-review-agent | `TEMP-sources/vgv-wingspan/agents/codebase-review/code-simplicity-review-agent.md` @ `7691c77` | reference | medium |
+| VGV Wingspan | quality-review/architecture-review-agent | `TEMP-sources/vgv-wingspan/agents/quality-review/architecture-review-agent.md` @ `7691c77` | reference | medium |
+| VGV Wingspan | quality-review/test-quality-review-agent | `TEMP-sources/vgv-wingspan/agents/quality-review/test-quality-review-agent.md` @ `7691c77` | reference | medium |
+| VGV AI Flutter Plugin | flutter-reviewer | `TEMP-sources/vgv-ai-flutter-plugin/agents/flutter-reviewer.md` @ `d513aac` | reference | medium |
+| Codex Product Design | agents/openai.yaml | `TEMP-sources/product-design-0.1.47/agents/openai.yaml` @ 0.1.47 | omit | high |
+
+### ACT / codebase-researcher
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/development/structured-workflow-mcp/r-and-d/cleanup-2026-06-04/saved/vgv-pr-roundtrip/SKILL.md
+- Source: `TEMP-sources/act/agents/act/codebase-researcher.md` @ 1.0.0
 - Recommendation: adapt
-- Why it belongs here: It is an explicit ticket loop: choose the next buildable slice, build it, run review rounds, commit/push, open PR, address review feedback, reconcile docs, and stop at merge-ready. This strongly matches C3 plus tracker/PR flow, with VGV-specific review counts adapted out.
+- Why it belongs here: A read-only (edit/bash denied) research subagent that, given a feature or Spec summary, maps project structure, state-management and data-layer patterns, 2-3 reference implementations, and conventions, returning a structured report ("Be specific... Don't invent: only report what you actually find"). This is exactly the grounding C1/C2 needs so slices and technical approach match what the codebase actually uses (our review criterion). Adapt away the Flutter-specific search recipes; the shape generalizes.
 - Confidence: high
 
-### Linear curated / linear
+### ACT / flutter-docs-researcher
 
 - Belongs in: creating-solution
-- Source: /Users/jholt/.codex/plugins/cache/openai-curated/linear/e2d08a2e/skills/linear/SKILL.md
-- Recommendation: adapt
-- Why it belongs here: Creating-Solution exports reviewed slices to the issue tracker and marks work in progress/complete. Linear supplies the issue/project/status operations needed for that tracker flow, with external side effects kept behind confirmation.
-- Confidence: high
-
-### Sentry curated / sentry
-
-- Belongs in: creating-solution
-- Source: /Users/jholt/.codex/plugins/cache/openai-curated/sentry/e2d08a2e/skills/sentry/SKILL.md
+- Source: `TEMP-sources/act/agents/act/flutter-docs-researcher.md` @ 1.0.0
 - Recommendation: reference
-- Why it belongs here: Sentry can provide implementation evidence for production bug slices and confirm runtime failures before or after a fix. It is observability support, not the primary slice engine.
+- Why it belongs here: Researches SDK features or packages with a mandatory deprecation/breaking-change check before recommending anything, version pinning against `pubspec.lock`, prioritized sources (Context7 → official docs → pub.dev → GitHub → web), and source-code exploration when docs fall short. C2 support when a Flutter slice's technical approach involves an unfamiliar API. Overlaps Wingspan's `official-docs-research-agent`, which is the tech-agnostic adapt; keep this as the Flutter-specialized reference.
+- Confidence: high
+
+### ACT / flutter-patterns-researcher
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/act/agents/act/flutter-patterns-researcher.md` @ 1.0.0
+- Recommendation: reference
+- Why it belongs here: Read-only agent that mines ACT's own knowledge base (`act-flutter-development` references) for patterns/principles relevant to a task and returns a concise applicable-guidance summary. Useful C2 pattern lookup, but it is tightly coupled to ACT's bundled reference files.
 - Confidence: medium
-- Please verify: Include only for bug/incident slices where Sentry is named as the evidence source.
 
-## Borderline / Deferred
+### VGV Wingspan / research/official-docs-research-agent
 
-- Matt Pocock `to-prd`, `grill-me`, `grill-with-docs`, `prototype`, `review`, `improve-codebase-architecture`, `setup-matt-pocock-skills`, and `ubiquitous-language`: valuable, but map better to Inquiry-Analysis, Developing-Ideas, Evaluating, setup, or glossary maintenance than C1-C4 build execution.
-- ACT project creation, package setup, migration, dependency-upgrade, Sentry-init, worktree, and meta-audit skills not listed above: use as C2 technical references only when a slice explicitly requires them. They are too specific or operational to become core Creating-Solution skills.
-- Codex Product Design `get-context`, `ideate`, `prototype`, `audit`, `research`, `share`, `user-context`, and `index`: mostly design-briefing, ideation, routing, audit, or deployment; include only the code-generation and implementation QA pieces in Creating-Solution.
-- VGV Wingspan `brainstorm`, `refine-approach`, `review`, `debrief`, `rebase`, `create`, and style/debrief skills: useful around the build, but either belong to Developing-Ideas/Evaluating or are generic support.
-- VGV AI Flutter Plugin accessibility, material theming, animations, internationalization, license compliance, static security, very-good-analysis-upgrade, and SDK upgrade skills: mostly technology references. Use per slice when the PRD names that concern; do not install as default Creating-Solution flow.
-- Superpowers `brainstorming`, `dispatching-parallel-agents`, `writing-skills`, and `using-superpowers`: useful framework support but not directly C1-C4.
-- Cursor Team Kit `deslop`, `get-pr-comments`, `make-pr-easy-to-review`, `pr-review-canvas`, `thermo-nuclear-code-quality-review`, `weekly-review`, `what-did-i-get-done`, and `workflow-from-chats`: mostly review, reporting, or post-hoc workflow extraction.
-- Factory/Droid `review`, `security-review`, `deep-security-review`, `incident`, `wiki`, `browse-wiki`, `summarize-diff`, install helpers, session-navigation, powerpoint, PDF, and Figma helper: generally Evaluating, Inquiry-Analysis, incident response, documentation generation, or platform support.
-- Impeccable: requested source URL `https://github.com/impeccableai/impeccable` did not resolve via GitHub API during this audit; public search indicated a likely canonical repo at `https://github.com/pbakaus/impeccable`, and local `/Users/jholt/.agents/skills/impeccable/SKILL.md` exists. I did not include it because the assigned source URL was unavailable and the local skill is frontend design craft spanning Developing-Ideas, Creating-Solution, and Evaluating rather than a clean C3 build loop. Please verify the intended source before final synthesis.
-- Cline Memory Bank: strong influence for durable memory, but it belongs in workflow-management, not Creating-Solution. It informs why `workflow-tracker.md` and phase documents exist rather than supplying a build skill.
-- Bug Hunter `hunter`, `skeptic`, `referee`, `security-review`, `vulnerability-validation`, `commit-security-scan`, `recon`, and `threat-model-generation`: primarily evaluation/security-audit pipeline components. Only `bug-hunter` and `fixer` are included, and only as bug-fix references.
-- planning-with-files full hook system: useful as cross-phase persistence and session recovery, but Structured Workflow already has its own durable-file model. Reference mechanics only.
+- Belongs in: creating-solution
+- Source: `TEMP-sources/vgv-wingspan/agents/research/official-docs-research-agent.md` @ `7691c77`
+- Recommendation: adapt
+- Why it belongs here: Tech-agnostic documentation researcher: identifies the exact installed version from the project's lock file, runs a **mandatory deprecation/sunset check** before recommending any external API, gathers official docs via Context7 with web-search fallback, explores package source and tests, and reports version constraints, implementation guide, and gotchas. Invoked from `/plan`'s conditional external research — in our terms, C2 evidence for choosing a slice's technical approach. Retrieval-led rather than training-led, which matches our house rules.
+- Confidence: high
 
-## Notes For Final Synthesis
+### VGV Wingspan / research/best-practices-research-agent
 
-- The highest-confidence Creating-Solution nucleus is: Matt `to-issues`, a VGV/Superpowers/ACT implementation-plan execution loop, per-slice TDD/verification, conventional commit/PR mechanics, Linear tracker operations, and a deviation log in the Creating-Solution document.
-- Keep C1/C2 local first: draft slices and technical approach in the creating-solution document, run adversarial review, then export to Linear/GitHub. Do not let issue creation replace local plan refinement.
-- Treat technology packs as C2 reference libraries. They should attach to slices as "technical approach" guidance, not become generic always-on instructions.
-- Keep final acceptance in Evaluating. Creating-Solution verifies that each slice builds and functions; it does not declare the whole solution meets the original success criteria or Definition of Done.
-- Preserve human-ready/agent-ready and HITL/AFK language. Imported skills often use their own labels (`ready-for-agent`, review rounds, merge-ready); adapt them into Structured Workflow vocabulary.
-- External side effects need confirmation: creating/updating Linear issues, pushing branches, opening PRs, and marking tracker state should be explicit actions, not hidden implementation details.
+- Belongs in: creating-solution
+- Source: `TEMP-sources/vgv-wingspan/agents/research/best-practices-research-agent.md` @ `7691c77`
+- Recommendation: adapt
+- Why it belongs here: Synthesizes best practices with an explicit authority ladder — project conventions/CLAUDE.md first, then installed skills, then official docs, then community — plus the same mandatory deprecation check, and requires source attribution per recommendation ("VGV conventions recommend..." vs "Official documentation recommends..."). That prioritization (codebase conventions beat generic best practice) is exactly how our C2 should resolve conflicts. Adapt the VGV-specific authority naming.
+- Confidence: medium
+
+### VGV Wingspan / analysis/plan-splitting-agent
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/vgv-wingspan/agents/analysis/plan-splitting-agent.md` @ `7691c77`
+- Recommendation: adapt
+- Why it belongs here: Assesses whether a plan is too large for one reviewable PR using multi-signal judgment (estimated LOC ~600 soft threshold, layers touched, new files/packages, separability), proposes split boundaries along logical seams where "every PR must leave the codebase in a working state," and deliberately refuses awkward splits ("Never force a bad split"). This is our granularity and sequencing review criterion as a dispatchable reviewer for the slice breakdown before export.
+- Confidence: high
+
+### VGV Wingspan / analysis/user-flow-analysis-agent
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/vgv-wingspan/agents/analysis/user-flow-analysis-agent.md` @ `7691c77`
+- Recommendation: reference
+- Why it belongs here: Invoked by `/plan` to analyze the drafted plan for flow completeness and gap identification, feeding updated success criteria. Maps to our coverage criterion in the breakdown review, though flow-gap analysis also borders Developing-Ideas' Spec completeness; keep as a reviewer-lens reference here.
+- Confidence: medium
+
+### VGV Wingspan / quality-review/pr-readiness-review-agent
+
+- Belongs in: evaluating (referenced by creating-solution)
+- Source: `TEMP-sources/vgv-wingspan/agents/quality-review/pr-readiness-review-agent.md` @ `7691c77`
+- Recommendation: reference
+- Why it belongs here: Unlike its quality-review siblings, this agent is deliberately mechanical, not judgmental: formatter in check mode, linter with zero-warning policy, a debug-artifact table (prints, TODO/FIXME, commented-out code, secrets, conflict markers, skipped tests), and commit hygiene over `git log main..HEAD` — "This review is mechanical, not subjective. Every finding should be objectively verifiable." It is excellent build/publish hygiene at the end of C3, but it still produces a readiness verdict, so Evaluating is the single adapt owner. Creating-Solution references it as a pre-publish readiness check.
+- Confidence: high
+
+### VGV Wingspan / codebase-review/codebase-review-agent
+
+- Belongs in: creating-solution
+- Source: `TEMP-sources/vgv-wingspan/agents/codebase-review/codebase-review-agent.md` @ `7691c77`
+- Recommendation: reference
+- Why it belongs here: Dual-purpose: partly codebase research (structure, conventions, templates — the examples show "what patterns does this codebase use?"), partly quality assessment against plans. Wingspan itself now avoids re-running it during `/plan` and `/build` (context comes from brainstorm), using it mainly in `/hotfix` Phase 1 to *locate* buggy code. The research/locate use cases are C2/C3 support here; the quality-verdict half belongs to Evaluating. ACT's `codebase-researcher` is the cleaner adapt for the research role.
+- Confidence: medium
+
+### VGV Wingspan / codebase-review/vgv-review-agent
+
+- Belongs in: evaluating (listed here as reference)
+- Source: `TEMP-sources/vgv-wingspan/agents/codebase-review/vgv-review-agent.md` @ `7691c77`
+- Recommendation: reference
+- Why it is only a reference here: A rigorous standards-enforcement reviewer (regressions pass first, convention strictness, simplicity audit, verdict + severity counts written to a report file). `/build` Phase 3 dispatches it as part of the five-agent quality review — but that pass is a quality verdict against explicit standards, which is Evaluating's engine (criteria-first, evidence-backed verdicts). Creating-Solution references it only as the reviewer `/build` happens to call before ship.
+- Confidence: medium
+
+### VGV Wingspan / codebase-review/code-simplicity-review-agent
+
+- Belongs in: evaluating (listed here as reference)
+- Source: `TEMP-sources/vgv-wingspan/agents/codebase-review/code-simplicity-review-agent.md` @ `7691c77`
+- Recommendation: reference
+- Why it is only a reference here: YAGNI/minimalism reviewer producing a prioritized simplification analysis with LOC-reduction estimates and a verdict. It has one genuine Creating-Solution use — `plan-technical-review` dispatches it against the *plan* to keep the breakdown simple, which is our pre-export review — but as a code reviewer its home is Evaluating.
+- Confidence: medium
+
+### VGV Wingspan / quality-review/architecture-review-agent
+
+- Belongs in: evaluating (listed here as reference)
+- Source: `TEMP-sources/vgv-wingspan/agents/quality-review/architecture-review-agent.md` @ `7691c77`
+- Recommendation: reference
+- Why it is only a reference here: Post-implementation validation of layer separation, state-management correctness, dependency direction, and package structure ("Layer separation is not negotiable"). A quality verdict against architectural criteria — Evaluating's territory. Reference here because `/build` runs it as part of pre-ship review and because its checks can catch slice-level violations early.
+- Confidence: medium
+
+### VGV Wingspan / quality-review/test-quality-review-agent
+
+- Belongs in: evaluating (listed here as reference)
+- Source: `TEMP-sources/vgv-wingspan/agents/quality-review/test-quality-review-agent.md` @ `7691c77`
+- Recommendation: reference
+- Why it is only a reference here: Coverage audit plus test anti-pattern detection ("bad tests are worse than no tests") with a quality verdict. As with the other quality reviewers, the verdict engine belongs to Evaluating; Creating-Solution references it for slice-level "does every new unit have a real test" checks during the build.
+- Confidence: medium
+
+### VGV AI Flutter Plugin / flutter-reviewer
+
+- Belongs in: evaluating (referenced by creating-solution)
+- Source: `TEMP-sources/vgv-ai-flutter-plugin/agents/flutter-reviewer.md` @ `d513aac` (added 2026-07-02)
+- Recommendation: reference
+- Why it belongs here: A read-only, diff-scoped reviewer designed to be dispatched "after writing or changing Dart code" — i.e., inside the build loop, per change, not as final acceptance. Its contract is unusually well-engineered: no edit tools, Bash locked to `git diff`/`git status` by an agent-scoped hook, adaptive diff scoping (uncommitted → branch-vs-merge-base → untracked), four preloaded standards as the only findings source, a single strict findings table (`location | problem | fix | standard`), an explicit out-of-domain note so clean reviews are not mistaken for full coverage, and a rule to omit analyzer-only findings (the analyze.sh hook owns those). Evaluating is the single adapt owner for this reviewer contract; Creating-Solution references it when a slice needs a diff-scoped Dart review before handoff.
+- Confidence: medium
+- Collision resolved 2026-07-03: Evaluating is the single adapt owner.
+
+### Codex Product Design / agents/openai.yaml
+
+- Belongs in: n/a
+- Source: `TEMP-sources/product-design-0.1.47/agents/openai.yaml` @ 0.1.47
+- Recommendation: omit
+- Why: Inspected in full: it is not a subagent definition. It contains only harness interface metadata — `display_name: "Product Design"`, a short description, and a `default_prompt` steering users to confirm the design brief first. No behavior, tools, or role to place in any bucket.
+- Confidence: high
+
+## Rename and Removal Ledger
+
+Every old-audit entry from the six re-verified systems, with fresh disposition.
+
+### Matt Pocock skills (all old `~/.agents/skills/<name>` local paths are gone; repo reorganized into category folders @ `272f99b`)
+
+| Old audit entry | Disposition |
+| --- | --- |
+| to-issues | MOVED → `skills/engineering/to-issues/`. Content verified: still tracer-bullet vertical slicing with user quiz and dependency-ordered publishing; kept as **copy**. |
+| tdd | MOVED → `skills/engineering/tdd/`. Content substantially revised: seams-first ("test only at pre-agreed seams"), anti-pattern catalog, refactoring moved out of the loop to code review. Kept as **adapt**. |
+| diagnose | RENAMED → `skills/engineering/diagnosing-bugs/`. Content rewritten around building a tight, red-capable feedback loop before any hypothesis; six phases with completion criteria. Kept as **reference**. |
+| triage | MOVED → `skills/engineering/triage/`. Content rewritten as a two-category/five-state machine that also triages external PRs and writes agent briefs; `ready-for-agent`/`ready-for-human` states retained. Kept as **reference**; primary home may be workflow-management. |
+| (new) implement | NEW skill, `skills/engineering/implement/` — thin PRD/issues → TDD → typecheck → code-review → commit executor. Adopted as **adapt**. |
+
+### ACT (VERSION 1.0.0, 2026-07-03; see `TEMP-sources/act/CHANGELOG.md` [1.0.0])
+
+| Old audit entry | Disposition |
+| --- | --- |
+| act-workflow-plan | DEPRECATED (frontmatter: "Deprecated legacy workflow skill. Prefer act-create-issues."). Successor **act-create-issues** (+ `act-create-issues-flutter`) adopted as the citation of record for Spec→slices; the deprecated file still exists but should not be the cited surface. |
+| act-workflow-work | DEPRECATED (frontmatter: "Deprecated legacy workflow skill. Prefer act-implement."). Successor **act-implement** (+ `act-implement-flutter`) is the citation of record for execution; the deprecated skill is retained as a **reference** solely for its plan-reconciliation hard contract and invariants, which the terse successor does not restate. |
+| act-flutter-development | STILL PRESENT, unchanged in role. Reference retained. |
+| act-flutter-tdd | STILL PRESENT, unchanged in role. Reference retained. |
+| act-flutter-robot-testing | STILL PRESENT ("Test Seams" now capitalized as a workflow term). Reference retained. |
+| act-flutter-screenshot | STILL PRESENT, unchanged in role. Reference retained. |
+| act-git-commit | STILL PRESENT, unchanged in role. Reference retained. |
+| act-git-push-make-pr | STILL PRESENT, updated in 1.0.0 "to better support workflow files and user confirmation flows" (per CHANGELOG); now validates workflow context against branch diff/log. Reference retained. |
+| act-meta-audit-work (mentioned in old deferred notes) | REMOVED in 1.0.0 ("Removed the obsolete act-meta-audit-work skill"). No successor adopted. |
+| (new) act-interview, act-create-spec, act-refine-spec, act-config | NEW core-workflow skills; out of this bucket (interview → inquiry-analysis; spec creation/refinement → developing-ideas; config/storage → workflow-management). |
+
+### VGV Wingspan (@ `7691c77`, 2026-07-03)
+
+| Old audit entry | Disposition |
+| --- | --- |
+| build | STILL PRESENT; revised — no longer re-runs codebase review at build start (plan carries context), adds the surgical-diff gate, and runs five named review agents in parallel with report files. Adapt retained. |
+| plan | STILL PRESENT; revised — brainstorm discovery, conditional external research decision matrix, and the new machine-checkable Success Criteria Gate (`verify:` commands). Adapt retained. |
+| plan-technical-review | STILL PRESENT; revised — now dispatches code-simplicity, vgv-review, and the new plan-splitting-agent, and can generate split part-plans. Adapt retained. |
+| create-branch | **REMOVED** (2026-07-03). No direct successor: the new `create` skill is a project-scaffolding router, not branch creation; branch setup now happens inline (e.g., `plan` step 5.1 offers `git checkout -b <type>/<kebab-topic>`; `hotfix` creates `hotfix/<slug>` branches). Old reference entry dropped; behavior noted under `plan`/`hotfix`. |
+| create-commit | **REMOVED** (2026-07-03). Its role is absorbed by **create-pr**, which now owns stage → conventional commit (with confirmation) → push → PR. Old adapt transfers to `create-pr`. |
+| create-pr | STILL PRESENT; expanded per above (skip-checks argument, secret-file guards, local CI checks, template-aware bodies). Adapt retained. |
+| hotfix | STILL PRESENT; verified — blast-radius check, regression-test requirement, reduced two-agent review, cherry-pick-friendly commit. Reference retained. |
+| (new) rebase | NEW skill; adopted as **reference** (branch-sync operational support). |
+| (new) create | NEW skill; adopted as **reference** (companion-plugin scaffolding router). |
+| (new) elements-of-style | NEW style skill preloaded by review agents; prose/writing standard, out of this bucket (Evaluating/workflow-management concern). Not adopted here. |
+
+### VGV AI Flutter Plugin (@ `d513aac`, 2026-07-02)
+
+| Old audit entry | Disposition |
+| --- | --- |
+| layered-architecture, bloc, testing, create-project, navigation, ui-package | ALL STILL PRESENT; contents re-verified (directive Core Standards format, MCP-tool integration). References retained. |
+| (new) green-gate | NEW skill; adopted as **adapt** — autonomous four-gate verify-fix-rerun loop, the strongest slice-verification model in the sources. |
+| (new) animations, dart-flutter-sdk-upgrade, internationalization, very-good-analysis-upgrade | NEW technology/maintenance skills; per-slice C2 references at most, not adopted into the core flow (same treatment as the other tech-specific skills in the old audit's deferred list). |
+| (new) agents/flutter-reviewer.md | NEW subagent (see Subagents) — adopted as **adapt** for per-slice diff review shape. |
+
+### Superpowers (v6.1.1 @ `d884ae0`; v6 was a major revision — every previously cited skill re-read in full)
+
+| Old audit entry | Disposition |
+| --- | --- |
+| writing-plans | STILL PRESENT; v6 adds Task Right-Sizing, mandatory plan header with Global Constraints, Interfaces blocks, No-Placeholders failure list, and a structured self-review. Adapt retained. |
+| executing-plans | STILL PRESENT; v6 simplified to a three-step inline loop and now explicitly recommends subagent-driven-development when subagents exist. Adapt retained. |
+| subagent-driven-development | STILL PRESENT; v6 heavily expanded — two-verdict task review, pre-flight plan conflict scan, per-role model selection, file handoffs via `scripts/task-brief`/`scripts/review-package`, and the durable progress ledger. Adapt retained. |
+| test-driven-development | STILL PRESENT; content substantively the same Iron-Law discipline. Adapt retained. |
+| systematic-debugging | STILL PRESENT; same four-phase root-cause discipline plus 3-failures→question-architecture rule. Reference retained. |
+| verification-before-completion | STILL PRESENT; same evidence-before-claims gate function. Adapt retained. |
+| requesting-code-review | STILL PRESENT; verified — reviewer subagent with crafted context, code-reviewer.md template also consumed by SDD's final review. Reference retained. |
+| receiving-code-review | STILL PRESENT; verified — verify-before-implementing, clarify-all-first, no performative agreement. Reference retained. |
+| finishing-a-development-branch | STILL PRESENT; v6 adds environment detection (worktree/detached-HEAD menus) and provenance-based cleanup. Adapt retained. |
+| using-git-worktrees | STILL PRESENT; v6 adds Step 0 isolation detection with submodule guard and native-tool preference. Reference retained. |
+| (new) writing-skills | NEW to the audit surface; skill-authoring meta-skill, out of this bucket (workflow-management/meta). Not adopted here. |
+| hooks/session-start | Now cataloged in the Hooks section: SessionStart bootstrap injecting `using-superpowers`; assigned to workflow-management. |
+
+### Codex Product Design (0.1.47 — only cached version; not re-fetched)
+
+| Old audit entry | Disposition |
+| --- | --- |
+| image-to-code, url-to-code, design-qa | UNCHANGED at 0.1.47; contents re-read in full and recommendations retained (adapt/adapt/reference). |
+| agents/openai.yaml | Inspected this pass: interface metadata only, not a subagent. Recorded as omit. |
+
+## Not Re-Verified This Pass (long tail)
+
+The following entries are preserved from the previous audit pass without re-verification. Sources cited below were not re-staged; treat paths and pins as historical.
+
+### Cursor Team Kit
+
+| Skill | Source | Recommendation | Confidence |
+| --- | --- | --- | --- |
+| check-compiler-errors | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/check-compiler-errors | reference | high |
+| control-cli | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/control-cli | reference | high |
+| control-ui | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/control-ui | reference | high |
+| fix-ci | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/fix-ci | reference | medium |
+| fix-merge-conflicts | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/fix-merge-conflicts | reference | medium |
+| loop-on-ci | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/loop-on-ci | reference | medium |
+| new-branch-and-pr | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/new-branch-and-pr | adapt | high |
+| review-and-ship | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/review-and-ship | adapt | medium |
+| run-smoke-tests | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/run-smoke-tests | reference | high |
+| verify-this | https://github.com/cursor/plugins/tree/main/cursor-team-kit/skills/verify-this | adapt | high |
+
+Prior justifications (verbatim summaries): check-compiler-errors — focused loop to fix and rerun blocking compile/type checks; control-cli — repeatable local harnesses for CLI/TUI slice verification; control-ui — browser/CDP harnesses for local UI slice verification; fix-ci — iterates failing PR checks to green (final ship gate remains Evaluating); fix-merge-conflicts — conflict resolution as operational support; loop-on-ci — monitors PR checks until green (overlaps Evaluating's evidence gate); new-branch-and-pr — compact branch→implement→test→commit→push→PR loop; review-and-ship — diff-targeted review/fix/ship, keep "review" scoped to slice readiness so it does not absorb Evaluating; run-smoke-tests — smoke verification before handoff; verify-this — turns a slice claim into a falsifiable local verification with baseline/treatment evidence and a verdict.
+
+### Bug Hunter
+
+| Skill | Source | Recommendation | Confidence |
+| --- | --- | --- | --- |
+| bug-hunter | https://github.com/codexstar69/bug-hunter/blob/main/SKILL.md | reference | medium |
+| fixer | https://github.com/codexstar69/bug-hunter/tree/main/skills/fixer | reference | medium |
+
+Prior justifications: bug-hunter — find/verify/fix/re-verify pipeline usable for bug-fix slices but heavier than the core C3 loop (please verify whether to reference only the fix pipeline); fixer — minimal surgical fixes for verified bugs, matching C3's smallest durable change rule (use only with a verified bug list).
+
+### Flutter official skills
+
+| Skill | Source | Recommendation | Confidence |
+| --- | --- | --- | --- |
+| flutter-apply-architecture-best-practices | https://github.com/flutter/skills/tree/main/skills/flutter-apply-architecture-best-practices | reference | high |
+| flutter-add-widget-test | https://github.com/flutter/skills/tree/main/skills/flutter-add-widget-test | reference | high |
+| flutter-add-integration-test | https://github.com/flutter/skills/tree/main/skills/flutter-add-integration-test | reference | high |
+| flutter-build-responsive-layout | https://github.com/flutter/skills/tree/main/skills/flutter-build-responsive-layout | reference | high |
+| flutter-fix-layout-issues | https://github.com/flutter/skills/tree/main/skills/flutter-fix-layout-issues | reference | high |
+| flutter-implement-json-serialization | https://github.com/flutter/skills/tree/main/skills/flutter-implement-json-serialization | reference | high |
+| flutter-setup-declarative-routing | https://github.com/flutter/skills/tree/main/skills/flutter-setup-declarative-routing | reference | high |
+| flutter-use-http-package | https://github.com/flutter/skills/tree/main/skills/flutter-use-http-package | reference | high |
+
+Prior justification (shared): concrete implementation/verification workflows for specific Flutter slice types (architecture layers, widget/integration tests, responsive layout, layout repair, serialization, routing, networking) — C2/C3 technology references attached per slice.
+
+### Dart official skills
+
+| Skill | Source | Recommendation | Confidence |
+| --- | --- | --- | --- |
+| dart-add-unit-test | https://github.com/dart-lang/skills/tree/main/skills/dart-add-unit-test | reference | high |
+| dart-build-cli-app | https://github.com/dart-lang/skills/tree/main/skills/dart-build-cli-app | reference | high |
+| dart-fix-runtime-errors | https://github.com/dart-lang/skills/tree/main/skills/dart-fix-runtime-errors | reference | high |
+| dart-run-static-analysis | https://github.com/dart-lang/skills/tree/main/skills/dart-run-static-analysis | reference | high |
+| dart-generate-test-mocks | https://github.com/dart-lang/skills/tree/main/skills/dart-generate-test-mocks | reference | high |
+| dart-resolve-package-conflicts | https://github.com/dart-lang/skills/tree/main/skills/dart-resolve-package-conflicts | reference | medium |
+
+Prior justification (shared): slice-level test creation, CLI implementation, runtime-error repair, static-analysis verification, mock generation, and dependency resolution for Dart slices — technology references, with dart-resolve-package-conflicts used narrowly (please verify: only for slices whose Spec names dependency changes).
+
+### Factory/Droid borrowed
+
+Note: local copies under `r-and-d/borrowed-factory-skills` were deleted on 2026-07-03; entries retained by name only.
+
+| Skill | Source | Recommendation | Confidence |
+| --- | --- | --- | --- |
+| agent-browser | (deleted local copy; retained by name) | reference | high |
+| qa | (deleted local copy; retained by name) | reference | medium |
+| simplify | (deleted local copy; retained by name) | reference | medium |
+
+Prior justifications: agent-browser — browser automation, screenshots, and interaction loops for verifying UI/web slices as built; qa — diff-targeted functional QA proving branch/slice behavior with real user flows (please verify: Factory QA config assumptions may not transfer; adapt only the diff-targeted idea); simplify — local cleanup pass after a slice, kept within slice scope to avoid drifting into Evaluating.
+
+### planning-with-files
+
+| Skill | Source | Recommendation | Confidence |
+| --- | --- | --- | --- |
+| planning-with-files | https://github.com/OthmanAdi/planning-with-files/tree/master/.codex/skills/planning-with-files | reference | medium |
+
+Prior justification: persistent `task_plan.md`/`progress.md`, completion checks, and session recovery are useful durable-progress patterns, but Structured Workflow already defines its own phase documents and `workflow-tracker.md` — copy mechanics only (please verify: likely a cross-phase workflow-management reference rather than an installable Creating-Solution skill).
+
+### vgv-pr-roundtrip (user-authored; local path still exists)
+
+| Skill | Source | Recommendation | Confidence |
+| --- | --- | --- | --- |
+| vgv-pr-roundtrip | /Users/jholt/development/structured-workflow-mcp/r-and-d/cleanup-2026-06-04/saved/vgv-pr-roundtrip/SKILL.md | adapt | high |
+
+Prior justification: an explicit ticket loop — choose the next buildable slice, build it, run review rounds, commit/push, open PR, address review feedback, reconcile docs, stop at merge-ready — strongly matching C3 plus tracker/PR flow, with VGV-specific review counts adapted out.
+
+### Linear curated
+
+| Skill | Source | Recommendation | Confidence |
+| --- | --- | --- | --- |
+| linear | /Users/jholt/.codex/plugins/cache/openai-curated/linear/e2d08a2e/skills/linear/SKILL.md | adapt | high |
+
+Prior justification: Creating-Solution exports reviewed slices to the issue tracker and marks work in progress/complete; Linear supplies the issue/project/status operations for that tracker flow, with external side effects kept behind confirmation.
+
+### Sentry curated
+
+| Skill | Source | Recommendation | Confidence |
+| --- | --- | --- | --- |
+| sentry | /Users/jholt/.codex/plugins/cache/openai-curated/sentry/e2d08a2e/skills/sentry/SKILL.md | reference | medium |
+
+Prior justification: Sentry can provide implementation evidence for production bug slices and confirm runtime failures before or after a fix — observability support, not the primary slice engine (please verify: include only for bug/incident slices where Sentry is the named evidence source).

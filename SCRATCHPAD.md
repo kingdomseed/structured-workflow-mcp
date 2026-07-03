@@ -17,8 +17,17 @@ been trimmed.
 
 **Current task decision:** do not create, plan, or migrate anything into
 `NOTICE.md` now. Source-lineage packaging is deferred until the repo contents are
-finalized and the user decides what is being kept. Current source work is bucket
-audit and synthesis only, using the five `TEMP-*-skill-audit.md` docs.
+finalized and the user decides what is being kept. The fresh source bucket audit
+pass now lives in the five `TEMP-*-skill-audit.md` docs, with repo-local source
+pins in `TEMP-sources/INVENTORY.md`. Those audits supersede older source
+placement notes below wherever they conflict.
+
+**Fresh-source bucketing pass (2026-07-03):** refreshed against current Matt
+Pocock skills (`272f99b`), ACT 1.0.0, Superpowers v6.1.1, VGV Wingspan
+(`7691c77`), VGV AI Flutter Plugin (`d513aac`), and Codex Product Design 0.1.47.
+Each bucket audit now has **Skills**, **Hooks**, **Subagents / custom droids**,
+a rename/removal ledger, and a long-tail-not-reverified section. Old
+`r-and-d/borrowed-factory-skills` copies and `mp_transcript.md` were deleted.
 
 ## Naming Decisions To Preserve
 
@@ -41,7 +50,7 @@ three strands produce the fourth — and the fourth is the handoff artifact**
 plan, C3 builds it, and C4 justifies departures. **Criterion D returns to the
 symmetric shape and sits across all of them:** D1 + D2 produce D3 -> D4 (impact,
 the terminal summary), and the *same* evaluation engine can be pointed at the
-Design Brief, the PRD, and the issues — not only the finished build.
+Design Brief, the Spec, and the issues — not only the finished build.
 
 ```text
 A1 need      \
@@ -49,7 +58,7 @@ A2 research   } -> A4 Design Brief   (summarizes A1-A3)
 A3 prior art /
 
 B1 spec/criteria \
-B2 ideas+prototype } -> B4 PRD/export (the requirements for creating the chosen
+B2 ideas+prototype } -> B4 Spec        (the requirements for creating the chosen
 B3 chosen+justified/                   solution; "planning drawings" reinterpreted
                                        per task: API contracts, schema, test seams)
 
@@ -62,7 +71,7 @@ C3 build the slices  ->  C4 justified changes  (departures from the plan, with
 
 D1 testing plan <-> D2 evaluation/verdict  (plan, gather, analyze data; the same
        |                                     engine also judges the Design Brief
-       | fail = no ship                      and the PRD; D1 is seeded by B4
+       | fail = no ship                      and the Spec; D1 is seeded by B4
        v                                     testing decisions + C2 verify slices)
 D3 improvements  ->  D4 impact              (D4 is the terminal summary and opens
                                              the next cycle, looping back to A1)
@@ -80,12 +89,12 @@ flowchart LR
   A4 --> B1[spec / criteria]
   B1 <--> B2[ideas + prototype]
   B2 --> B3[chosen + justified]
-  B3 --> B4[PRD / planning requirements]
+  B3 --> B4[Spec / planning requirements]
   B1 -.feeds.-> B3
   B2 -.prototype answers a question.-> A2
   B4 --> C1[planning / slices]
   C1 <--> C2[technical skills]
-  C2 -.shapes the slices and can add new ones like a Patrol E2E verify slice.-> C1
+  C2 -.shapes the slices and can add new verification work.-> C1
   C1 -.reviewed and exported to tracker.-> C3[build the slices]
   C2 -.skills carried into the build like TDD and layered architecture.-> C3
   C3 --> C4[justified changes]
@@ -99,7 +108,7 @@ flowchart LR
   B4 -.testing decisions seed the plan.-> D1
   C2 -.verification slices seed the plan.-> D1
   A4 -.same engine evaluates the brief.-> D2
-  B4 -.same engine evaluates the PRD.-> D2
+  B4 -.same engine evaluates the Spec.-> D2
   D2 -.fail = no ship, loop back.-> C3
   D4 -.impact opens the next cycle.-> A1
 ```
@@ -124,18 +133,16 @@ Key reads from the diagrams (these justify the fluid, non-gated model):
   turns the Design Brief into design specifications. B2 explores feasible ideas
   through sketching/prototyping/testing/feedback. B3 presents and justifies the
   chosen design against the specifications. B4 captures the planning
-  drawings/diagrams and creation requirements. For software, B4 is the PRD/export
-  surface that can be mirrored to Linear or another issue tracker for issue
-  decomposition.
+  drawings/diagrams and creation requirements. For software, B4 completes the
+  Spec; Creating-Solution then decomposes that Spec into tracker issues.
 - **Criterion C: technical-skill selection IS planning, and it shapes the
   issues.** The source C diagram shows C1 <-> C2 as a two-way arrow, then
   C2 -> C3 -> C4. C1 (planning) and C2 (technical skills) go back and forth
   because deciding *which* skills, tools, and methodology to use is itself part of
-  planning. Example: "I need the TDD skill, VGV's layered-architecture
-  conventions, and Patrol's E2E docs to produce the visual-validation artifact the
-  human and I need for a high confidence score." That selection then feeds back
-  into the issues — it can add a slice (e.g. a final Patrol E2E run to fully verify
-  the build). C1 + C2 are staged and adversarially reviewed in the
+  planning. Example: "This slice needs test-first implementation, established
+  architecture conventions, and an end-to-end verification artifact for a high
+  confidence score." That selection then feeds back into the issues — it can add a
+  final verification slice. C1 + C2 are staged and adversarially reviewed in the
   creating-solution document, exported to the tracker, then C3 builds and C4
   records any justified departure. A flawed decision discovered mid-build loops
   back to developing-ideas (or inquiry).
@@ -147,7 +154,7 @@ Key reads from the diagrams (these justify the fluid, non-gated model):
   plan is not born in D** — it accrues from B4's Testing Decisions and the C2
   verification slices, so D1 consolidates and executes a plan that has been forming
   since developing-ideas; (2) **the same evaluation engine is reusable across the
-  cycle** — pointed at the Design Brief, the PRD, or the issues, not only the
+  cycle** — pointed at the Design Brief, the Spec, or the issues, not only the
   finished build. D2's verdict against the original criteria + the project
   Definition of Done is the one hard gate (fail = no ship); D3/D4 can open the next
   cycle, looping back to A1.
@@ -239,7 +246,7 @@ Sources checked:
   `control-cli`, `control-ui`, `workflow-from-chats`,
   `thermo-nuclear-code-quality-review`.
 - Local Codex Product Design plugin:
-  `/Users/jholt/.codex/plugins/cache/openai-curated-remote/product-design/0.1.42`
+  `/Users/jholt/.codex/plugins/cache/openai-curated-remote/product-design/0.1.47`
   README plus `user-context`, `get-context`, `research`, `ideate`,
   `prototype`, `audit`, `design-qa`, and `critical-overrides`.
 
@@ -317,15 +324,15 @@ B2/B3/B4.
 
 **Strong `developing-ideas` sources**
 
-- Matt `to-prd`: PRD synthesis. Evidence: explicitly says do not interview the
-  user; synthesize from existing conversation and codebase understanding. PRD
+- Matt `to-prd`: Spec synthesis. Evidence: explicitly says do not interview the
+  user; synthesize from existing conversation and codebase understanding. Spec
   sections: Problem Statement, Solution, User Stories, Implementation Decisions,
   Testing Decisions, Out of Scope, Further Notes. Also requires testing seams
   before writing.
 - ACT `act-workflow-spec`: high-resolution requirements artifact. Evidence:
   full spec sections cover goal, background, user flows, requirements,
   boundaries, implementation, validation, done_when. This maps well to B1
-  criteria and B4 PRD content, but our PRD should stay interview-free when the
+  criteria and B4 Spec content, but our Spec should stay interview-free when the
   Design Brief already exists.
 - VGV `brainstorm` Step 1.3: approach generation and choice. Evidence: propose
   2-3 concrete approaches with trade-offs, lead with a recommendation, prefer
@@ -344,17 +351,17 @@ B2/B3/B4.
   harness support, not standalone phase skills. Evidence: drive local CLI/UI
   surfaces, capture screenshots/transcripts/profiles, and return a falsifiable
   verdict. These support prototype-to-answer and later evaluation.
-- VGV `refine-approach`: PRD/brief refinement pattern. Evidence: assess what is
+- VGV `refine-approach`: Spec/brief refinement pattern. Evidence: assess what is
   unclear, unnecessary, unstated, risky, or under-estimated; score Clarity,
   Completeness, Specificity, YAGNI, Scope; highlight one must-address issue;
   ask before substantive changes; recommend completion after about two passes.
-- ACT `act-workflow-refine-spec`: adversarial PRD review. Evidence: review-only
+- ACT `act-workflow-refine-spec`: adversarial Spec review. Evidence: review-only
   first, no silent edits, stop at review gate; judge completeness, assumptions,
   UX coherence, data model, codebase alignment; present findings by severity and
   recommended changes.
 - VGV `plan-technical-review`: parallel reviewer pattern. Evidence: dispatches
   code-simplicity, VGV-practices, and plan-splitting reviewers in parallel; can
-  split oversized work into standalone plans. This is a useful pattern for PRD
+  split oversized work into standalone plans. This is a useful pattern for Spec
   review, even though the source object is an implementation plan.
 - Product Design `ideate`: visual/product direction generation. Evidence:
   requires a confirmed brief first, resolves/inspects relevant references, then
@@ -364,7 +371,7 @@ B2/B3/B4.
 - Product Design `prototype`: no-visual-target/no-build discipline. Evidence:
   a confirmed brief is not a visual target; new products or redesigns without a
   source must go through ideation and selection before build. This sharpens our
-  developing-ideas boundary: B4/PRD content can include the selected direction,
+  developing-ideas boundary: B4/Spec content can include the selected direction,
   but build should not start from brief alone.
 - Product Design `audit`: product-flow evidence review. Evidence: capture
   current flow screenshots, inspect each step, tie UX/design/accessibility
@@ -375,12 +382,12 @@ B2/B3/B4.
 **Boundary or later-phase sources**
 
 - Matt `to-issues`: not developing-ideas. It starts `creating-solution` by
-  turning a plan/spec/PRD into vertical tracer-bullet issues, each HITL or AFK,
+  turning a plan or Spec into vertical tracer-bullet issues, each HITL or AFK,
   with user approval of granularity and dependencies before publishing.
 - ACT `act-workflow-plan`: mostly `creating-solution`. Evidence: reads a spec,
   researches codebase patterns, maps requirements to files, creates a concise
   implementation plan, and starts with a thin end-to-end vertical slice. It
-  informs the PRD-to-implementation boundary but should not define the PRD.
+  informs the Spec-to-implementation boundary but should not define the Spec.
 - ACT `act-workflow-work`: `creating-solution`. Evidence: executes plan phases,
   reconciles checklist truth, validates, commits, and ships.
 - Superpowers `writing-plans`: `creating-solution`. Evidence: assumes a spec or
@@ -390,13 +397,13 @@ B2/B3/B4.
   it consumes a recent brainstorm, extracts key decisions, performs targeted
   codebase research, checks whether external research is needed, runs user-flow
   analysis, writes `docs/plan/...`, and offers build/review/refine options. Our
-  PRD can borrow research consolidation and acceptance-criteria pressure from
+  Spec can borrow research consolidation and acceptance-criteria pressure from
   this, but the implementation plan itself belongs later.
 - VGV AI Flutter Plugin skills: mostly standards and criteria, not phase flow.
   Evidence: README describes contextual best-practice skills for Flutter/Dart
   architecture, naming, folders, testing, anti-patterns, and hooks. Skills such
   as `accessibility`, `testing`, `layered-architecture`, `navigation`,
-  `material-theming`, `bloc`, `static-security`, and `ui-package` may inform PRD
+  `material-theming`, `bloc`, `static-security`, and `ui-package` may inform Spec
   constraints or review criteria when relevant, but they are not core
   inquiry/developing workflow skills.
 - Cursor Team Kit CI/review/shipping skills: later-phase. Evidence: skills like
@@ -421,15 +428,14 @@ B2/B3/B4.
 The four core phase docs are written and their decisions are baked in. What is
 left:
 
-1. **Source skill bucket synthesis.** Use the five root temp docs
-   (`TEMP-inquiry-analysis-skill-audit.md`,
+1. **Retained installable surface.** The fresh bucket audits are complete. Use the
+   five root temp docs (`TEMP-inquiry-analysis-skill-audit.md`,
    `TEMP-developing-ideas-skill-audit.md`,
    `TEMP-creating-solution-skill-audit.md`,
    `TEMP-evaluating-skill-audit.md`, and
-   `TEMP-workflow-management-skill-audit.md`) to decide which source skills and
-   favorite skill groups belong in each Structured Workflow bucket, with
-   justification grounded in the current phase READMEs. Old bucket assignments are
-   stale and should not be used as authority.
+   `TEMP-workflow-management-skill-audit.md`) to decide which entries become
+   installable Structured Workflow `SKILL.md` files, hooks, and custom droids.
+   Preserve the reconciled one-adapt-home placements in those audits.
 2. **Root README — further work.** Polish when needed.
 3. **Inquiry <-> Developing-Ideas oscillation — mechanics TBD.** Model is decided
    (no hard wall; `workflow-tracker.md` records position + loop-backs; orient

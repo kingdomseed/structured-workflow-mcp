@@ -1,0 +1,7 @@
+{
+  "hook_event_name": "SessionStart",
+  "session_id": "claude-session-1",
+  "source": "claude",
+  "model": "claude-sonnet",
+  "cwd": "."
+}

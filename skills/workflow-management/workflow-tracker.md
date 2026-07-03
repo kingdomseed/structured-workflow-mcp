@@ -15,7 +15,7 @@ live in the phase documents.
 - **Phase:** <inquiry-analysis | developing-ideas | creating-solution | evaluating>
 - **Phase document:** <path to the authoritative doc for this phase>
 - **Criterion / strand:** <e.g. B2 — developing feasible ideas>
-- **Target artifact:** <what this phase is moving toward, e.g. the PRD (B4)>
+- **Target artifact:** <what this phase is moving toward, e.g. the Spec (B4)>
 
 ## Linked artifacts
 

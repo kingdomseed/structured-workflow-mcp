@@ -1,0 +1,10 @@
+{
+  "hook_event_name": "PreToolUse",
+  "session_id": "claude-session-1",
+  "tool_name": "Edit",
+  "tool_input": {
+    "file_path": "lib/main.dart",
+    "old_string": "old text",
+    "new_string": "new text"
+  }
+}

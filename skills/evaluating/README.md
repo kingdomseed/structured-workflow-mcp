@@ -14,7 +14,7 @@ loop back.
 This phase is unusual among the four. It is both the **last phase** — the deep
 evaluation of the finished solution — and a **reusable engine** the agent points
 at earlier artifacts whenever one of them must be trusted before the work moves
-on: the Design Brief, the PRD, or the issue breakdown. The adversarial review the
+on: the Design Brief, the Spec, or the issue breakdown. The adversarial review the
 other three phase docs describe *is* this engine, invoked at their boundary. So
 evaluating is the most load-bearing piece of the cycle: every other phase produces
 an artifact, and this is what makes any of them trustworthy.
@@ -43,7 +43,7 @@ Core moves of the engine:
 - **Name the criteria first, from the source of truth.** A verdict is only as
   honest as the bar it is measured against, so the criteria are stated before the
   testing — the original need from the Design Brief, the success criteria and
-  testing decisions from the PRD, the issue acceptance, and the project's
+  testing decisions from the Spec, the issue acceptance, and the project's
   Definition of Done.
 - **Design methods that actually generate the evidence.** Choose the tests and
   checks that will produce data about each criterion, rather than asserting a
@@ -60,7 +60,7 @@ Core moves of the engine:
 ## What the phase works out
 
 The engine drives the four strands of MYP Criterion D. Pointed at the finished
-solution it runs all four; pointed at an earlier artifact — a Brief, a PRD, the
+solution it runs all four; pointed at an earlier artifact — a Brief, a Spec, the
 issues — it runs the first two and stops, because that artifact has no "impact"
 to measure yet.
 
@@ -69,7 +69,7 @@ to measure yet.
   for the built solution, they are the actual tests — unit, integration,
   end-to-end, smoke, and manual checks — and the artifacts they produce (results,
   screenshots, transcripts). The testing plan is **not invented here from
-  scratch**: it has been accruing since the PRD's testing decisions and the
+  scratch**: it has been accruing since the Spec's testing decisions and the
   verification slices planned during Creating-Solution. Evaluating consolidates
   and executes it.
 - **D2 — The evaluation.** Run the methods, gather the evidence, and judge the
@@ -92,7 +92,7 @@ and how it came out, across the whole cycle.
 ```text
 # Evaluation Log: <project>
 
-## <state> — <date>        e.g. Design Brief / PRD / issues / built solution
+## <state> — <date>        e.g. Design Brief / Spec / issues / built solution
    Criteria            — what this state is judged against (its source of truth)
    Testing methods     — how it was tested, and why those methods (D1)
    Evidence & verdict  — findings + per-criterion result, honest about confidence (D2)
@@ -110,7 +110,7 @@ a failure**:
   project (for example: generated code regenerated, formatting complete, checks
   and tests green). It is carried in from the project's template, so the agent
   starts already knowing what "done" means.
-- **The PRD / issue-level success criteria** — this cycle's own bar, inherited
+- **The Spec / issue-level success criteria** — this cycle's own bar, inherited
   from the Design Brief's justified need and decomposed to the issues.
 
 These update alongside the document:
@@ -123,7 +123,7 @@ These update alongside the document:
 ## Adversarial review: this phase is the engine
 
 The "adversarial review" the other three phase docs apply to the Design Brief, the
-PRD, and the slice breakdown is **this phase, invoked at their boundary**. It is
+Spec, and the slice breakdown is **this phase, invoked at their boundary**. It is
 the same discipline everywhere it runs:
 
 - **Spawn focused reviewers in parallel**, each judging through one lens against
@@ -144,11 +144,11 @@ with the same polish as a verified fact.
 ## When the phase is done — and the one hard gate
 
 For most of its uses, evaluating ends on **orientation**, like the other phases:
-pointed at a Brief or a PRD, it surfaces the verdict and the must-address item, and
+pointed at a Brief or a Spec, it surfaces the verdict and the must-address item, and
 the human decides whether to proceed or loop back. It offers; it does not block.
 
 But evaluating owns the framework's **one hard gate: shipping**. The solution does
-not ship while any stated criterion — Definition of Done or PRD/issue-level — is
+not ship while any stated criterion — Definition of Done or Spec/issue-level — is
 failing. That is a real, mechanical refusal, not an offer. This is the single place
 orientation gives way to enforcement, and deliberately so: everywhere else a wrong
 call is cheap to revise, but shipping a build that fails its own criteria is the
