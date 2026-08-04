@@ -5,10 +5,20 @@
 > experimentation. Project initialization, templates, companion subagents,
 > hooks, and packaged installation are still being designed.
 
-Structured Workflow gives coding agents an evidence-producing design cycle for
-working with humans. It provides a useful default direction while allowing the
-work to follow new questions, ideas, prototypes, implementation discoveries, and
-evaluation evidence wherever they lead.
+Structured Workflow started as an MCP server in the Sonnet 3.5/3.7 era, when I
+was trying to answer a question: “How do I get my agents to follow a more
+structured approach, like a human would, when facing new problems and unknown
+territory?” This update evolves that idea by bringing in the MYP Design Cycle
+from my years as a teacher as the core process for building anything with
+agents.
+
+Structured Workflow is a collaborative skillset for agents and humans. It gives
+coding agents an evidence-producing design cycle as a workflow structure,
+guiding them through the reasoned process that a product developer, designer, or
+engineer would use when approaching and solving a problem. It can be lightweight
+or support detailed analysis and research. It provides a useful default direction
+while allowing the work to follow new questions, ideas, prototypes,
+implementation discoveries, and evaluation evidence wherever they lead.
 
 The repository currently contains 20 skills: one parent and four criterion
 skills for each of four phases. It also defines the durable project files that
@@ -16,9 +26,10 @@ preserve shared understanding and workflow position across sessions.
 
 ## The design cycle
 
-New work normally moves from A through D. This direction helps the human and
-agent begin without pretending the full problem or solution is already visible.
+The default direction is to work through phases A–D, one criterion at a time.
 Work can move to any criterion or phase that best answers the current question.
+Research, ideas, exploratory visuals, and evaluation can move naturally between
+criteria as the current question changes.
 
 ### [A — Inquire and Analyze](skills/inquiry-analysis/README.md)
 
