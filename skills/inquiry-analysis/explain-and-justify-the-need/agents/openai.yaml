@@ -1,0 +1,4 @@
+interface:
+  display_name: "Explain and Justify the Need"
+  short_description: "Establish and justify what the work must address"
+  default_prompt: "Use $explain-and-justify-the-need to establish and justify the need for this work."

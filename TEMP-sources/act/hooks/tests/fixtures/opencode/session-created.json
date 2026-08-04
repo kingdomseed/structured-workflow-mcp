@@ -1,9 +1,0 @@
-{
-  "type": "session.created",
-  "properties": {
-    "info": {
-      "id": "opencode-session-1",
-      "directory": "."
-    }
-  }
-}

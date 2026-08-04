@@ -1,0 +1,4 @@
+interface:
+  display_name: "Identify and Prioritize Research"
+  short_description: "Build and answer the inquiry research plan"
+  default_prompt: "Use $identify-and-prioritize-research to identify, prioritize, and answer the research questions for this inquiry."

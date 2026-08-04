@@ -1,0 +1,4 @@
+interface:
+  display_name: "Explain How the Solution Could Be Improved"
+  short_description: "Turn evaluation findings into precise improvements"
+  default_prompt: "Use $explain-how-the-solution-could-be-improved to derive concrete improvements from the evaluation findings."

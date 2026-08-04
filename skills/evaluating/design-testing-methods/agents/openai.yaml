@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Testing Methods"
+  short_description: "Choose methods that produce relevant test evidence"
+  default_prompt: "Use $design-testing-methods to choose testing methods that can produce the evidence this evaluation needs."

@@ -1,9 +1,0 @@
-{
-  "type": "command.executed",
-  "properties": {
-    "name": "act-help",
-    "sessionID": "opencode-session-1",
-    "arguments": "workflow",
-    "messageID": "assistant-message-1"
-  }
-}

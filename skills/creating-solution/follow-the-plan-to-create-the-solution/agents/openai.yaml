@@ -1,0 +1,4 @@
+interface:
+  display_name: "Follow the Plan to Create the Solution"
+  short_description: "Build and verify the solution ticket by ticket"
+  default_prompt: "Use $follow-the-plan-to-create-the-solution to implement and verify the approved tickets."

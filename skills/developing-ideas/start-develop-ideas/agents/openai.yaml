@@ -1,0 +1,4 @@
+interface:
+  display_name: "Start Develop Ideas"
+  short_description: "Explore options and complete an approved Spec"
+  default_prompt: "Use $start-develop-ideas to explore possible solutions and complete the approved Spec."

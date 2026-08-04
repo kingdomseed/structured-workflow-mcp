@@ -1,0 +1,4 @@
+interface:
+  display_name: "Start Inquire and Analyze"
+  short_description: "Turn a request into a trusted Design Brief"
+  default_prompt: "Use $start-inquire-and-analyze to investigate this request and produce a trusted Design Brief."

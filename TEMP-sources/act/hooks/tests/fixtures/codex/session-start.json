@@ -1,7 +1,0 @@
-{
-  "hook_event_name": "SessionStart",
-  "session_id": "codex-session-1",
-  "source": "startup",
-  "model": "gpt-5.5-codex",
-  "cwd": "."
-}

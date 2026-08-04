@@ -1,0 +1,4 @@
+interface:
+  display_name: "Demonstrate Technical Skills"
+  short_description: "Apply required technical skills with evidence"
+  default_prompt: "Use $demonstrate-technical-skills to apply and document the technical skills required by this work."

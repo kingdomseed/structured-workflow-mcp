@@ -1,230 +1,199 @@
 # Structured Workflow
 
-Structured Workflow is a docs-first scaffold for installing a design cycle into
-your coding agent — and a durable memory that keeps the agent from losing its
-place in that cycle.
+Structured Workflow gives coding agents an evidence-producing design cycle for
+working with humans. It provides a useful default direction while allowing the
+work to follow new questions, ideas, prototypes, implementation discoveries, and
+evaluation evidence wherever they lead.
 
-The current repo defines the workflow model and working-file system. The planned
-distribution surface is installable skills, companion agents, and hooks for
-agent harnesses.
+The repository currently contains 20 skills: one parent and four criterion
+skills for each of four phases. It also defines the durable project files that
+preserve shared understanding and workflow position across sessions.
 
-## One System, Two Aspects
+## The design cycle
 
-Structured Workflow is a single idea with two inseparable parts.
+New work normally moves from A through D. This direction helps the human and
+agent begin without pretending the full problem or solution is already visible.
+Work can move to any criterion or phase that best answers the current question.
 
-**The workflow is the framework.** Real design work is a fluid motion between
-phases — inquiry, ideas, building, evaluation — not a fixed sequence of steps.
-The MYP Design Cycle describes that motion well, because it treats design as an
-evidence-producing process rather than a single implementation step. This is the
-high-level frame the agent works inside, for any project.
+### [A — Inquire and Analyze](skills/inquiry-analysis/README.md)
 
-**Durable files are how the agent keeps track.** An LLM's context is volatile
-memory: it compresses, drifts, and is eventually lost. So the agent's position
-in the cycle — what it has learned, where it is, and where it is going next — has
-to live somewhere durable. Structured Workflow keeps that in a small, fixed set
-of files, and uses hooks to reconnect the agent to them as context shifts.
+- A1 — Explain and justify the need
+- A2 — Identify and prioritize research
+- A3 — Analyze prior art
+- A4 — Develop the Design Brief
 
-The cycle tells the agent where it is going. The files let it remember where it
-is.
+The phase produces an approved Design Brief supported by inquiry evidence.
 
-## The Workflow: Four Phases
+### [B — Develop Ideas](skills/developing-ideas/README.md)
 
-Structured Workflow uses four phases adapted from the MYP Design Cycle. They are
-a fluid motion, not rigid gates — a skill belongs to the phase where it most
-helps the agent make progress.
+- B1 — Develop design specifications
+- B2 — Develop feasible ideas
+- B3 — Present and justify the chosen design
+- B4 — Develop planning drawings and diagrams
 
-### `inquiry-analysis`
+The phase produces an approved Spec that defines the chosen solution.
 
-Clarify the situation before choosing a solution.
+### [C — Create Solution](skills/creating-solution/README.md)
 
-Define the problem, identify stakeholders, gather context, inspect existing
-systems, compare examples, surface constraints, and write the first design brief.
+- C1 — Construct a logical plan
+- C2 — Demonstrate technical skills
+- C3 — Follow the plan to create the solution
+- C4 — Justify changes to the design
 
-Typical outputs:
+The phase produces approved tickets, a working solution, verification evidence,
+and justified changes.
 
-- problem statement
-- research notes
-- source inventory
-- glossary or domain model
-- initial success criteria
+### [D — Evaluate](skills/evaluating/README.md)
 
-### `developing-ideas`
+- D1 — Design testing methods
+- D2 — Evaluate the solution against the design specification
+- D3 — Explain how the solution could be improved
+- D4 — Explain the solution's impact
 
-Turn understanding into options.
+The phase produces an evidence-backed verdict, improvements, and an impact
+explanation.
 
-Generate alternatives, compare trade-offs, sharpen requirements, prototype
-directions, choose a path, and make the plan legible before implementation
-begins.
+The default direction inside A and B follows criterion order. Criterion C starts
+with C1, demonstrates C2 while carrying out C3, and uses C4 when creation
+requires a design change. A complete final evaluation follows D1 through D4.
 
-Typical outputs:
+Evaluation is also available throughout the cycle. A Design Brief, Spec, plan,
+ticket set, prototype, implementation, or claim can be evaluated whenever the
+work needs an evidence-based judgment.
 
-- candidate approaches
-- decision notes
-- sketches or prototypes
-- chosen design, justified against the success criteria
-- the Spec, ready to break into issues
+## How artifacts develop
 
-### `creating-solution`
+Each phase maintains one authoritative project document:
 
-Build the chosen solution while preserving traceability.
+1. The **inquiry document** preserves A1–A4 evidence and produces the Design
+   Brief.
+2. The **developing-ideas document** preserves B1–B4 evidence and completes the
+   Spec.
+3. The **creating-solution document** preserves the logical plan, technical
+   skills evidence, creation record, and justified changes. Approved
+   implementation tickets live in the project's issue tracker.
+4. The **evaluation document** accumulates reviews and final evaluation evidence.
 
-Implement, coordinate changes, keep work aligned with the plan, adapt when
-evidence changes, and record the reason for meaningful deviations.
+The documents preserve the reasoning behind each handoff. A later phase can load
+the approved artifact first and retrieve deeper evidence from the owning phase
+document when needed.
 
-Typical outputs:
+## Durable project context
 
-- working code or content
-- changed files
-- migration notes
-- deviation log
-- implementation evidence
+Structured Workflow uses a small set of project files to survive context loss:
 
-### `evaluating`
+- **`AGENTS.md`** contains the short, always-loaded workflow rules.
+- **`workflow-tracker.md`** records the current phase, exact criterion, current
+  question, active artifact, target result, and likely next move.
+- **`GLOSSARY.md`** preserves the shared meaning of important project terms.
+- **Phase documents** preserve findings, evidence, decisions, and uncertainty.
+- **Project templates** define the document locations and reusable expectations,
+  including the project's Definition of Done.
 
-Test the solution and decide what should happen next.
+The tracker records position rather than findings. Research and reasoning belong
+in the phase document that owns them. Implementation work belongs in the issue
+tracker.
 
-Verify behavior, review quality, compare outcomes against the original criteria
-and the project's Definition of Done, identify follow-up work, and explain impact.
-Evaluation is also reusable across the cycle — the agent can point it at the
-Design Brief, the Spec, or the issues, not only the finished build.
+## Human-agent collaboration
 
-Typical outputs:
+Prefer retrieval-led reasoning over training-led reasoning. The agent begins with
+the project, its code or materials, direct human knowledge, and primary sources.
+Material claims are cited where they are recorded. Supported facts, human
+judgments, inferences, and unknowns remain distinguishable.
 
-- the evaluation document — what was tested, why, and the verdict
-- test results and review findings
-- a verdict against the success criteria and Definition of Done
-- improvement list
-- release or handoff summary
+The agent develops questions from the request, project evidence, industry
+evidence, contradictions, constraints, and missing understanding. It leads
+retrieval, review, synthesis, and other bounded work. The human directs intent,
+priorities, values, and consequential choices. The balance can be even or mostly
+agent-led, depending on the human and the work.
 
-## Durable Memory: The Working Files
+This evidence trail gives the human a concrete basis for inspecting the agent's
+reasoning, evidence, and uncertainty.
 
-Context is volatile, so the agent writes its working memory to a deliberately
-small, fixed set of files. The set is bounded on purpose: tell an agent to "keep
-notes" and it will sprawl into endless side documents. A small set keeps the
-working memory coherent, and lets the agent answer — at any moment — what phase
-it is in, why it is here, and where it is going next.
+## Repository status
 
-These files live in your project, not in this repo. The working set is:
+The current repository includes:
 
-- **The phase documents** — one per phase, each the next phase's input: the
-  inquiry document (ending in the Design Brief, which begins the Spec), the
-  developing-ideas document (completing the Spec), the creating-solution document
-  (slices, technical approach, justified changes), and the evaluation document.
-  These documents *are* the cross-phase memory.
-- **`GLOSSARY.md`** — the shared, ubiquitous language, always on.
-- **`workflow-tracker.md`** — the always-on position file: which phase the work
-  is in, why it is here, and where it is going next.
-- **Project templates** — customizable per project and reused every cycle; they
-  carry standing criteria such as the project's Definition of Done, so each new
-  cycle starts already knowing what "done" means.
+- the always-loaded workflow rules in [`AGENTS.md`](AGENTS.md);
+- four parent skills and sixteen criterion skills under `skills/`;
+- four human-facing phase guides;
+- a project-level [workflow tracker template](skills/workflow-management/workflow-tracker.md).
 
-Two further anchors sit at the project level, beyond the working set:
+The following surfaces are still planned:
 
-- **The issue tracker** (for example Linear) is the task workspace — where the
-  completed Spec is decomposed into issues during Creating-Solution and work is
-  tracked.
-- **The Spec** is an output — started by the Design Brief and completed through
-  developing ideas, ready for Creating-Solution to slice into issues.
+- project initialization and document templates;
+- companion subagent definitions;
+- continuity and guardrail hooks;
+- packaged installation and update commands.
 
-Hooks maintain continuity. They bring the current phase, prior context, and the
-next action back into the agent's attention at the right moments, so the work
-survives context loss.
+The skills can be inspected and tested now, but the repository does not yet
+provide a complete installer. Projects using the workflow must currently place
+the skills and project files through their agent harness's normal configuration
+mechanism.
 
-The durable-files idea draws on two projects that treat the filesystem as the
-agent's persistent memory: Cline's Memory Bank and Othman Adi's
-planning-with-files.
-
-## Working Together: Judgment and Confidence
-
-Two principles govern how the agent and human collaborate inside every phase.
-They are what keep the cycle a real collaboration rather than an agent narrating
-its way to an answer the human rubber-stamps.
-
-### Human-ready and agent-ready work
-
-The workflow labels every handoff, decision, and proposed next step as one of two
-kinds:
-
-- **Human-ready** work needs human judgment before the agent proceeds — choosing
-  among viable approaches, approving a direction, accepting a trade-off or risk,
-  confirming scope, or deciding whether a prototype's answer is good enough.
-- **Agent-ready** work can proceed unattended because its inputs, constraints,
-  success criteria, and verification path are already clear — research, codebase
-  inspection, drafting from approved material, running checks, or slicing an
-  approved Spec into issues.
-
-This keeps the agent from treating human judgment as an implementation detail,
-and keeps the human out of the loop for work that is already well bounded.
-
-### Confidence over fluent certainty
-
-An agent can be wrong *fluently* — stating a weak inference with the same polish
-as a verified fact, which invites the human to accept it with too little
-scrutiny. The workflow counters this by requiring the agent to say how much to
-trust each meaningful claim, recommendation, and handoff artifact:
-
-- **High** — grounded in current repo evidence, direct sources, passing
-  verification, or explicit human confirmation.
-- **Medium** — plausible synthesis from partial evidence; enough to proceed, and
-  easy to revise.
-- **Low** — weak evidence, missing sources, unresolved ambiguity, or inferred
-  intent that needs verification before downstream work relies on it.
-
-When confidence is not high, the agent names the specific weak point and asks the
-human to verify it — the claim, its source, and why verification is needed —
-rather than burying uncertainty in prose. Uncertainty becomes a collaboration
-point instead of a hidden risk.
-
-## Current Repository State
-
-This repo is still being shaped. The current tracked surface is:
-
-- four phase docs under `skills/`;
-- a starter `workflow-tracker.md` template under `skills/workflow-management/`;
-- source-audit notes that will be synthesized into the retained skill surface.
-
-The intended distribution surface is:
-
-- `skills/` — reusable `SKILL.md` workflows, discoverable and installable by
-  skill-aware agent systems, grouped under the four phases plus a cross-phase
-  `workflow-management/` folder.
-- `agents/` — subagent definitions for harnesses that support specialized roles.
-- `hooks/` — guardrails and continuity hooks for harnesses that support
-  execution-time checks.
-
-The open skills install flow is the likely future distribution target, but the
-repo does not yet contain installable `SKILL.md` files. Agents and hooks are also
-not built yet.
-
-## Repository Shape
+## Repository structure
 
 ```text
+AGENTS.md
+README.md
 skills/
   inquiry-analysis/
+    README.md
+    start-inquire-and-analyze/
+    explain-and-justify-the-need/
+    identify-and-prioritize-research/
+    analyze-prior-art/
+    develop-design-brief/
   developing-ideas/
+    README.md
+    start-develop-ideas/
+    develop-design-specifications/
+    develop-feasible-ideas/
+    present-and-justify-the-chosen-design/
+    develop-planning-drawings-and-diagrams/
   creating-solution/
+    README.md
+    start-create-solution/
+    construct-a-logical-plan/
+    demonstrate-technical-skills/
+    follow-the-plan-to-create-the-solution/
+    justify-changes-to-the-design/
   evaluating/
+    README.md
+    start-evaluate/
+    design-testing-methods/
+    evaluate-against-the-design-specification/
+    explain-how-the-solution-could-be-improved/
+    explain-the-solutions-impact/
   workflow-management/
-
-agents/
-  inquiry-analysis/
-  developing-ideas/
-  creating-solution/
-  evaluating/
-
-hooks/
+    workflow-tracker.md
 ```
 
-The four phase folders are organizational boundaries, not extra phases.
-`workflow-management/` holds cross-phase files such as the workflow tracker and
-project templates, not a phase. Installable skill folders and companion
-agents/hooks will be added after the source audit is synthesized.
+The phase folders organize the skills; they are not additional workflow phases.
+`workflow-management/` contains cross-phase project resources.
 
-## References
+## Sources and acknowledgments
 
-- [IB: Design in the MYP](https://www.ibo.org/programmes/middle-years-programme/curriculum/design/)
-- [IB MYP Design Subject Brief](https://www.ibo.org/globalassets/new-structure/brochures-and-infographics/pdfs/myp-brief_design_2015.pdf)
-- [Design and Inquiry: MYP Design Cycle](https://sites.google.com/view/designandinquiry/myp-design)
+Structured Workflow adapts the four criteria of the
+[IB MYP Design Cycle](https://www.ibo.org/programmes/middle-years-programme/curriculum/design/)
+for human-agent software work.
+
+The criterion structure was checked against the
+[IB MYP Design Subject Brief](https://www.ibo.org/globalassets/new-structure/brochures-and-infographics/pdfs/myp-brief_design_2015.pdf)
+and the diagrams published by
+[Design and Inquiry](https://sites.google.com/view/designandinquiry/myp-design).
+
+The workflow and skill design were informed by:
+
+- [CodeWithAndreaPro/agentic-coding-toolkit](https://github.com/CodeWithAndreaPro/agentic-coding-toolkit)
+- [VeryGoodOpenSource/vgv-wingspan](https://github.com/VeryGoodOpenSource/vgv-wingspan)
+- [VeryGoodOpenSource/vgv-ai-flutter-plugin](https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin)
+- [mattpocock/skills](https://github.com/mattpocock/skills)
+- [obra/superpowers](https://github.com/obra/superpowers)
+- OpenAI's Product Design skill pack
 - [Cline Memory Bank](https://docs.cline.bot/prompting/cline-memory-bank)
-- [Othman Adi: planning-with-files](https://github.com/OthmanAdi/planning-with-files)
-- [vercel-labs/skills](https://github.com/vercel-labs/skills)
+- [OthmanAdi/planning-with-files](https://github.com/OthmanAdi/planning-with-files)
+
+The human-judgment and evidence-trace principles were also informed by Shaw and
+Nave's research on
+[cognitive surrender](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6097646).

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Present and Justify the Chosen Design"
+  short_description: "Choose and justify one coherent design"
+  default_prompt: "Use $present-and-justify-the-chosen-design to compare the feasible ideas and justify the chosen design."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop Planning Drawings and Diagrams"
+  short_description: "Complete the planning documents and Spec"
+  default_prompt: "Use $develop-planning-drawings-and-diagrams to complete the planning documents and approved Spec."

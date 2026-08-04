@@ -1,0 +1,4 @@
+interface:
+  display_name: "Start Create Solution"
+  short_description: "Turn an approved Spec into a working solution"
+  default_prompt: "Use $start-create-solution to plan, build, and verify the approved solution."

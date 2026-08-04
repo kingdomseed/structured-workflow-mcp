@@ -1,34 +1,36 @@
 # Workflow Tracker
 
-The always-on position file for the design cycle. It answers, at any moment,
-which phase the work is in, why it is here, and where it is going next — so the
-work survives context loss and the back-and-forth between phases stays safe.
-
-It is a peer to `GLOSSARY.md`: always on, re-read at phase entry, updated as
-sessions progress. Keep it short. It records *position*, not findings — findings
-live in the phase documents.
+`workflow-tracker.md` is the short, always-current position record for one
+Structured Workflow cycle. Update it before workflow work and whenever the work
+moves to another criterion or phase. Keep findings in the phase documents.
 
 ---
 
 ## Current position
 
-- **Phase:** <inquiry-analysis | developing-ideas | creating-solution | evaluating>
-- **Phase document:** <path to the authoritative doc for this phase>
-- **Criterion / strand:** <e.g. B2 — developing feasible ideas>
-- **Target artifact:** <what this phase is moving toward, e.g. the Spec (B4)>
+- **Phase:** <A — Inquire and Analyze | B — Develop Ideas | C — Create Solution | D — Evaluate>
+- **Criterion:** <use the exact A1–D4 name>
+- **Current question:** <the question this work is trying to answer>
+- **Active document:** <path to the authoritative phase document>
+- **Artifact or version:** <the exact artifact, state, commit, build, or prototype under consideration>
+- **Active ticket:** <ticket or work item, when applicable>
+- **Target artifact:** <the evidence, decision, document, ticket set, solution, or verdict this work should produce>
 
-## Linked artifacts
+## Linked context
 
-- **Upstream (input):** <path/link to the prior phase's handoff artifact>
-- **Downstream (output):** <path/link/issue-tracker ref, once it exists>
-- **Glossary:** GLOSSARY.md
+- **Upstream evidence:** <paths or links to the material this work depends on>
+- **Criteria source:** <Design Brief, Spec, ticket acceptance criteria, Definition of Done, or other authority>
+- **Downstream destination:** <path, issue tracker, release, or next artifact when known>
+- **Glossary:** <path to GLOSSARY.md>
 
 ## Movement
 
-- **Likely next phase:** <phase the work is heading toward>
-- **Looping back?:** <no | yes — to which phase, and the question that sent it back>
-- **Open blocking decisions:** <none, or the decisions that must resolve before handoff>
+- **Likely next move:** <criterion or phase that currently appears most useful>
+- **Why:** <why that destination fits the current question>
+- **Expected result:** <what the move should establish>
+- **Return destination:** <where temporary research, prototyping, or evaluation should return its findings>
+- **Open blocking decisions:** <none, or decisions that prevent reliable progress>
 
 ## Notes
 
-<one or two lines of position context for the next agent; not a findings log>
+<one or two lines that help the next agent recover the current position; not a findings log>

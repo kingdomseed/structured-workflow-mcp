@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop the Design Brief"
+  short_description: "Turn inquiry evidence into an approved brief"
+  default_prompt: "Use $develop-design-brief to develop an approved Design Brief from the inquiry evidence."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop Design Specifications"
+  short_description: "Turn the Design Brief into measurable criteria"
+  default_prompt: "Use $develop-design-specifications to turn the Design Brief into clear success criteria."

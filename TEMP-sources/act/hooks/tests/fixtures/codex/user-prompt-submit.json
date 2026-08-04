@@ -1,6 +1,0 @@
-{
-  "hook_event_name": "UserPromptSubmit",
-  "session_id": "codex-session-1",
-  "prompt": "Format the edited Dart file",
-  "cwd": "."
-}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Construct a Logical Plan"
+  short_description: "Create the plan and implementation tickets"
+  default_prompt: "Use $construct-a-logical-plan to turn the approved Spec into an executable plan and implementation tickets."
