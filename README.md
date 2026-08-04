@@ -1,5 +1,10 @@
 # Structured Workflow
 
+> [!IMPORTANT]
+> **Work in progress.** The 20 workflow skills are available for review and
+> experimentation. Project initialization, templates, companion subagents,
+> hooks, and packaged installation are still being designed.
+
 Structured Workflow gives coding agents an evidence-producing design cycle for
 working with humans. It provides a useful default direction while allowing the
 work to follow new questions, ideas, prototypes, implementation discoveries, and
