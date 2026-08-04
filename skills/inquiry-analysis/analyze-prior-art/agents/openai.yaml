@@ -1,0 +1,4 @@
+interface:
+  display_name: "Analyze Prior Art"
+  short_description: "Study relevant internal and external examples"
+  default_prompt: "Use $analyze-prior-art to analyze internal and external prior art for this inquiry."

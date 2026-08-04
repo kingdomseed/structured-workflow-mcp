@@ -1,379 +1,215 @@
-# Structured Workflow MCP Server
+# Structured Workflow
 
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://coff.ee/jasonholtdigital)
+> [!IMPORTANT]
+> **Work in progress.** The 20 workflow skills are available for review and
+> experimentation. Project initialization, templates, companion subagents,
+> hooks, and packaged installation are still being designed.
 
-NOTE: I am not currently working on this or actively maintaining it. I learned a few things about prompting and agents while making this MCP server. It has a lot of very valuable ideas that could be used or improved upon as an MCP server but I'm also looking at ways to incorporate the core ideas into Agents, for example, in Claude. The core idea here is that AI should follow specific, pre-determined steps to solving a problem, just like we as humans might do and there may be other ways to achieve this apart from this MCP server. 
+Structured Workflow started as an MCP server in the Sonnet 3.5/3.7 era, when I
+was trying to answer a question: “How do I get my agents to follow a more
+structured approach, like a human would, when facing new problems and unknown
+territory?” This update evolves that idea by bringing in the MYP Design Cycle
+from my years as a teacher as the core process for building anything with
+agents.
 
-An MCP server that enforces disciplined programming practices by requiring AI assistants to audit their work and produce verified outputs at each phase of development.
+Structured Workflow is a collaborative skillset for agents and humans. It gives
+coding agents an evidence-producing design cycle as a workflow structure,
+guiding them through the reasoned process that a product developer, designer, or
+engineer would use when approaching and solving a problem. It can be lightweight
+or support detailed analysis and research. It provides a useful default direction
+while allowing the work to follow new questions, ideas, prototypes,
+implementation discoveries, and evaluation evidence wherever they lead.
 
-## Why I Built This
+The repository currently contains 20 skills: one parent and four criterion
+skills for each of four phases. It also defines the durable project files that
+preserve shared understanding and workflow position across sessions.
 
-**TLDR**: I got tired of repeating "inventory and audit first" across every AI platform and prompt, so I built an MCP server that automatically enforces this disciplined approach. It forces AI to think systematically and follow structured phases instead of jumping straight into code changes. 
+## The design cycle
 
-So I've built an MCP server that fits into my workflow and thinking process while I'm programming. I made it available via npx and you can download it yourself if you want something local. 
+The default direction is to work through phases A–D, one criterion at a time.
+Work can move to any criterion or phase that best answers the current question.
+Research, ideas, exploratory visuals, and evaluation can move naturally between
+criteria as the current question changes.
 
-In essence I was doing some repeated tasks with AI where I wanted it to complete refactoring work for part of a larger project. I was struggling because it was often missing or glossing over key things: classes or systems that already exist (a preferences service for example), creating duplicates of things, or when correcting mistakes, leaving orphaned unused methods/code around places, and when writing tests it would often pull in the wrong imports or put these together in the wrong way resulting in syntax errors but would jump straight into writing the next test without fixing the first one that was broken.
+### [A — Inquire and Analyze](skills/inquiry-analysis/README.md)
 
-I sort of stumbled on this idea of the model needing to perform an audit and inventory of the current project (or not even the whole project--just one layer or feature in a project) before moving to any kind of implementation phase and it needed a lint iterate lint phase. I tried this with rules with limited success and then prompting with much better success but I was constantly repeating myself. 
+- A1 — Explain and justify the need
+- A2 — Identify and prioritize research
+- A3 — Analyze prior art
+- A4 — Develop the Design Brief
 
-So I started noodling on this idea of an MCP server that forced the AI to work through a problem in phases or lanes. So that's what this does. There's a number of different workflow styles and I'm open to any other ideas or improvements.
+The phase produces an approved Design Brief supported by inquiry evidence.
 
-Feel free to check it out if it helps your use case. It's a work in progress but it has been doing a pretty great job for what I'm using it for now. Happy to share more if you are interested.
+### [B — Develop Ideas](skills/developing-ideas/README.md)
 
-## Features
+- B1 — Develop design specifications
+- B2 — Develop feasible ideas
+- B3 — Present and justify the chosen design
+- B4 — Develop planning drawings and diagrams
 
-**Enforced Workflow Phases** - AI must complete specific phases in order (setup, audit, analysis, planning, implementation, testing, etc.)
+The phase produces an approved Spec that defines the chosen solution.
 
-**Mandatory Output Artifacts** - Each phase requires structured documentation or verified outputs before proceeding
+### [C — Create Solution](skills/creating-solution/README.md)
 
-**Multiple Workflow Types**:
-- Refactor workflows for code improvement  
-- Feature development with integrated testing
-- Test-focused workflows for coverage improvement
-- Test-driven development (TDD) cycles
-- Custom workflows for specialized needs
+- C1 — Construct a logical plan
+- C2 — Demonstrate technical skills
+- C3 — Follow the plan to create the solution
+- C4 — Justify changes to the design
 
-**Output Verification** - The server validates that outputs contain meaningful content and proper structure
+The phase produces approved tickets, a working solution, verification evidence,
+and justified changes.
 
-**Session State Management** - Tracks progress and prevents skipping phases
+### [D — Evaluate](skills/evaluating/README.md)
 
-## How It Works
+- D1 — Design testing methods
+- D2 — Evaluate the solution against the design specification
+- D3 — Explain how the solution could be improved
+- D4 — Explain the solution's impact
 
-Here's how the AI moves through a structured workflow:
+The phase produces an evidence-backed verdict, improvements, and an impact
+explanation.
 
-```mermaid
-graph TD
-    A[🚀 Start Workflow] --> B[AI Gets Phase Guidance]
-    B --> C{Create Phase Output}
-    C --> D[Auto-Save with Numbered Naming<br/>00-setup-confirmation-2025-01-07.md]
-    D --> E[Phase Validation]
-    E --> F{All Phases Done?}
-    F -->|No| G[Move to Next Phase]
-    G --> B
-    F -->|Yes| H[Workflow Complete!]
-    
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style C fill:#fff3e0
-    style D fill:#e8f5e8
-    style E fill:#fff9c4
-    style H fill:#e8f5e8
+The default direction inside A and B follows criterion order. Criterion C starts
+with C1, demonstrates C2 while carrying out C3, and uses C4 when creation
+requires a design change. A complete final evaluation follows D1 through D4.
+
+Evaluation is also available throughout the cycle. A Design Brief, Spec, plan,
+ticket set, prototype, implementation, or claim can be evaluated whenever the
+work needs an evidence-based judgment.
+
+## How artifacts develop
+
+Each phase maintains one authoritative project document:
+
+1. The **inquiry document** preserves A1–A4 evidence and produces the Design
+   Brief.
+2. The **developing-ideas document** preserves B1–B4 evidence and completes the
+   Spec.
+3. The **creating-solution document** preserves the logical plan, technical
+   skills evidence, creation record, and justified changes. Approved
+   implementation tickets live in the project's issue tracker.
+4. The **evaluation document** accumulates reviews and final evaluation evidence.
+
+The documents preserve the reasoning behind each handoff. A later phase can load
+the approved artifact first and retrieve deeper evidence from the owning phase
+document when needed.
+
+## Durable project context
+
+Structured Workflow uses a small set of project files to survive context loss:
+
+- **`AGENTS.md`** contains the short, always-loaded workflow rules.
+- **`workflow-tracker.md`** records the current phase, exact criterion, current
+  question, active artifact, target result, and likely next move.
+- **`GLOSSARY.md`** preserves the shared meaning of important project terms.
+- **Phase documents** preserve findings, evidence, decisions, and uncertainty.
+- **Project templates** define the document locations and reusable expectations,
+  including the project's Definition of Done.
+
+The tracker records position rather than findings. Research and reasoning belong
+in the phase document that owns them. Implementation work belongs in the issue
+tracker.
+
+## Human-agent collaboration
+
+Prefer retrieval-led reasoning over training-led reasoning. The agent begins with
+the project, its code or materials, direct human knowledge, and primary sources.
+Material claims are cited where they are recorded. Supported facts, human
+judgments, inferences, and unknowns remain distinguishable.
+
+The agent develops questions from the request, project evidence, industry
+evidence, contradictions, constraints, and missing understanding. It leads
+retrieval, review, synthesis, and other bounded work. The human directs intent,
+priorities, values, and consequential choices. The balance can be even or mostly
+agent-led, depending on the human and the work.
+
+This evidence trail gives the human a concrete basis for inspecting the agent's
+reasoning, evidence, and uncertainty.
+
+## Repository status
+
+The current repository includes:
+
+- the always-loaded workflow rules in [`AGENTS.md`](AGENTS.md);
+- four parent skills and sixteen criterion skills under `skills/`;
+- four human-facing phase guides;
+- a project-level [workflow tracker template](skills/workflow-management/workflow-tracker.md).
+
+The following surfaces are still planned:
+
+- project initialization and document templates;
+- companion subagent definitions;
+- continuity and guardrail hooks;
+- packaged installation and update commands.
+
+The skills can be inspected and tested now, but the repository does not yet
+provide a complete installer. Projects using the workflow must currently place
+the skills and project files through their agent harness's normal configuration
+mechanism.
+
+## Repository structure
+
+```text
+AGENTS.md
+README.md
+skills/
+  inquiry-analysis/
+    README.md
+    start-inquire-and-analyze/
+    explain-and-justify-the-need/
+    identify-and-prioritize-research/
+    analyze-prior-art/
+    develop-design-brief/
+  developing-ideas/
+    README.md
+    start-develop-ideas/
+    develop-design-specifications/
+    develop-feasible-ideas/
+    present-and-justify-the-chosen-design/
+    develop-planning-drawings-and-diagrams/
+  creating-solution/
+    README.md
+    start-create-solution/
+    construct-a-logical-plan/
+    demonstrate-technical-skills/
+    follow-the-plan-to-create-the-solution/
+    justify-changes-to-the-design/
+  evaluating/
+    README.md
+    start-evaluate/
+    design-testing-methods/
+    evaluate-against-the-design-specification/
+    explain-how-the-solution-could-be-improved/
+    explain-the-solutions-impact/
+  workflow-management/
+    workflow-tracker.md
 ```
 
-**What happens at each step:**
-1. **Start Workflow** - AI calls a workflow tool (refactor_workflow, create_feature_workflow, etc.)
-2. **AI Gets Phase Guidance** - Server provides specific instructions for current phase (audit, analyze, implement, etc.)
-3. **Create Phase Output** - AI works through the phase and creates documentation/artifacts
-4. **Auto-Save** - Files are automatically saved with numbered naming in task directories
-5. **Phase Validation** - Server validates outputs meet requirements before proceeding
-6. **Next Phase** - Process repeats until workflow is complete
-
-One benefit of this breakdown is that the AI agent receive instruction sets that are relevant to the current phase and not the entire workflow. This can help prevent the AI from getting lost in the weeds of the entire workflow and instead focus on the current phase. An interesting article on this can be read here: [LLMs Get Lost In Multi-Turn Conversation](https://arxiv.org/abs/2505.06120v1)
-
-## Workflow Output
-
-### AI-Generated Documentation
-
-The server **suggests** numbered workflow files as you progress through phases. The AI assistant handles the actual file creation using its own tools:
-
-```
-workflows/
-├── your-task-name/
-│   ├── 01-audit-inventory-2025-01-04.md
-│   ├── 02-compare-analyze-2025-01-04.json
-│   ├── 03-question-determine-2025-01-04.md
-│   ├── 04-write-or-refactor-2025-01-04.md
-│   ├── 05-test-2025-01-04.json
-│   ├── 06-lint-2025-01-04.json
-│   ├── 07-iterate-2025-01-04.md
-│   └── 08-present-2025-01-04.md
-```
-
-### Workflow Architecture
-
-**File Handling**: The server provides suggested paths and formats but does not directly write files. Instead, it instructs the AI assistant to create these files using its own file system access.
-
-**Consistent Naming**: Files follow a standardized naming convention with phase numbers, names, and timestamps.
-
-**Environment Independence**: The architecture works across any environment where the AI has appropriate file system permissions.
-
-**Graceful Degradation**: If the AI is unable to create files, the workflow continues in memory-only mode - your progress isn't interrupted.
-
-## Installation
-
-### Quick Start (Recommended) - Zero Installation
-
-**Add to your AI assistant config** - Uses npx automatically:
-
-> 💡 **Note**: I recommend using `@latest` to ensure you always get the newest features and fixes. Without `@latest`, npx may cache older versions.
-
-**VS Code / Cursor / Windsurf** - Add to your MCP settings:
-```json
-{
-  "mcp": {
-    "servers": {
-      "structured-workflow": {
-        "command": "npx",
-        "args": ["structured-workflow-mcp@latest"],
-        "env": {}
-      }
-    }
-  }
-}
-```
-
-
-
-**Claude Desktop** - Add to your `claude_desktop_config.json`:
-```json
-{
-  "mcpServers": {
-    "structured-workflow": {
-      "command": "npx",
-      "args": ["structured-workflow-mcp@latest"],
-      "env": {}
-    }
-  }
-}
-```
-
-
-
-### Global Installation (Optional)
-
-You can install globally on your machine using NPM:
-
-```bash
-npm install -g structured-workflow-mcp
-```
-
-Then use in your AI assistant config:
-```json
-{
-  "mcp": {
-    "servers": {
-      "structured-workflow": {
-        "command": "structured-workflow-mcp",
-        "args": [],
-        "env": {}
-      }
-    }
-  }
-}
-```
-
-**With custom output directory**:
-```json
-{
-  "mcp": {
-    "servers": {
-      "structured-workflow": {
-        "command": "structured-workflow-mcp",
-        "args": ["--output-dir", "/home/user/workflow-outputs"],
-        "env": {}
-      }
-    }
-  }
-}
-```
-
-### Manual Installation
-
-For developers, you can clone the repository and build it locally:
-
-```bash
-git clone https://github.com/kingdomseed/structured-workflow-mcp
-cd structured-workflow-mcp
-npm install && npm run build
-```
-
-## Usage
-
-Once configured in your AI assistant, start with these workflow tools:
-
-- `mcp__structured-workflow__build_custom_workflow` - Create custom workflows 
-- `mcp__structured-workflow__refactor_workflow` - Structured refactoring
-- `mcp__structured-workflow__create_feature_workflow` - Feature development
-- `mcp__structured-workflow__test_workflow` - Test coverage workflows
-
-## Example Output Artifacts
-
-The server enforces that AI produces structured outputs like these:
-
-**AUDIT_INVENTORY Phase Output:**
-```json
-{
-  "filesAnalyzed": ["lib/auth/user_service.dart", "lib/auth/auth_middleware.dart"],
-  "dependencies": {
-    "providers": ["userProvider", "authStateProvider"],
-    "models": ["User", "AuthToken"]
-  },
-  "issues": [
-    "Single Responsibility Principle violation - handles too many concerns",
-    "File approaching 366 lines - recommended to keep widgets smaller"
-  ],
-  "changesList": [
-    {
-      "action": "CREATE",
-      "file": "lib/auth/components/auth_form.dart",
-      "description": "Extract authentication form logic",
-      "justification": "Component focused on form validation only"
-    }
-  ]
-}
-```
-
-**COMPARE_ANALYZE Phase Output:**
-```json
-{
-  "approaches": [
-    {
-      "name": "Incremental Component Extraction",
-      "complexity": "Medium",
-      "risk": "Low", 
-      "timeEstimate": "30-45 minutes"
-    }
-  ],
-  "recommendation": "Incremental Component Extraction",
-  "justification": "Provides best balance of benefits vs. risk",
-  "selectedImplementationOrder": [
-    "1. Extract form component (lowest risk)",
-    "2. Create validation service",
-    "3. Refactor main view"
-  ]
-}
-```
-
-Each phase requires documented analysis and planning before the AI can proceed to implementation.
-
-## Tools
-
-### Workflow Entry Points
-
-**refactor_workflow** - Start a structured refactoring process with required analysis and planning phases
-
-**create_feature_workflow** - Develop new features with integrated testing and documentation requirements  
-
-**test_workflow** - Add test coverage with mandatory analysis of what needs testing
-
-**tdd_workflow** - Implement Test-Driven Development with enforced Red-Green-Refactor cycles
-
-**build_custom_workflow** - Create workflows with custom phases and validation requirements
-
-### Phase Guidance Tools
-
-- **audit_inventory_guidance** - Forces thorough code analysis and change cataloging
-
-- **compare_analyze_guidance** - Requires evaluation of multiple approaches with pros/cons
-
-- **question_determine_guidance** - Mandates clarification and finalized planning
-
-- **phase_output** - Validates and records structured outputs from each phase
-
-- **workflow_status** - Check current progress and validation state
-
-## Usage
-
-The server enforces structured workflows through mandatory phases. Each workflow type has different phase requirements:
-
-- **Refactor Workflow**: AUDIT_INVENTORY → COMPARE_ANALYZE → QUESTION_DETERMINE → WRITE_OR_REFACTOR → LINT → ITERATE → PRESENT
-
-- **Feature Workflow**: PLANNING → QUESTION_DETERMINE → WRITE_OR_REFACTOR → TEST → LINT → ITERATE → PRESENT  
-
-- **Test Workflow**: AUDIT_INVENTORY → QUESTION_DETERMINE → WRITE_OR_REFACTOR → TEST → ITERATE → PRESENT
-
-- **TDD Workflow**: PLANNING → WRITE_OR_REFACTOR → TEST → (Red-Green-Refactor cycles) → LINT → PRESENT
-
-### Input Validation
-
-The server requires:
-- `task` (string): Description of what you want to accomplish
-- `outputArtifacts` (array): Structured documentation for each completed phase
-
-### Output Validation
-
-Each phase completion is validated for:
-- Meaningful content length (minimum 10 characters)
-- Valid JSON format for structured outputs
-- Phase-specific content requirements
-- Proper documentation of decisions and analysis
-
-### Safety Rule
-
-Files must be read before modification. This prevents accidental data loss and ensures informed changes.
-
-## Development
-
-```bash
-npm run dev      # TypeScript compiler in watch mode  
-npm run lint     # Run linter
-npm run typecheck # Type checking
-npm test         # Run tests
-```
-
-## How It Works
-
-1. AI starts a workflow using one of the entry point tools
-2. Server creates a session and tracks phase progression  
-3. Each phase requires specific outputs before proceeding
-4. The `phase_output` tool validates artifacts have meaningful content
-5. AI cannot skip phases or claim completion without verified outputs
-6. Session state prevents circumventing the structured approach
-
-## Testing the MCP Server
-
-You can quickly try out the Structured Workflow MCP server using the test prompts and helper scripts included in this repository.
-
-1. Build the server (if you haven't already):
-   ```bash
-   npm run build
-   ```
-2. Start the server:
-   ```bash
-   node dist/index.js
-   ```
-3. Open the test prompt [`docs/test_prompt/mcp_server_test_prompt.md`](docs/test_prompt/mcp_server_test_prompt.md) in your preferred MCP-compatible AI client and paste the contents.
-4. Alternatively, open the sample project located in [`refactor-test/`](refactor-test) for an end-to-end refactor workflow demo. Follow the steps in its `README.md` to run and observe the structured workflow in action.
-5. Watch the AI progress through each phase and verify the structured outputs produced.
-
-## Sample Prompts
-
-The [`docs/sample_prompts`](docs/sample_prompts) directory contains several ready-to-use prompts illustrating typical workflows:
-
-- `feature_workflow_prompt.md`
-- `refactor_workflow_prompt.md`
-- `test_workflow_prompt.md`
-- `tdd_workflow_prompt.md`
-- `custom_workflow_prompt.md`
-
-Use these as a starting point and adapt them to your projects.
-
-## Building
-
-```bash
-npm install
-npm run build
-```
-
-The server uses TypeScript with the @modelcontextprotocol/sdk and runs locally via stdio transport.
-
-## Pull Requests Welcome
-
-I welcome and encourage pull requests! Whether you're fixing bugs, adding features, or improving documentation, your contributions are valuable.
-
-Please follow these steps:
-
-1. Fork the repository on GitHub.
-2. Create a new branch: `git checkout -b feature/your-feature`.
-3. Make your changes and commit with clear, descriptive messages.
-4. Write tests for any new functionality and ensure all existing tests pass.
-5. Push to your branch: `git push origin feature/your-feature`.
-6. Open a pull request and describe your changes clearly.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for more details, if available.  
-
-Thank you for contributing!
-
-## License
-
-This MCP server is licensed under the MIT License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the MIT License.
+The phase folders organize the skills; they are not additional workflow phases.
+`workflow-management/` contains cross-phase project resources.
+
+## Sources and acknowledgments
+
+Structured Workflow adapts the four criteria of the
+[IB MYP Design Cycle](https://www.ibo.org/programmes/middle-years-programme/curriculum/design/)
+for human-agent software work.
+
+The criterion structure was checked against the
+[IB MYP Design Subject Brief](https://www.ibo.org/globalassets/new-structure/brochures-and-infographics/pdfs/myp-brief_design_2015.pdf)
+and the diagrams published by
+[Design and Inquiry](https://sites.google.com/view/designandinquiry/myp-design).
+
+The workflow and skill design were informed by:
+
+- [CodeWithAndreaPro/agentic-coding-toolkit](https://github.com/CodeWithAndreaPro/agentic-coding-toolkit)
+- [VeryGoodOpenSource/vgv-wingspan](https://github.com/VeryGoodOpenSource/vgv-wingspan)
+- [VeryGoodOpenSource/vgv-ai-flutter-plugin](https://github.com/VeryGoodOpenSource/vgv-ai-flutter-plugin)
+- [mattpocock/skills](https://github.com/mattpocock/skills)
+- [obra/superpowers](https://github.com/obra/superpowers)
+- OpenAI's Product Design skill pack
+- [Cline Memory Bank](https://docs.cline.bot/prompting/cline-memory-bank)
+- [OthmanAdi/planning-with-files](https://github.com/OthmanAdi/planning-with-files)
+
+The human-judgment and evidence-trace principles were also informed by Shaw and
+Nave's research on
+[cognitive surrender](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6097646).

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Evaluate Against the Design Specification"
+  short_description: "Reach an evidence-backed verdict against criteria"
+  default_prompt: "Use $evaluate-against-the-design-specification to judge the solution against its approved criteria."

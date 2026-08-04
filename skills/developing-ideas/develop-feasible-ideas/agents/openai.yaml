@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop Feasible Ideas"
+  short_description: "Develop and test meaningfully different ideas"
+  default_prompt: "Use $develop-feasible-ideas to explore meaningfully different ways to meet the design specifications."

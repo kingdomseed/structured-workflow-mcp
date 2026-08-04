@@ -1,0 +1,4 @@
+interface:
+  display_name: "Justify Changes to the Design"
+  short_description: "Record and justify necessary design changes"
+  default_prompt: "Use $justify-changes-to-the-design to record and justify a change discovered during creation."

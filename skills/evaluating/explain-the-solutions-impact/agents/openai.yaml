@@ -1,0 +1,4 @@
+interface:
+  display_name: "Explain the Solution’s Impact"
+  short_description: "Explain the effect on the identified need"
+  default_prompt: "Use $explain-the-solutions-impact to explain the solution’s impact on the identified need."

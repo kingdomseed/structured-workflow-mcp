@@ -1,0 +1,4 @@
+interface:
+  display_name: "Start Evaluate"
+  short_description: "Judge work against criteria using fresh evidence"
+  default_prompt: "Use $start-evaluate to judge this work against its criteria using fresh evidence."
