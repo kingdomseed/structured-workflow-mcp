@@ -1,9 +1,9 @@
 ---
 name: present-and-justify-the-chosen-design
-description: Establish Criterion B3 by comparing feasible ideas against the design specifications and recording the human-approved design with a complete justification. Use when credible alternatives exist and the work is ready to converge, or when later evidence reopens the choice.
+description: Use when credible alternatives exist and the work is ready to choose one, or when later evidence reopens the choice.
 ---
 
-# Present and Justify the Chosen Design
+# Present and justify the chosen design
 
 Update `workflow-tracker.md` to B3 before starting. Read the Design Brief, B1 design specifications, B2 feasible ideas and prototype evidence, current developing-ideas document, `GLOSSARY.md`, and relevant sources.
 
@@ -17,7 +17,7 @@ For each idea, explain:
 - where it creates trade-offs or residual risk;
 - which assumptions remain untested;
 - how it affects the people, systems, constraints, and existing project;
-- the confidence warranted by the evidence.
+- the confidence supported by the evidence.
 
 Use a table or scoring method only when it makes the reasoning easier to inspect. Avoid invented precision. Explain any weighting and let the human change it.
 

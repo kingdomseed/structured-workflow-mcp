@@ -1,9 +1,9 @@
 ---
 name: evaluate-against-the-design-specification
-description: Establish Criterion D2 by running the approved testing methods and judging the current artifact against its design specifications or other explicit criteria. Use when fresh evidence is needed for a verdict, review, completion claim, handoff, or shipping decision.
+description: Use when a verdict, review, completion claim, handoff, or shipping decision needs fresh evidence against explicit criteria.
 ---
 
-# Evaluate the Solution Against the Design Specification
+# Evaluate the solution against the design specification
 
 Update `workflow-tracker.md` to D2 before starting. Read the D1 methods, exact artifact and state under evaluation, approved criteria, owning phase document, relevant project instructions, and available evidence.
 
@@ -19,26 +19,26 @@ For every criterion:
 
 Re-run a method when the artifact changes. Keep a previous result as history, not proof of the new state. Inspect delegated work and reviewer claims independently before accepting them.
 
-When diagnosing a failure, first build a tight method that reproduces the exact symptom. Develop several falsifiable explanations, test one variable at a time, and preserve the evidence that identifies the cause. Return fixing work to the owning phase.
+When diagnosing a failure, first build a tight method that reproduces the exact symptom. List several possible causes that evidence could disprove. Test one variable at a time and preserve the evidence that identifies the cause. Return fixing work to the owning phase.
 
 ## Reach the verdict
 
 Mark each criterion as:
 
-- **verified** — current evidence meets the stated criterion;
-- **partially verified** — evidence covers part of the criterion and names the remaining gap;
-- **failed** — current evidence contradicts the criterion;
-- **not proven** — no adequate result supports a judgment;
-- **blocked** — the artifact, method, environment, or source of truth required for comparison is unavailable.
+- **verified**: current evidence meets the stated criterion;
+- **partially verified**: evidence covers part of the criterion and names the remaining gap;
+- **failed**: current evidence contradicts the criterion;
+- **not proven**: no adequate result supports a judgment;
+- **blocked**: the artifact, method, environment, or source of truth required for comparison is unavailable.
 
 Report review findings with severity proportional to consequence. Include what is wrong, the criterion, evidence, why it matters, and the owning criterion or recommended change. Keep objective mismatches separate from judgment-based suggestions. Do not invent findings to fill a format.
 
-Use separate verdicts for independent axes, then state an overall result:
+Give separate verdicts to criteria that can pass or fail independently, then state an overall result:
 
-- **pass** — every required criterion is verified;
-- **pass with warnings** — every required criterion is verified and advisory or residual risks remain;
-- **fail** — at least one required criterion failed or is only partially verified;
-- **blocked** — a required judgment cannot be made with the available artifact or evidence.
+- **pass**: every required criterion is verified;
+- **pass with warnings**: every required criterion is verified and advisory or residual risks remain;
+- **fail**: at least one required criterion failed or is only partially verified;
+- **blocked**: a required judgment cannot be made with the available artifact or evidence.
 
 Review first. Edit only after the human asks to act on findings and the workflow moves to the criterion that owns the change. Verify feedback against the actual project; accept, reject, or refine it with technical evidence rather than agreement by default.
 

@@ -1,9 +1,9 @@
 ---
 name: justify-changes-to-the-design
-description: Establish Criterion C4 by recording and justifying meaningful changes discovered while creating the solution, then updating the artifacts that own the affected decision. Use when implementation evidence requires a departure from the Spec, chosen design, plan, or ticket.
+description: Use when implementation evidence requires a departure from the Spec, chosen design, plan, or ticket.
 ---
 
-# Justify Changes to the Design
+# Justify changes to the design
 
 Update `workflow-tracker.md` to C4 before changing the approved direction. Read the active ticket, Spec, chosen-design justification, C1 plan, C2 and C3 evidence, current creating-solution document, `GLOSSARY.md`, and the evidence that exposed the need for change.
 
@@ -31,7 +31,7 @@ Record the change while the evidence is fresh. Include:
 - consequences, residual risk, and confidence;
 - links to the relevant evidence, changes, and verification.
 
-Use the smallest change that resolves the evidence while preserving the approved need and quality. A later explanation cannot turn silent drift into a justified decision; update the owning artifact before dependent work relies on the change whenever possible.
+Use the smallest change that resolves the evidence while preserving the approved need and quality. A later explanation does not justify silent drift. Update the owning artifact before dependent work relies on the change whenever possible.
 
 ## Reconcile the workflow
 

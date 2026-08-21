@@ -1,13 +1,13 @@
 ---
 name: develop-planning-drawings-and-diagrams
-description: Establish Criterion B4 by producing the planning drawings, diagrams, models, contracts, and creation requirements needed to complete the approved Spec. Use after a design is chosen, or when creation exposes missing or conflicting design detail.
+description: Use after a design is chosen, or when creation exposes missing or conflicting detail needed to complete the Spec.
 ---
 
-# Develop Planning Drawings and Diagrams
+# Develop planning drawings and diagrams
 
 Update `workflow-tracker.md` to B4 before starting. Read the Design Brief, B1 specifications, B2 evidence, B3 chosen design, current developing-ideas document, project template, `GLOSSARY.md`, and the project sources that constrain the design.
 
-## Make the design creatable
+## Make the design precise
 
 Select the planning artifacts that make the chosen design precise. Use the form that best fits the work: annotated drawings, user flows, state machines, data-flow or sequence diagrams, domain models, schemas, interface contracts, API behavior, component relationships, interaction states, content structure, migration rules, or test seams.
 
@@ -22,7 +22,7 @@ Describe what creation requires:
 - implementation decisions already settled by B3;
 - testing decisions, observable seams, and evidence the finished solution must produce.
 
-Keep the boundary with C1 clear. B4 defines the chosen solution and the requirements for creating it. C1 decides the executable ticket boundaries, dependency order, resources, and implementation sequence.
+Keep the boundary with C1 clear. B4 defines the chosen solution and its creation requirements. C1 decides the executable ticket boundaries, dependency order, resources, and implementation sequence.
 
 ## Complete the Spec
 

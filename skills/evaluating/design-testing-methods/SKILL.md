@@ -1,15 +1,15 @@
 ---
 name: design-testing-methods
-description: Establish Criterion D1 by selecting detailed and relevant methods that can generate evidence for each criterion under evaluation. Use before judging a solution or intermediate artifact, when existing tests may not cover the real question, or when evidence requirements need to be revisited.
+description: Use before judging a solution or intermediate artifact, when existing tests may not answer the current question, or when the evidence requirements need to change.
 ---
 
-# Design Testing Methods
+# Design testing methods
 
 Update `workflow-tracker.md` to D1 before starting. Identify the exact artifact, version, state, and scope under evaluation. Read its owning phase document, approved criteria, existing testing decisions, available evidence tools, relevant project instructions, and prior evaluation entries.
 
 ## Build the criteria map
 
-List every criterion that the evaluation must judge and cite its source of truth. Separate required criteria from advisory standards. Keep distinct axes visible when they require different evidence.
+List every criterion that the evaluation must judge and cite its source of truth. Separate required criteria from advisory standards. Evaluate criteria separately when they need different evidence.
 
 For a finished solution, include both the cycle-specific design specifications and the project's standing Definition of Done. For an intermediate artifact, use the criteria established by its owning phase and the upstream artifact it must satisfy.
 
@@ -46,6 +46,6 @@ Reuse B4 testing decisions, C1 verification methods, and C2/C3 evidence when the
 
 Write the **D1 — Design testing methods** section of the current evaluation entry.
 
-D1 is complete when every criterion has a relevant method capable of producing a meaningful result, or the lack of such a method is explicitly recorded as an evidence blocker.
+D1 is complete when every criterion has a method that can produce a meaningful result. If no such method exists, record the missing evidence as a blocker.
 
 Update `workflow-tracker.md` with the methods, evidence locations, blockers, and recommended next move.

@@ -1,8 +1,8 @@
 ---
 name: start-inquire-and-analyze
-description: Start or coordinate Criterion A from an initial request through an approved Design Brief using four criterion skills, retrieval-led reasoning, shared language, and fluid movement across the design cycle. Use to enter, resume, or revisit Inquire and Analyze.
+description: Use when entering, resuming, or revisiting Criterion A, from an initial request through an approved Design Brief.
 ---
-# Start Inquire and Analyze
+# Start inquire and analyze
 
 ## Start with the tracker
 
@@ -12,20 +12,20 @@ Open and update `workflow-tracker.md` before other inquiry work. Record the curr
 
 Read the workflow configuration, project inquiry template, `GLOSSARY.md`, current inquiry document, and relevant project sources.
 
-Prefer retrieval-led reasoning over training-led reasoning. Ground material claims and recommendations in the project, primary sources, and direct human knowledge. Cite their sources. Mark unsupported points as inference, judgment, or unknown.
+Prefer retrieval-led reasoning over training-led reasoning. Support important claims and recommendations with project evidence, primary sources, and direct human knowledge. Cite each source. Mark unsupported points as inference, judgment, or unknown.
 
 ## Orient the inquiry
 
-Criterion A has four callable criterion skills:
+Criterion A has four criterion skills:
 
 1. **A1 — Explain and justify the need:** `$explain-and-justify-the-need`
 2. **A2 — Identify and prioritize research:** `$identify-and-prioritize-research`
 3. **A3 — Analyze prior art:** `$analyze-prior-art`
 4. **A4 — Develop the Design Brief:** `$develop-design-brief`
 
-Start a new inquiry with A1, then move through A2, A3, and A4. This is the opinionated default direction. Explain why the next criterion fits before entering it.
+Start a new inquiry with A1, then move through A2, A3, and A4. Use this as the default direction. Explain why the next criterion fits before entering it.
 
-The human and agent are uncovering the fog of war together: neither can see the whole inquiry at the start. As questions and evidence change what is understood, work can move in any direction to any other criterion or phase that best fits the current need. A later discovery may reopen work that appeared settled.
+The inquiry may change as questions and evidence change what is understood. Work may move to any criterion or phase when that best fits the current need. A later discovery may reopen work that appeared settled.
 
 Before changing criterion or phase, state:
 
@@ -37,15 +37,15 @@ Update `workflow-tracker.md`, make the move, then reassess the next useful direc
 
 ## Coordinate the collaboration
 
-Develop the initial inquiry questions from the request, project evidence, relevant external sources, contradictions, constraints, and current understanding. Explain why each important question belongs. Invite the human to add, revise, remove, or reframe questions.
+Develop the initial inquiry questions from the request, project evidence, relevant external sources, contradictions, constraints, and current understanding. Explain why each important question matters. Invite the human to add, revise, remove, or reframe questions.
 
-Work in rounds. Research relevant questions based on the context and your understanding of what the user wants. Include file search and web search where appropriate. Group questions that can be answered without depending on another unanswered question. Number them, explain unfamiliar language, and recommend an answer when evidence supports one. Use open questions for the human's intent, priorities, and values.
+Work in rounds. Research relevant questions using the available context and the human's stated goal. Include file search and web search where appropriate. Group questions that can be answered without depending on another unanswered question. Number them, explain unfamiliar language, and recommend an answer when evidence supports one. Use open questions for the human's intent, priorities, and values.
 
-Let the balance fit the collaboration. Lead retrieval, review, synthesis, and question development. Keep the human involved where their knowledge or judgment changes the result.
+Lead retrieval, review, synthesis, and question development. Keep the human involved where their knowledge or judgment changes the result.
 
-Ask once near the start whether subagents may be used throughout the inquiry. After approval, keep using them for bounded independent work without asking for each dispatch. Fan out retrieval, project review, research, and prior-art work in parallel. Require concise findings with citations. Compare the results, resolve conflicts, and keep human judgment in the main conversation.
+Ask once near the start whether subagents may be used throughout the inquiry. After approval, use them for bounded independent work without asking for each dispatch. Fan out retrieval, project review, research, and prior-art work in parallel. Require concise findings with citations. Compare results, resolve conflicts, and keep human judgment in the main conversation.
 
-Build shared language throughout every criterion. When a term is unclear or conflicts with the project, explain the ambiguity, propose a precise term, test it with a scenario, check it against the project, and update `GLOSSARY.md` when it settles. Keep the glossary focused on meaning.
+Build shared language in every criterion. When a term is unclear or conflicts with the project, explain the ambiguity, propose a precise term, test it with a scenario, check it against the project, and update `GLOSSARY.md` when it settles. Keep the glossary focused on meaning.
 
 ## Run the criteria
 
@@ -58,12 +58,12 @@ Each criterion skill updates its section of the inquiry document and reports:
 - remaining questions;
 - its recommended next move.
 
-Record the result in `workflow-tracker.md`. A later finding may reopen any criterion.
+Record its result in `workflow-tracker.md`. A later finding may reopen any criterion.
 
 ## Complete Criterion A
 
 Use `$develop-design-brief` when the first three criteria appear sufficient to support a Design Brief. That skill asks the human whether they are ready to write the Design Brief together, have the agent draft it, or continue the inquiry.
 
-The Design Brief is a trusted Criterion A artifact when A1 through A4 are complete, its material claims are supported, no known blocking question remains, and the human approves it.
+Treat the Design Brief as the Criterion A artifact when A1 through A4 are complete, its important claims are supported, no known blocking question remains, and the human approves it.
 
 Recommend `$start-develop-ideas` when shaping the solution is the next useful work. Keep the full inquiry document available whenever another phase needs its evidence and reasoning.
