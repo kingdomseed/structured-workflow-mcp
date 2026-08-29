@@ -1,9 +1,9 @@
 ---
 name: start-develop-ideas
-description: Start or coordinate Criterion B from an approved Design Brief through divergent idea development, evidence-based selection, and a completed Spec. Use to enter, resume, or revisit Develop Ideas, especially when the solution's shape has not yet been chosen or documented well enough to create.
+description: Use to enter, resume, or revisit Develop Ideas when the solution's shape has not been chosen or documented well enough to create.
 ---
 
-# Start Develop Ideas
+# Start develop ideas
 
 ## Start with the tracker
 
@@ -13,7 +13,7 @@ Read `AGENTS.md`, the approved Design Brief and inquiry evidence, `GLOSSARY.md`,
 
 ## Follow the default direction
 
-Criterion B has four callable criterion skills:
+Criterion B has four criterion skills:
 
 1. **B1 — Develop design specifications:** `$develop-design-specifications`
 2. **B2 — Develop feasible ideas:** `$develop-feasible-ideas`
@@ -22,7 +22,7 @@ Criterion B has four callable criterion skills:
 
 Start new Criterion B work with B1, then move through B2, B3, and B4. This is the opinionated default direction.
 
-Follow the fog of war with the human. Design specifications and ideas may change each other. A prototype may expose a missing inquiry question. Planning documents may reveal that the chosen design needs another comparison. Move in any direction when the current question belongs elsewhere, following the movement rules in `AGENTS.md`.
+Work with the human as evidence changes. Design specifications and ideas may change each other. A prototype may expose a missing inquiry question. Planning documents may reveal that the chosen design needs another comparison. Move in any direction when the current question belongs elsewhere, following the movement rules in `AGENTS.md`.
 
 ## Diverge before converging
 
@@ -36,9 +36,9 @@ Use B4 to make the chosen design precise enough to create. Select the drawings, 
 
 ## Coordinate the work
 
-Invoke only the criterion skill needed for the current question. Give it the Design Brief, developing-ideas document, tracker position, relevant evidence, settled language, and any approved prototype results.
+Invoke only the criterion skill needed for the current question. Give it the Design Brief, developing-ideas document, tracker position, relevant evidence, agreed terms, and any approved prototype results.
 
-Reuse the subagent permission recorded under `AGENTS.md`. Fan out independent design explorations, targeted technical research, or review lenses when parallel work will widen the search or preserve context. Keep each assignment independent and require concise results with sources. Bring comparisons and decisions back to the main collaboration.
+Reuse the subagent permission recorded under `AGENTS.md`. Delegate independent design explorations, targeted technical research, or review work when parallel work will widen the search or preserve context. Keep each assignment independent and require concise results with sources. Bring comparisons and decisions back to the main collaboration.
 
 Build shared language throughout. Update `GLOSSARY.md` when a solution term settles. Create a decision record only for a choice that is difficult to reverse, surprising without context, and based on a real trade-off.
 

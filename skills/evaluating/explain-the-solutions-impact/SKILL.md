@@ -1,9 +1,9 @@
 ---
 name: explain-the-solutions-impact
-description: Establish Criterion D4 by explaining the solution's observed effect on the client, target audience, systems, and justified need. Use after a finished solution has credible outcome evidence, at a release or cycle review, or when impact should seed the next inquiry.
+description: Use after a finished solution has credible outcome evidence, during a release or cycle review, or when observed impact may start another inquiry.
 ---
 
-# Explain the Solution's Impact
+# Explain the solution's impact
 
 Update `workflow-tracker.md` to D4 before starting. Read the A1 justified need, Design Brief, design specifications, chosen design, justified changes, D1 methods, D2 verdict, D3 dispositions, and direct evidence from the people or systems affected.
 
@@ -11,9 +11,9 @@ Update `workflow-tracker.md` to D4 before starting. Read the A1 justified need, 
 
 Separate three levels:
 
-- **output** — what was created or changed;
-- **outcome** — what people or systems can now do or experience;
-- **impact** — how that outcome affects the justified need over the relevant time and scope.
+- **output**: what was created or changed;
+- **outcome**: what people or systems can now do or experience;
+- **impact**: how that outcome affects the justified need over the relevant time and scope.
 
 Explain:
 

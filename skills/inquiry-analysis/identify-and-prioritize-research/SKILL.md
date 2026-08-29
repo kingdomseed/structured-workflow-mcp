@@ -1,8 +1,8 @@
 ---
 name: identify-and-prioritize-research
-description: Establish Criterion A2 by developing, prioritizing, investigating, and documenting the research questions needed for the inquiry. Use when evidence is missing, assumptions need verification, research must be planned or delegated, or new findings reopen the inquiry.
+description: Use when evidence is missing, assumptions need verification, research must be planned or delegated, or new findings reopen the inquiry.
 ---
-# Identify and Prioritize Research
+# Identify and prioritize research
 
 Update `workflow-tracker.md` to A2 before starting. Read the current inquiry document, request, glossary, project evidence, and existing research.
 
@@ -35,12 +35,12 @@ Bring findings to the human when their meaning or consequence requires judgment.
 
 ## Use experiments when evidence requires them
 
-When a focused prototype would answer an important research question that available evidence or prior art cannot, offer a move to `$start-develop-ideas`, B2 — Develop feasible ideas. State the question and evidence needed before prototyping. Record the result as research evidence and project-created prior art, then reassess the next useful direction with the human.
+When a focused prototype would answer an important research question that available evidence or prior art cannot answer, offer a move to `$start-develop-ideas`, B2 — Develop feasible ideas. State the question and evidence needed before prototyping. Record the result as research evidence and project-created prior art. Then reassess the next useful direction with the human.
 
 ## Record the output
 
-Write the **A2 — Identify and prioritize research** section of the inquiry document. Keep the prioritized questions, their answers, citations, and remaining unknowns durable.
+Write the **A2 — Identify and prioritize research** section of the inquiry document. Keep the prioritized questions, answers, citations, and remaining unknowns in the inquiry document.
 
-A2 is complete when the important research is prioritized, the evidence needed for the Design Brief is recorded, and no known unanswered research question blocks its development.
+A2 is complete when the important research is prioritized, the evidence needed for the Design Brief is recorded, and no known unanswered research question blocks Design Brief development.
 
 Update `workflow-tracker.md` with the result, remaining questions, and recommended next move.
